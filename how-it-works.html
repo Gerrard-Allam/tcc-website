@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works — The Craft Collective</title>
+<meta name="description" content="Five stages, two tracks, one live leaderboard. Here's exactly what happens from booking to wrap-up.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!--
+  LINK FIX PASS — no content or layout changes, cross-page references only:
+    Homepage references updated to index.html (was v8). About references updated to
+    about.html (was v3). Filename version numbers stay as-is for now per direct decision
+    (all six files get renamed to stable production names right before the GitHub Pages push).
+  CHANGES — v8, per Gerrard's direct edit list:
+    1. Four Formats row alignment: .format-plan-row had no min-height, so a long value ("3 round
+       two-track competition" on the Collective Cup card) wrapped to two lines while shorter values
+       on the other three cards stayed on one line. Every row after the wrap point landed at a
+       different height per card. Fixed with a uniform min-height (62px) on every row, so all four
+       cards' Guests/Stations/Format/Length rows line up regardless of which values wrap.
+    2. Four Formats description alignment: .format-plan-desc used margin-top: auto to bottom-flush
+       the paragraph (the v7 fix for the badge making Collective Cup the tallest card). Since the row
+       heights are now equalized by the fix above, that bottom-flush behavior is no longer needed to
+       solve the original problem and was actively working against the new ask: descriptions should
+       start at the same line across all four cards. Changed to a fixed margin-top so the first
+       sentence of every card's description now aligns horizontally.
+    3. Flagship badge: was using --amber-tint (rgba(196,98,45,.14), a 14%-opacity wash meant for
+       subtle fills like the Round 3 table row) as a background, on a white card, absolutely
+       positioned to straddle the card's top border. That combination is what made it read as
+       translucent and oddly placed. Rebuilt with a solid amber background and ice text, matching the
+       existing Round 3 tag treatment elsewhere on this page, and moved out of absolute positioning
+       into normal flow, after the description, with a fixed top margin. It now sits fully inside the
+       card border near the bottom, reusing the same flex-column-plus-bottom-anchor pattern already
+       used elsewhere on the site for variable-length card content, rather than a new one-off.
+  CHANGES — v7, per TCC_Web_ChangeLog_v1:
+    1. Intro lede (Change 4): "from the moment you book to the morning after" changed to "from
+       booking to wrap-up" to drop the hangover/regret connotation. Also updated the page's meta
+       description tag, which had the same "morning after" phrasing and wasn't called out in the
+       change log entry but had the identical issue.
+    2. Four Formats badge (Change 5): the Collective Cup card's "Flagship" badge was sitting inline
+       after the description, and since the description uses margin-top: auto to pin to the bottom
+       of the card, the badge's extra height made that one card taller than the other three. Fixed
+       by taking the badge out of flex flow entirely: it's now absolutely positioned just above the
+       card's top border, next to the title, instead of inline after the description.
+    3. Five Stages heading (Change 6): "escalating pressure" changed to "escalating excitement" to
+       drop the stress connotation, consistent with the site's move away from competitive/cutthroat
+       framing elsewhere.
+    4. Round 2 mechanic (Change 7): "The Twist" (surprise ingredient revealed) replaced with "The
+       Build" (judges order from a cheat sheet, makers deliver to order), per the correction logged
+       in Management Handoff v23. Round 1 and Round 3 unaffected.
+    5. NOT part of the change log, found while fixing the badge in this same card: the Craft House
+       card's Format value read "Bespoke". The locked brand rule permits "Bespoke" for exactly one
+       sitewide use (homepage Why Book headline) — this was a second, unauthorized use. Changed to
+       "Custom" to match the wording already used in the Guests/Stations/Length rows of the same
+       card. Flagging this fix explicitly since it wasn't requested, in case there was a reason it
+       was there.
+
+  BUILD NOTES — TCC_Web_HowItWorks_v2, built from HOW_IT_WORKS.png (Framer screenshot, full-page
+  reference) + a higher-res crop of the Five Stages run-of-show table.
+
+  Decisions confirmed before building:
+    1. Round-of-show timing follows the LOCKED handoff numbers, not the screenshot's harder-to-read
+       values: The 101 (20 min), Round 1 (40 min), Round 2 (40 min), Round 3 (40 min), Awards (20 min),
+       2h40m total. This matches the Collective Cup entry in the Event Format section of the handoff.
+    2. The Four Formats comparison table now shows a "Starting price" row, matching the homepage's
+       package cards, even though the screenshot's own body copy implied pricing was proposal-only.
+       Reused the exact per-person figures already on the homepage (Session $150, Collective $200,
+       Collective Cup $200, Craft House $94) for cross-page consistency — that per-person pattern is
+       still flagged as an open item in the homepage's own build notes, not something fixed here.
+
+  Other decisions made building this page:
+    3. The blank/cut-off area under the intro paragraph in the full-page screenshot is built as the
+       image ticker (.format-ticker) — this lines up with the original v6 homepage build note, which
+       said the ticker was meant to live on this page's Format section before it was later added to
+       the homepage too. Styled dark to match this section's charcoal background, unlike the light
+       version on the homepage.
+    4. Heading accent placement (standard lead, italic trailing clause, mid-blue) applied per the
+       sitewide locked rule throughout, including "Five stages" and "Three steps" — the screenshot
+       shows the opposite emphasis (leading phrase italic) on several headings here, but that predates
+       the current rule, same reasoning as the About page rebuild.
+    5. Round 3 in the run-of-show table carries the amber tint/border treatment — this was explicitly
+       queued for this exact table in the homepage v6 build notes ("same treatment queued for How It
+       Works' run-of-show table when that page is built").
+    6. THE MATERIALS section: all four material types (Maker Recipe Card, Judges Score Cards, Champion
+       Certificates, Live Leaderboard) are empty placeholder boxes with captions, not built-out designs,
+       since these are pre-made image exports that will drop in later. Placeholder counts (2, 3, 2, 2)
+       are a reasonable read of the screenshot, not a precise pixel count — easy to add or remove slots
+       once the real assets exist. The black-gloss certificate style visible in the screenshot conflicts
+       with the brand system's "no gold, black gloss, or neon" rule — not fixed here since it's an
+       external asset, but worth flagging to whoever designs the actual certificates.
+    7. Nav simplified to match the sitewide locked nav (How It Works, About, FAQ, Book a Session), same
+       as the homepage and About page.
+
+  Follow-up not done in this pass: the Homepage and About page currently link "How It Works" to
+  "#how-it-works" or an anchor on the homepage. Now that this page exists as its own file, those two
+  pages' nav and footer links should be updated to point here instead. Flagging, not editing those
+  files without being asked.
+
+  CHANGES FROM v2 — v3, per Gerrard's direct edit list:
+    1. Intro (THE FORMAT) grid: text now top-aligns with the image instead of vertically centering.
+       Image aspect ratio shortened from 4/5 to 4/3.
+    2. Image ticker left as-is, no change.
+    3. Four Formats rebuilt from a data table into individual "ingredient label" style cards, per a new
+       reference screenshot: card name, four label/value rows with dividers, a short description line,
+       and a Flagship badge on the Collective Cup card. Pricing is dropped entirely, per Gerrard's
+       confirmation — this reverses the "add starting price" decision from the previous round. Copy
+       wording for the Format row (Skill building / 2 round competition / 3 round two-track competition
+       / Bespoke) and the description lines are pulled from the new reference. A few numeric values in
+       that reference conflict with the locked handoff figures (Collective stations shown as "2 to 3"
+       vs. locked "2"; Collective Cup length "~2hrs 45 mins" vs. locked "2hrs 40 min"; Craft House
+       guests "49+" vs. locked "48+"). Kept the locked handoff numbers rather than the screenshot's,
+       same reasoning as prior pages — matching the visual design exactly, not every digit in an old
+       Framer export.
+    4. Five Stages photo pair is now intentionally asymmetric (one short/landscape, one tall/portrait)
+       instead of matched, reusing the same asymmetric-pair concept originally built for the homepage's
+       Packages section.
+    5. Makers/Judges track cards now stretch to equal height with the award divider anchored to the
+       bottom of each via flexbox, so the dividing line lines up across both cards regardless of body
+       copy length.
+    6. Maker Recipe Card placeholders switched from portrait to landscape.
+    7. Live Leaderboard reduced to a single large landscape placeholder (16:9), sized for a looping GIF,
+       instead of two portrait/landscape screens.
+
+  CHANGES FROM v3 — v4, per Gerrard's direct edit list:
+    1. Four Formats cards: border darkened (1.5px, ~40% black) and card titles bumped to weight 500
+       (the heaviest weight the brand system allows for Cormorant Garamond), to read more like bottle
+       labels per the reference screenshot.
+    2. Five Stages photo pair corrected — a new reference screenshot showed both images at the SAME
+       height with different widths (roughly a 1.75:1 to 1:1 ratio), not different heights as built in
+       v3. Rebuilt as a fixed-height row with uneven column widths instead of uneven aspect ratios.
+
+  CHANGES FROM v4 — v5:
+    1. Fixed an orphaned word in "The Collective Cup" card title at the 4-column desktop breakpoint.
+       Added white-space: nowrap so titles never wrap, and reduced the title size slightly (22px to
+       19px) at that breakpoint only, so the longest title fits the narrower card width without
+       overflowing. Mobile/single-column layout keeps the full 22px size since there's no width
+       constraint there.
+
+  CHANGES FROM v5 — v6:
+    1. Stage photos shortened to more closely match the reference screenshot's proportions. Measuring
+       the screenshot directly (~928px combined width to ~237px tall, roughly 3.9:1) and scaling that
+       to this site's ~1000px content width put the target height around 255px, so desktop height went
+       380px to 260px. Mobile height reduced proportionally, 220px to 180px.
+  CHANGES — sitewide type-scale and footer pass:
+    - H2 desktop size 34px to 44px (matches the locked Brand Guidelines Section H2 spec, 38-44px).
+    - Footer wordmark ('THE CRAFT COLLECTIVE') set to font-weight 700 — a deliberate, scoped
+      exception to the 'DM Sans never heavier than 500' brand rule, requested explicitly. Weight 700
+      added to the Google Fonts import to support it. Size ceiling lowered 84px to 64px and footer
+      spacing tightened (wordmark band padding, footer-top gap/padding, footer-bottom margin) to
+      shorten the footer overall while keeping every piece of information it already had.
+    - Added a 'Private Celebrations' placeholder nav link (top nav + mobile menu), pointing to
+      #private-celebrations on the homepage until that page exists. Not a real destination yet.
+    - Page h1 desktop size 46px to 56px, the floor of the locked Web Type Scale's Hero H1 range
+      (56-64px). Mobile unchanged (32px).
+    - Found and fixed a pre-existing bug while in here: this page's own nav (top nav, mobile menu,
+      and footer Company column) was self-linking to "TCC_Web_HowItWorks_v2.html" instead of its own
+      actual filename, left over from before this file was iterated up to v6. Corrected in all three
+      spots.
+
+  CHANGES — Gerrard's direct edit list:
+    1. NEW SITEWIDE RULE: accent text (the italic trailing clause in headings) now never breaks
+       internally, added white-space: nowrap to the accent rule. It can still drop to its own line as
+       a whole if it doesn't fit next to the leading text, it just can't split mid-clause across two
+       lines. Applied to every page that uses the accent class, not just this one, since it's a rule
+       now, not a one-off. One thing to watch, not yet a confirmed problem: "Everything handled. You
+       just show up." sits inside a 2-column grid on this page's intro section, and the text column
+       narrows specifically at the 768px breakpoint (the same width where headings jump from mobile to
+       desktop size). That's the one spot on the site where a long nowrap accent phrase is most likely
+       to run tight against its container. Didn't hit an actual overflow in review, flagging as the
+       place to check first if anything looks cramped at tablet widths.
+    2. Four Formats cards: the Collective Cup card's Flagship badge made it the tallest card in the
+       row, so the other three cards' description text was ending higher up with blank space below,
+       while Collective Cup's content ran further down. Made .format-plan-card a flex column and
+       pushed .format-plan-desc down with margin-top: auto, so the description (and badge, where
+       present) now sit flush at the bottom of every card regardless of how much text is above it.
+    3. Run-of-show table: added a subtle border (rgba(44,44,42,.15)) to the base row style, so it now
+       shows on every row that doesn't already have Round 3's amber border. Gerrard named three rows
+       specifically (101, Round 1, Round 2); this also puts the border on the Close/Awards row, since
+       leaving exactly one row without a border would read as an inconsistency rather than a choice.
+       Easy to strip back off Close specifically if that wasn't the intent.
+-->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --charcoal:    #2C2C2A;
+    --charcoal-lt: #383836;
+    --slate-blue:  #2B6CB0;
+    --mid-blue:    #5A8FC4;
+    --powder-blue: #BDD4EA;
+    --amber:       #C4622D;
+    --amber-tint:  rgba(196,98,45,.14);
+    --ice:         #F2F5F9;
+    --gray:        #888780;
+    --white:       #FFFFFF;
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+
+    --max-w: 1080px;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--powder-blue);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg, video { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--mid-blue); outline-offset: 3px; }
+
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  section { padding: 56px 0; }
+
+  .bg-charcoal { background: var(--charcoal); }
+  .bg-ice { background: var(--ice); color: var(--charcoal); }
+  .bg-ice h2, .bg-ice h3 { color: var(--charcoal); }
+  .bg-powder { background: var(--powder-blue); color: var(--charcoal); }
+  .bg-powder h2 { color: var(--charcoal); }
+
+  /* ─── Heading accent (sitewide locked rule) ─────────── */
+  h1 .accent, h2 .accent, h3 .accent {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--mid-blue);
+    white-space: nowrap;
+  }
+  .bg-ice .accent, .bg-powder .accent { color: var(--slate-blue); }
+
+  /* ─── Nav ──────────────────────────────────────────── */
+  .site-nav { position: sticky; top: 0; z-index: 50; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
+  .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-divider { width: 1px; height: 26px; background: rgba(189,212,234,.3); flex-shrink: 0; }
+  .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .nav-logo-text { display: flex; flex-direction: column; gap: 1px; }
+  .nav-wordmark { font-family: var(--font-display); font-weight: 500; font-size: 14px; color: var(--ice); line-height: 1; }
+  .nav-tagline { font-size: 7px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+  .nav-links { display: none; gap: 24px; list-style: none; }
+  .nav-links a { font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--ice); text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--mid-blue); }
+  .nav-cta { display: none; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ice); background: var(--slate-blue); border: none; border-radius: 4px; padding: 10px 18px; text-decoration: none; cursor: pointer; transition: background .15s ease; }
+  .nav-cta:hover { background: #245a94; }
+  .nav-toggle { background: none; border: none; color: var(--ice); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-family: var(--font-body); font-weight: 500; cursor: pointer; padding: 6px 4px; }
+  .mobile-menu { display: none; flex-direction: column; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { padding: 14px 20px; font-size: 13px; color: var(--ice); text-decoration: none; border-top: 1px solid rgba(189,212,234,.08); }
+  .mobile-menu a[aria-current="page"] { color: var(--mid-blue); }
+
+  /* ─── Type ─────────────────────────────────────────── */
+  .eyebrow { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 14px; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; color: var(--ice); line-height: 1.12; }
+  h1 { font-size: 32px; margin-bottom: 20px; }
+  h2 { font-size: 26px; margin-bottom: 16px; }
+  h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  p { font-size: 15px; font-weight: 300; }
+  .lede { font-size: 16px; font-weight: 300; max-width: 620px; margin-bottom: 20px; }
+
+  .btn { display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border-radius: 4px; padding: 13px 24px; border: 1px solid transparent; cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--ice); color: var(--charcoal); }
+  .btn-primary:hover { background: var(--powder-blue); }
+  .bg-powder .btn-primary { background: var(--charcoal); color: var(--ice); }
+  .bg-powder .btn-primary:hover { background: var(--charcoal-lt); }
+
+  /* ─── Intro (THE FORMAT) ─────────────────────────────── */
+  .intro-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
+  .intro-photo { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; border: 1px solid rgba(189,212,234,.12); }
+
+  .format-ticker { display: flex; gap: 10px; overflow: hidden; margin: 32px 0 8px; }
+  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; }
+  .format-ticker .tick-block.wide { flex: 1.8 1 0; aspect-ratio: 4/3; }
+  .format-ticker .tick-block.cut { flex: 0 0 36px; min-width: 36px; }
+
+  /* ─── Four formats cards ──────────────────────────────── */
+  .formats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
+  .format-plan-card { position: relative; display: flex; flex-direction: column; background: var(--white); border: 1.5px solid rgba(44,44,42,.4); border-radius: 4px; padding: 24px 22px; }
+  .format-plan-card.featured { border-color: var(--amber); }
+  .format-plan-name { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--charcoal); margin-bottom: 16px; white-space: nowrap; }
+  .format-plan-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(44,44,42,.1); min-height: 62px; }
+  .format-plan-row:last-of-type { border-bottom: none; }
+  .format-plan-label { font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--gray); }
+  .format-plan-value { font-size: 13px; color: var(--charcoal); text-align: right; }
+  .format-plan-desc { font-size: 12px; color: var(--gray); line-height: 1.5; margin-top: 14px; }
+  .format-plan-badge { align-self: flex-start; margin-top: 16px; padding: 5px 12px; font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ice); background: var(--amber); border-radius: 3px; }
+
+  /* ─── Three steps ─────────────────────────────────────── */
+  .step-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+  .step-card { background: var(--charcoal-lt); border-radius: 4px; padding: 24px 20px; }
+  .step-number { font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--mid-blue); margin-bottom: 10px; }
+  .step-card h3 { font-size: 18px; margin-bottom: 8px; }
+  .step-card p { font-size: 13px; color: var(--powder-blue); line-height: 1.6; }
+
+  /* ─── Five stages ─────────────────────────────────────── */
+  /* CONFIRMED EXCEPTION (logged in TCC_Web_BrandGuidelines_v2.md): this heading's accent clause is
+     allowed to wrap on mobile only, rather than being shortened or forced onto one line via the
+     sitewide nowrap rule. Desktop keeps the standard nowrap behavior below, inside the 768px query. */
+  .stages-accent-wrap { white-space: normal; }
+  .stage-photos { display: grid; grid-template-columns: 1.75fr 1fr; gap: 16px; margin: 28px 0 8px; height: 180px; }
+  .stage-photo { background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; height: 100%; }
+  .ros-label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin: 32px 0 12px; }
+
+  .ros-table { display: grid; gap: 12px; }
+  .ros-row { display: grid; grid-template-columns: 1fr; gap: 10px; background: var(--white); border: 1px solid rgba(44,44,42,.15); border-radius: 4px; padding: 18px 20px; }
+  .ros-row.ros-round3 { background: var(--amber-tint); border: 1px solid rgba(196,98,45,.3); }
+  .ros-tag-time { display: flex; gap: 10px; align-items: center; }
+  .ros-tag { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; background: var(--ice); color: var(--charcoal); padding: 4px 8px; border-radius: 3px; }
+  .ros-round3 .ros-tag { background: var(--amber); color: var(--ice); }
+  .ros-time { font-size: 11px; color: var(--gray); }
+  .ros-title h3 { font-size: 18px; color: var(--charcoal); margin-bottom: 2px; }
+  .ros-subtitle { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: .06em; }
+  .ros-desc p { font-size: 13px; line-height: 1.6; color: #55534d; }
+  .ros-badge { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 500; color: var(--amber); background: rgba(196,98,45,.14); padding: 4px 10px; border-radius: 3px; }
+
+  /* ─── Two tracks ──────────────────────────────────────── */
+  .track-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
+  .track-card { display: flex; flex-direction: column; background: var(--charcoal-lt); border-radius: 4px; padding: 24px 22px; border-top: 3px solid var(--slate-blue); }
+  .track-card.judges { border-top-color: var(--amber); background: var(--amber-tint); }
+  .track-label { font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 10px; }
+  .track-card.judges .track-label { color: var(--amber); }
+  .track-card h3 { font-size: 20px; margin-bottom: 10px; }
+  .track-card p { font-size: 13px; color: var(--powder-blue); line-height: 1.6; margin-bottom: 16px; }
+  .track-award { margin-top: auto; border-top: 1px solid rgba(189,212,234,.15); padding-top: 14px; }
+  .track-card.judges .track-award { border-top-color: rgba(196,98,45,.25); }
+  .track-award-label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin-bottom: 4px; }
+  .track-award-name { font-family: var(--font-display); font-size: 17px; font-weight: 500; color: var(--ice); margin-bottom: 4px; }
+  .track-award-desc { font-size: 12px; color: var(--powder-blue); }
+
+  /* ─── Materials ───────────────────────────────────────── */
+  .material-block { margin-top: 36px; }
+  .material-block:first-of-type { margin-top: 28px; }
+  .material-block h3 { font-size: 18px; color: var(--ice); margin-bottom: 4px; }
+  .material-caption { font-size: 13px; color: var(--powder-blue); margin-bottom: 16px; }
+  .material-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .material-row.single { grid-template-columns: 1fr; }
+  .material-item { aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; }
+  .material-item.landscape { aspect-ratio: 4/3; }
+  .material-item.wide { aspect-ratio: 16/9; }
+  .material-item.round1 { border-top: 3px solid var(--slate-blue); }
+  .material-item.round2 { border-top: 3px solid var(--mid-blue); }
+  .material-item.round3 { border-top: 3px solid var(--amber); }
+
+  /* ─── Footer (matches homepage / About) ──────────────── */
+  .site-footer { background: var(--charcoal-lt); padding: 28px 0 0; border-top: 1px solid rgba(189,212,234,.12); }
+  .footer-top { display: grid; grid-template-columns: 1fr; gap: 18px; padding-bottom: 16px; }
+  .footer-form { display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
+  .footer-form label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+  .footer-form-row { display: flex; gap: 8px; }
+  .footer-form input { flex: 1; font-family: var(--font-body); font-size: 13px; padding: 9px 12px; border-radius: 4px; border: 1px solid rgba(189,212,234,.2); background: var(--charcoal); color: var(--ice); }
+  .footer-form button { background: var(--slate-blue); border: none; border-radius: 4px; padding: 0 14px; color: var(--ice); cursor: pointer; }
+  .footer-note { font-size: 10px; color: var(--gray); }
+  .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .footer-col-label { font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .footer-links { list-style: none; display: grid; gap: 6px; }
+  .footer-links a { font-size: 12px; color: var(--powder-blue); text-decoration: none; }
+  .footer-links a:hover { color: var(--ice); }
+  .footer-bottom { border-top: 1px solid rgba(189,212,234,.1); margin-top: 4px; padding: 16px 0 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .footer-bottom span { font-size: 11px; color: var(--gray); }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(189,212,234,.3); color: var(--powder-blue); transition: border-color .15s ease, color .15s ease; }
+  .footer-social a:hover { border-color: var(--ice); color: var(--ice); }
+  .footer-social svg { width: 14px; height: 14px; }
+  .footer-wordmark-band { padding: 4px 0 8px; overflow: hidden; }
+  .footer-wordmark-row { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.5vw, 22px); }
+  /* Deliberate, scoped exception to the "DM Sans never heavier than 500" brand rule,
+     for this one element only. Weight 700 added to the font import above to support it. */
+  .footer-wordmark-text {
+    white-space: nowrap;
+    font-family: var(--font-body); font-weight: 700; text-transform: uppercase;
+    color: var(--ice); letter-spacing: .01em;
+    font-size: clamp(22px, 5.5vw, 76px);
+  }
+  /* Reserved placeholder for a looping GIF logo mark, not a static icon — sized to roughly match the
+     wordmark's height, styled with a visible dashed border so it reads as a real placeholder slot. */
+  .footer-logo-space {
+    flex: 0 0 auto; width: clamp(22px, 5.5vw, 76px); height: clamp(22px, 5.5vw, 76px);
+    border: 1px dashed rgba(189,212,234,.35); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(189,212,234,.45);
+  }
+
+  /* ─── Tablet and up ─────────────────────────────────── */
+  @media (min-width: 768px) {
+    .wrap { padding: 0 40px; }
+    .stages-accent-wrap { white-space: nowrap; }
+    .nav-inner { padding: 16px 40px; }
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-block; }
+    .nav-toggle { display: none; }
+    section { padding: 88px 0; }
+    h1 { font-size: 56px; }
+    h2 { font-size: 44px; }
+    h3 { font-size: 22px; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+
+    .intro-grid { grid-template-columns: 1.2fr 0.8fr; gap: 48px; }
+    .formats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .format-plan-name { font-size: 19px; }
+    .step-grid { grid-template-columns: repeat(3, 1fr); }
+    .ros-row { grid-template-columns: 140px 200px 1fr; align-items: start; gap: 20px; }
+    .track-grid { grid-template-columns: 1fr 1fr; }
+    .stage-photos { height: 260px; }
+    .material-row { grid-template-columns: repeat(2, 1fr); }
+    .material-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="26" cy="26" r="23" stroke="#F2F5F9" stroke-width="1.5"/>
+        <circle cx="26" cy="26" r="15" stroke="#F2F5F9" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle cx="26" cy="26" r="3" fill="#F2F5F9"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(45 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(90 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(135 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(180 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(225 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(270 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(315 26 26)"/>
+        <rect x="44" y="24" width="10" height="4" rx="2" fill="#F2F5F9"/>
+      </svg>
+      <span class="nav-logo-divider" aria-hidden="true"></span>
+      <span class="nav-logo-text">
+        <span class="nav-wordmark">The Craft Collective</span>
+        <span class="nav-tagline">Curated Team Experiences</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="how-it-works.html" aria-current="page">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="private-celebrations.html">Private Celebrations</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <a class="nav-cta" href="book.html#details">Book a Session</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="how-it-works.html" aria-current="page">How It Works</a>
+    <a href="about.html">About</a>
+    <a href="private-celebrations.html">Private Celebrations</a>
+    <a href="faq.html">FAQ</a>
+    <a href="book.html#details">Book a Session</a>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<!-- THE FORMAT (intro) -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="intro-grid">
+      <div>
+        <div class="eyebrow">The format</div>
+        <h2>Everything handled. <span class="accent">You just show up.</span></h2>
+        <p class="lede">Here's exactly what happens from booking to wrap-up, and why every detail is deliberate.</p>
+      </div>
+      <div class="intro-photo" role="img" aria-label="Placeholder photo — cocktail detail"></div>
+    </div>
+    <div class="format-ticker">
+      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block wide" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block cut" role="img" aria-label="Placeholder photo, partially visible"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUR FORMATS -->
+<section class="bg-ice">
+  <div class="wrap">
+    <div class="eyebrow">Four formats</div>
+    <h2>One structure, <span class="accent">scaled to your group.</span></h2>
+
+    <div class="formats-grid">
+      <div class="format-plan-card">
+        <div class="format-plan-name">The Session</div>
+        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">10 to 16</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">1 to 2</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Skill building</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 90 minutes</span></div>
+        <p class="format-plan-desc">Guided and hands-on, no scoring. The entry point into the format.</p>
+      </div>
+      <div class="format-plan-card">
+        <div class="format-plan-name">The Collective</div>
+        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">12 to 30</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">2</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">2 round competition</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours</span></div>
+        <p class="format-plan-desc">A shorter version of the full format below. Live leaderboard, one fewer round.</p>
+      </div>
+      <div class="format-plan-card featured">
+        <div class="format-plan-name">The Collective Cup</div>
+        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">16 to 48</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">3</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">3 round two-track competition</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours 40 minutes</span></div>
+        <p class="format-plan-desc">The full format walked through stage by stage below.</p>
+        <span class="format-plan-badge">Flagship</span>
+      </div>
+      <div class="format-plan-card">
+        <div class="format-plan-name">The Craft House</div>
+        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">48 or more</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">Custom</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Custom</span></div>
+        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">Custom</span></div>
+        <p class="format-plan-desc">Multiple facilitators, custom menu and narrative, built around your group.</p>
+      </div>
+    </div>
+
+    <p class="lede" style="margin-top:24px;">The walkthrough below follows The Collective Cup, our flagship three-round format. The Session and The Collective run a shorter version of the same structure. Pricing is included in the proposal once we know your group size and date.</p>
+  </div>
+</section>
+
+<!-- THREE STEPS -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">Before the event</div>
+    <h2>Three steps. <span class="accent">None of them complicated.</span></h2>
+
+    <div class="step-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Book and confirm</h3>
+        <p>Choose your package and date. You'll receive a confirmation within 48 hours with next steps to lock it in. A 50% deposit secures your date.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Receive the spirits list</h3>
+        <p>10 days before your event, we send a curated shopping list for base spirits. Your team picks up the bottles, we handle everything else.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>We set up everything</h3>
+        <p>The facilitator arrives 60 minutes early with all equipment, ingredients, scoring materials, and event signage. Your team walks into a ready room.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE STAGES -->
+<section class="bg-ice">
+  <div class="wrap">
+    <div class="eyebrow">The stages</div>
+    <h2>Five stages. <span class="accent stages-accent-wrap">One arc of escalating excitement.</span></h2>
+    <p class="lede">The format is back-loaded by design. Makers work in pods of two, with up to two pods per station and up to three stations running side by side. Each round raises the stakes. By Round 3, anyone can win.</p>
+
+    <div class="stage-photos">
+      <div class="stage-photo" role="img" aria-label="Placeholder photo — cocktail garnish detail"></div>
+      <div class="stage-photo" role="img" aria-label="Placeholder photo — facilitator pouring"></div>
+    </div>
+
+    <div class="ros-label">The Collective Cup run of show</div>
+    <div class="ros-table">
+      <div class="ros-row">
+        <div class="ros-tag-time"><span class="ros-tag">The 101</span><span class="ros-time">20 min</span></div>
+        <div class="ros-title"><h3>Live Demo</h3><span class="ros-subtitle">Facilitator only</span></div>
+        <div class="ros-desc"><p>The facilitator builds one cocktail from scratch in front of the room. Every tool, every decision, every technique narrated live. This becomes the reference point for Round 1. No one is scored. Everyone pays attention.</p></div>
+      </div>
+      <div class="ros-row">
+        <div class="ros-tag-time"><span class="ros-tag">Round 1</span><span class="ros-time">40 min</span></div>
+        <div class="ros-title"><h3>The Classic</h3><span class="ros-subtitle">Replicate the 101</span></div>
+        <div class="ros-desc"><p>Makers replicate the 101 cocktail, focusing on the technique and tips observed in The 101 round. Judges score each cocktail using a criteria card covering balance, presentation, and technique. First scores go on the live leaderboard.</p></div>
+      </div>
+      <div class="ros-row">
+        <div class="ros-tag-time"><span class="ros-tag">Round 2</span><span class="ros-time">40 min</span></div>
+        <div class="ros-title"><h3>The Build</h3><span class="ros-subtitle">Judges order, makers deliver</span></div>
+        <div class="ros-desc"><p>Judges order from a cheat sheet of cocktails and mocktails. Makers deliver to order, drawing on the technique and range built across the first round. Scores update live. Leaderboard positions shift.</p></div>
+      </div>
+      <div class="ros-row ros-round3">
+        <div class="ros-tag-time"><span class="ros-tag">Round 3</span><span class="ros-time">40 min</span></div>
+        <div class="ros-title"><h3>The Signature</h3><span class="ros-subtitle">Full creative freedom</span></div>
+        <div class="ros-desc">
+          <p>Makers build completely from scratch, name the cocktail, and pitch it to their judges in 30 seconds. Anyone can win going in. The stakes are highest.</p>
+          <span class="ros-badge">Worth more than Rounds 1 and 2 combined</span>
+        </div>
+      </div>
+      <div class="ros-row">
+        <div class="ros-tag-time"><span class="ros-tag">Close</span><span class="ros-time">20 min</span></div>
+        <div class="ros-title"><h3>Awards</h3><span class="ros-subtitle">Ceremony for the two awards: Makers / Judges</span></div>
+        <div class="ros-desc"><p>Two awards are presented. The Collective Cup goes to the winning maker pod. The Palate Award goes to the judge pair whose scores tracked closest to the panel consensus, rewarding accuracy over generosity.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO TRACKS -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">The two tracks</div>
+    <h2>Two tracks, side by side. <span class="accent">One room. Everyone involved.</span></h2>
+    <p class="lede">The Craft Collective is the only format in the DC market running two structured tracks at once. Makers and judges are both being scored, at the same time, in the same room, for different prizes.</p>
+
+    <div class="track-grid">
+      <div class="track-card">
+        <div class="track-label">Makers track</div>
+        <h3>Build. Score. Win.</h3>
+        <p>Work in pairs to build cocktails across three rounds, judged on technique, presentation, and creativity. The pod with the highest cumulative score across all three rounds wins.</p>
+        <div class="track-award">
+          <div class="track-award-label">Award</div>
+          <div class="track-award-name">The Collective Cup</div>
+          <div class="track-award-desc">Trophy, engraved jigger, and a custom labelled bottle.</div>
+        </div>
+      </div>
+      <div class="track-card judges">
+        <div class="track-label">Judges track</div>
+        <h3>Score. Calibrate. Win.</h3>
+        <p>Work in pairs and score every cocktail together on the same criteria. The pair whose scores land closest to the panel consensus across all three rounds wins, rewarding accuracy over generosity.</p>
+        <div class="track-award">
+          <div class="track-award-label">Award</div>
+          <div class="track-award-name">The Palate Award</div>
+          <div class="track-award-desc">Awarded to the judge pair with the lowest cumulative deviation from the panel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE MATERIALS -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">The materials</div>
+    <h2>Printed, scored, <span class="accent">and worth keeping.</span></h2>
+    <p class="lede">Every event runs on a set of branded physical materials, used during the rounds and taken home afterward.</p>
+
+    <div class="material-block">
+      <h3>Maker Recipe Card</h3>
+      <p class="material-caption">One per pod. Cocktail build on the front, mocktail build on the back.</p>
+      <div class="material-row">
+        <div class="material-item landscape" role="img" aria-label="Placeholder — Maker Recipe Card, cocktail side"></div>
+        <div class="material-item landscape" role="img" aria-label="Placeholder — Maker Recipe Card, mocktail side"></div>
+      </div>
+    </div>
+
+    <div class="material-block">
+      <h3>Judges Score Cards</h3>
+      <p class="material-caption">One per round. Handed to each judge pair, collected by the facilitator at the end.</p>
+      <div class="material-row cols-3">
+        <div class="material-item round1" role="img" aria-label="Placeholder — Judges Score Card, Round 1"></div>
+        <div class="material-item round2" role="img" aria-label="Placeholder — Judges Score Card, Round 2"></div>
+        <div class="material-item round3" role="img" aria-label="Placeholder — Judges Score Card, Round 3"></div>
+      </div>
+    </div>
+
+    <div class="material-block">
+      <h3>Champion Certificates</h3>
+      <p class="material-caption">Awarded to the winning pod and to the winning judges, signed by the facilitator on the spot.</p>
+      <div class="material-row">
+        <div class="material-item landscape" role="img" aria-label="Placeholder — Champion Certificate, light version"></div>
+        <div class="material-item landscape" role="img" aria-label="Placeholder — Champion Certificate, dark version"></div>
+      </div>
+    </div>
+
+    <div class="material-block">
+      <h3>Live Leaderboard</h3>
+      <p class="material-caption">Displayed in the room, updated round by round as scores come in. Placeholder for a looping GIF.</p>
+      <div class="material-row single">
+        <div class="material-item wide" role="img" aria-label="Placeholder — Live Leaderboard, looping GIF"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="bg-powder" id="book">
+  <div class="wrap" style="text-align:center;">
+    <h2 style="max-width:680px; margin-left:auto; margin-right:auto;">Want to see what this looks like <span class="accent">for your team?</span></h2>
+    <p class="lede" style="margin-left:auto; margin-right:auto;">Tell us about your group and we'll reach out with a tailored proposal.</p>
+    <a href="book.html#details" class="btn btn-primary">Book a Session</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-form">
+        <label for="footerEmail">Submit Inquiry</label>
+        <div class="footer-form-row">
+          <input type="email" id="footerEmail" placeholder="Email">
+          <button type="button" aria-label="Submit">&rarr;</button>
+        </div>
+        <span class="footer-note">Your information is never disclosed to third parties.</span>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <div class="footer-col-label">Main Pages</div>
+          <ul class="footer-links">
+            <li><a href="index.html">Homepage</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-label">Company</div>
+          <ul class="footer-links">
+            <li><a href="how-it-works.html" aria-current="page">How It Works</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#leaderboard">Live Leader Board</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-label">Contact</div>
+          <ul class="footer-links">
+            <li><a href="book.html#details">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-wordmark-band">
+      <div class="footer-wordmark-row">
+        <span class="footer-wordmark-text">The Craft Collective</span>
+        <span class="footer-logo-space" aria-hidden="true">GIF</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>The Craft Collective LLC | Washington DC, Maryland, Virginia</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v6h4v-6h2.5l.5-4H12V8a1 1 0 0 1 1-1h2z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="10" x2="7" y2="17"/><circle cx="7" cy="7" r="0.6" fill="currentColor" stroke="none"/><path d="M11 17v-4a2 2 0 0 1 4 0v4"/><line x1="11" y1="10" x2="11" y2="17"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function () {
+    var isOpen = mobileMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>

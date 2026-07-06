@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Craft Collective — Curated Team Experiences</title>
+<meta name="description" content="A professionally facilitated cocktail format for teams of 10 to 80. Mobile, on-site, DMV. Your team deserves better than another happy hour.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!--
+  CHANGES — v10, per direct decision (Home/About restructure):
+    1. Section order changed. Was: Hero, What Makes It Different, The Format, Why Book, Packages,
+       Full-bleed moment, Who Books, Closing CTA. Now: Hero, What It Is, The Format (How It Works
+       preview), Bio, Why Book, What Makes It Different, Packages, Full-bleed moment, Who Books,
+       Closing CTA.
+    2. Hero's lede paragraph ("The Craft Collective is a hands-on team building experience...") moved
+       out of the hero into a new standalone "What It Is" section directly below it. Hero is now
+       vibe-only: brand line, h1, buttons. No copy change to the lede text itself, only its location.
+    3. NEW "Bio" section added (between The Format and Why Book): short 2-3 sentence founder
+       introduction, not the full About page content, with a "Read The Craft Collective's story" link out to
+       about.html. Framed around TCC's story rather than Gerrard's personally, since the
+       About page it links to also carries the Why This Exists / Antonio U. content, not just bio.
+       About stays a standalone page — it is NOT being merged/deleted, reversing the earlier locked
+       plan to delete about.html and point everything at a homepage anchor. That earlier plan is
+       superseded by this decision.
+    4. Added the missing id="how-it-works" to the Format preview section. The hero button and both
+       nav menus have linked to href="#how-it-works" since at least v7 with no matching id anywhere
+       on the page — that link has been silently broken until this fix.
+    5. Nav "About" (desktop + mobile) and footer "About" link now point directly to
+       about.html instead of the never-real "#about" anchor.
+  CHANGES — v9, per direct correction:
+    1. Format preview Round 2 card: "The Twist" (surprise ingredient revealed mid-round) replaced
+       with "The Build" (judges order from a cheat sheet, makers deliver to order), per the
+       correction confirmed by Gerrard and logged in Management Handoff v23. This page had not
+       picked up that correction yet even though How It Works had already been fixed. Round 1 and
+       Round 3 cards unaffected.
+    2. Format preview cards: added a thin (1px) light neutral border, rgba(44,44,42,.12), around all
+       four sides. Previously the cards had only the 3px colored top accent and no border elsewhere,
+       so they read as edgeless blocks. The colored top border is unaffected, since border-top is
+       declared after the shorthand and wins for that one side.
+  CHANGES — v8, per TCC_Web_ChangeLog_v1 (Change 2):
+    1. Added the confirmed "What it is" description directly under the hero tagline, as a .lede
+       paragraph between the h1 and the button row. This was drafted and approved in a prior session
+       but not yet added to the live file (see handoff v23). Deliberately avoids the word
+       "competition" while still naming the category (team building) clearly.
+  Source: Framer screenshot export (Main_Home.png) + TCC_Web_SiteCopy_v6.docx + TCC_Management_Handoff_v21.md.
+
+  Changes from v5, per Gerrard's direct edit list:
+    1. "The Craft Collective" is now a large display line in the hero, not a small eyebrow label.
+    2. "Curated Team Experiences" tagline removed from hero (redundant with nav logo). "For Agencies" and
+       "Private Celebrations" removed from nav AND footer — handled elsewhere, not in this site's nav for now.
+    3. Ticker — NOT built here. Confirmed it lives only on How It Works' "The Format" section. Do not add here.
+    4. "The Signature" format card carries an amber top-border + tinted background, matching its back-loaded
+       scoring emphasis. Same treatment queued for How It Works' run-of-show table when that page is built.
+    5. Packages section photos are now an offset two-image collage (different sizes, vertical offset),
+       not a matched pair.
+    6. Package cards: Collective Cup gets a stronger amber treatment (full border + tinted background),
+       not just a top-border accent.
+    7. "$X flat" line removed from package cards. Per-person price is now gray/subtle, not blue/prominent.
+    8. Full-bleed "Unlock your team's potential" is now a photo placeholder with an amber tint overlay,
+       not a flat amber color panel. Swap point for the real photo is commented inline.
+    9. Who Books section: single full-width image placeholder (matches the card row's width) replaces the
+       earlier 3-photo strip.
+    10. Card color variation is now a sitewide pattern (format cards, package cards, who-books cards all vary),
+        confirmed by Gerrard, not scoped to one section. Variation stays within brand tokens — no off-brand hues.
+    11. Footer is more compact. "THE CRAFT COLLECTIVE" is forced to one line at every viewport (scales down
+        rather than wraps), all caps, no circle icon.
+    12. NEW LOCKED RULE (confirmed, sitewide, logged in handoff v21): major headings carry a two-part
+        treatment — lead text in standard weight and color, trailing clause in italic Cormorant Garamond,
+        subtle blue. This supersedes the old "italic is amber-only, hero/pull-quotes only" rule. Applied via
+        the .accent span below; color adapts per background (mid-blue on dark sections, slate-blue on light).
+        One exception kept: the full-bleed amber moment (#8) stays plain uppercase, no italic split — it was
+        already confirmed as a deliberate one-off dramatic treatment, and italicizing inside all-caps read
+        poorly in testing.
+
+  Still open, not resolved by this pass: the per-person pricing pattern ($150/$200/$200/$94), and the
+  1080px max-width vs. Framer's apparently wider live build — both flagged in earlier versions, unchanged here.
+
+  CHANGES FROM v6 — v7, per Gerrard's direct edit list:
+    1. Hero media (.hero-media) made taller at both breakpoints.
+    2. Hero h1 ("Your team deserves...") resized down to match the h2 scale used by the other section
+       taglines, instead of carrying its own larger h1 size.
+    3. Full-bleed amber "Unlock your team's potential" section (.amber-moment) converted from a
+       padding-driven height to a fixed-height flex section matching the hero's height at each breakpoint,
+       since a full-bleed photo will sit here. Content is now vertically centered inside that space.
+    4. Who Books full-width photo placeholder (.full-width-photo) shortened — was a 21:9 banner (~460px
+       tall on desktop), now scaled down to sit closer to the visual height of the card row above it.
+    5. NEW: image ticker placeholder added to THE FORMAT section (.format-ticker), matching the photo
+       strip shown in the Framer screenshot. NOTE: this reverses the v6 build note that said the ticker
+       lives only on How It Works and should not appear on the homepage — confirmed by Gerrard as an
+       explicit override, not an oversight.
+    6. Packages section offset collage (.offset-collage) de-staggered — img-a and img-b are now the same
+       height, aligned at the same top edge, both matching the height of the previously-taller frame
+       (img-b). The margin-top offset that pushed img-b down is removed.
+    7. Footer wordmark band switched from Cormorant Garamond to DM Sans (still all caps, via
+       text-transform). Restructured into a flex row with a reserved empty space after the text
+       (.footer-logo-space) sized proportionally to the wordmark, for the logo mark to be dropped in
+       later. No icon inserted yet, per Gerrard's confirmation — space only.
+  CHANGES — sitewide type-scale and footer pass:
+    - H2 desktop size 34px to 44px (matches the locked Brand Guidelines Section H2 spec, 38-44px).
+    - Footer wordmark ('THE CRAFT COLLECTIVE') set to font-weight 700 — a deliberate, scoped
+      exception to the 'DM Sans never heavier than 500' brand rule, requested explicitly. Weight 700
+      added to the Google Fonts import to support it. Size ceiling lowered 84px to 64px and footer
+      spacing tightened (wordmark band padding, footer-top gap/padding, footer-bottom margin) to
+      shorten the footer overall while keeping every piece of information it already had.
+    - Added a 'Private Celebrations' placeholder nav link (top nav + mobile menu), pointing to
+      #private-celebrations on the homepage until that page exists. Not a real destination yet.
+    - Hero: .hero-brand ("The Craft Collective" in the hero) is now the largest text on the page,
+      40px mobile / 84px desktop, up from 26px/34px. Deliberately set to match the footer wordmark's
+      old 84px ceiling, so the page opens and closes on the brand name at the same scale rather than
+      by coincidence. Stayed upright, not italic — italic Cormorant already carries a specific meaning
+      elsewhere in the heading system (the trailing accent clause) and reusing it here would blur that.
+    - .hero h1 ("Your team deserves better than another happy hour") scaled up with h2, 34px to 44px
+      desktop, to preserve the original intent of pegging it to the section-tagline scale. Mobile
+      unchanged (26px, matching h2's unchanged mobile size).
+-->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --charcoal:    #2C2C2A;
+    --charcoal-lt: #383836;
+    --slate-blue:  #2B6CB0;
+    --mid-blue:    #5A8FC4;
+    --powder-blue: #BDD4EA;
+    --amber:       #C4622D;
+    --amber-tint:  rgba(196,98,45,.14);
+    --ice:         #F2F5F9;
+    --gray:        #888780;
+    --white:       #FFFFFF;
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+
+    --max-w: 1080px;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--powder-blue);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg, video { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--mid-blue); outline-offset: 3px; }
+
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  section { padding: 56px 0; }
+
+  .bg-charcoal { background: var(--charcoal); }
+  .bg-charcoal-lt { background: var(--charcoal-lt); }
+  .bg-ice { background: var(--ice); color: var(--charcoal); }
+  .bg-ice h2, .bg-ice h3 { color: var(--charcoal); }
+  .bg-powder { background: var(--powder-blue); color: var(--charcoal); }
+  .bg-powder h2 { color: var(--charcoal); }
+
+  /* ─── Heading accent (rule #12) ─────────────────────── */
+  h1 .accent, h2 .accent, h3 .accent {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--mid-blue);
+    white-space: nowrap;
+  }
+  .bg-ice .accent, .bg-powder .accent { color: var(--slate-blue); }
+
+  /* ─── Nav ──────────────────────────────────────────── */
+  .site-nav { position: sticky; top: 0; z-index: 50; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
+  .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-divider { width: 1px; height: 26px; background: rgba(189,212,234,.3); flex-shrink: 0; }
+  .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .nav-logo-text { display: flex; flex-direction: column; gap: 1px; }
+  .nav-wordmark { font-family: var(--font-display); font-weight: 500; font-size: 14px; color: var(--ice); line-height: 1; }
+  .nav-tagline { font-size: 7px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+  .nav-links { display: none; gap: 24px; list-style: none; }
+  .nav-links a { font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--ice); text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover { color: var(--mid-blue); }
+  .nav-cta { display: none; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ice); background: var(--slate-blue); border: none; border-radius: 4px; padding: 10px 18px; text-decoration: none; cursor: pointer; transition: background .15s ease; }
+  .nav-cta:hover { background: #245a94; }
+  .nav-toggle { background: none; border: none; color: var(--ice); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-family: var(--font-body); font-weight: 500; cursor: pointer; padding: 6px 4px; }
+  .mobile-menu { display: none; flex-direction: column; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { padding: 14px 20px; font-size: 13px; color: var(--ice); text-decoration: none; border-top: 1px solid rgba(189,212,234,.08); }
+
+  /* ─── Type ─────────────────────────────────────────── */
+  .eyebrow { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 14px; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; color: var(--ice); line-height: 1.12; }
+  h1 { font-size: 32px; margin-bottom: 20px; }
+  h2 { font-size: 26px; margin-bottom: 16px; }
+  h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  p { font-size: 15px; font-weight: 300; }
+  .lede { font-size: 16px; font-weight: 300; max-width: 560px; margin-bottom: 20px; }
+
+  .btn { display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border-radius: 4px; padding: 13px 24px; border: 1px solid transparent; cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--ice); color: var(--charcoal); }
+  .btn-primary:hover { background: var(--powder-blue); }
+  .btn-outline { background: transparent; color: var(--ice); border-color: rgba(242,245,249,.4); }
+  .btn-outline:hover { border-color: var(--ice); }
+  .bg-powder .btn-primary { background: var(--charcoal); color: var(--ice); }
+  .bg-powder .btn-primary:hover { background: var(--charcoal-lt); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* ─── Hero ─────────────────────────────────────────── */
+  .hero { position: relative; padding: 0; border-bottom: 1px solid rgba(189,212,234,.12); overflow: hidden; }
+  .hero-media { position: relative; height: 72vh; min-height: 480px; max-height: 760px; background: var(--charcoal-lt); }
+  .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-media .placeholder-note {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    text-align: center; font-size: 12px; letter-spacing: .06em; color: var(--powder-blue);
+    background: repeating-linear-gradient(135deg, var(--charcoal-lt), var(--charcoal-lt) 10px, #33332f 10px, #33332f 20px);
+  }
+  .hero-media .placeholder-note span { background: rgba(44,44,42,.7); padding: 8px 16px; border-radius: 4px; border: 1px solid rgba(189,212,234,.2); }
+  .hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(44,44,42,.15) 0%, rgba(44,44,42,.55) 60%, rgba(44,44,42,.9) 100%); }
+  .hero-content { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 32px 0 40px; }
+  .hero-brand { font-family: var(--font-display); font-weight: 500; font-size: 40px; color: var(--ice); margin-bottom: 14px; letter-spacing: .005em; line-height: 1.05; }
+  .hero h1 { font-size: 26px; max-width: 560px; }
+
+  /* ─── Photo strip / offset collage ─────────────────── */
+  .photo-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0 32px; }
+  .photo-block { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; }
+
+  .offset-collage { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: stretch; margin: 28px 0 8px; height: 340px; }
+  .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; }
+  .offset-collage .img-b { background: var(--charcoal-lt); border-radius: 4px; height: 100%; border: 1px solid rgba(189,212,234,.12); }
+
+  .full-width-photo { width: 100%; aspect-ratio: 19/10; background: var(--charcoal-lt); border-radius: 4px; margin-top: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray); text-align: center; }
+
+  /* ─── Comparison grid ──────────────────────────────── */
+  .compare-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .compare-col { border-radius: 4px; padding: 22px 20px; }
+  .compare-col.them { background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.1); }
+  .compare-col.us { background: rgba(43,108,176,.10); border: 1px solid rgba(43,108,176,.25); }
+  .compare-label { font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; }
+  .compare-col.them .compare-label { color: var(--gray); }
+  .compare-col.us .compare-label { color: var(--mid-blue); }
+  .compare-item { font-size: 13px; padding: 8px 0; border-bottom: 1px solid rgba(189,212,234,.08); line-height: 1.5; }
+  .compare-item:last-child { border-bottom: none; }
+  .compare-col.them .compare-item { color: var(--gray); }
+  .compare-col.us .compare-item { color: var(--powder-blue); }
+
+  /* ─── Format preview cards (rule #10 variation) ─────── */
+  .format-scroller { display: flex; gap: 12px; overflow-x: auto; margin-top: 28px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+  .format-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 4px; padding: 18px 16px; border: 1px solid rgba(44,44,42,.12); border-top: 3px solid var(--slate-blue); }
+  .format-card.tint-mid { background: #eef4fa; border-top-color: var(--mid-blue); }
+  .format-card.tint-amber { background: #fbeee6; border-top-color: var(--amber); }
+  .format-tag { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 8px; }
+  .format-card.tint-amber .format-tag { color: var(--amber); }
+  .format-card.tint-mid .format-tag { color: var(--slate-blue); }
+  .format-card h3 { font-size: 17px; margin-bottom: 6px; color: var(--charcoal); }
+  .format-card p { font-size: 12px; line-height: 1.55; color: #55534d; }
+
+  /* ─── Format image ticker (v7, edit #5) ─────────────── */
+  .format-ticker { display: flex; gap: 10px; overflow: hidden; margin: 28px 0 8px; }
+  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; }
+  .format-ticker .tick-block.wide { flex: 1.8 1 0; aspect-ratio: 4/3; }
+  .format-ticker .tick-block.cut { flex: 0 0 36px; min-width: 36px; }
+
+  /* ─── Why book ─────────────────────────────────────── */
+  .why-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
+  .why-photo { aspect-ratio: 4/5; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(44,44,42,.5); text-align: center; padding: 16px; }
+  .photo-placeholder-dark { aspect-ratio: 4/5; background: rgba(189,212,234,.08); border: 1px solid rgba(189,212,234,.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--gray); text-align: center; padding: 16px; }
+  .why-list { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
+  .why-list li { font-size: 13px; line-height: 1.55; }
+  .why-list strong { color: var(--charcoal); }
+
+  /* ─── Packages (rules #5, #6, #7, #10) ──────────────── */
+  .pkg-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+  .pkg-card { background: var(--charcoal-lt); border-radius: 4px; padding: 22px 18px; border-top: 3px solid var(--slate-blue); position: relative; }
+  .pkg-card.tint-mid { background: #34394a; border-top-color: var(--mid-blue); }
+  .pkg-card.tint-slate { background: #303c4a; border-top-color: var(--slate-blue); }
+  .pkg-card.featured {
+    background: var(--amber-tint);
+    border: 1.5px solid var(--amber);
+    padding: 21px 17px;
+  }
+  .pkg-badge { position: absolute; top: -11px; right: 16px; background: var(--amber); color: var(--ice); font-size: 9px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+  .pkg-name { font-family: var(--font-display); font-size: 20px; font-weight: 500; color: var(--ice); margin-bottom: 6px; }
+  .pkg-price { font-family: var(--font-body); font-size: 12px; font-weight: 400; color: var(--gray); margin-bottom: 4px; }
+  .pkg-min { font-size: 11px; color: var(--gray); margin-bottom: 12px; font-style: italic; }
+  .pkg-meta { font-size: 11px; color: var(--gray); margin-bottom: 12px; line-height: 1.6; }
+  .pkg-desc { font-size: 13px; color: var(--powder-blue); }
+  .pkg-addons-note { font-size: 12px; color: var(--gray); margin-top: 20px; text-align: center; }
+
+  /* ─── Amber moment (rule #8) — height matches .hero-media, see edit #3 v7 ── */
+  .amber-moment {
+    position: relative; text-align: center; background: var(--charcoal-lt); overflow: hidden;
+    height: 72vh; min-height: 480px; max-height: 760px;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 32px 0;
+  }
+  .amber-moment .photo-bg {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(135deg, #3a2418, #3a2418 12px, #472c1c 12px, #472c1c 24px);
+  }
+  .amber-moment .photo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(196,98,45,.55), rgba(196,98,45,.72)); }
+  .amber-moment .wrap { position: relative; z-index: 1; }
+  .amber-moment h2 { text-transform: uppercase; font-family: var(--font-display); font-size: 26px; letter-spacing: .02em; color: var(--ice); max-width: 480px; margin: 0 auto; }
+  .amber-moment .swap-note { position: relative; z-index: 1; margin-top: 16px; font-size: 11px; color: rgba(242,245,249,.75); }
+
+  /* ─── Who books (rules #9, #10) ─────────────────────── */
+  .who-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+  .who-card { border-radius: 4px; padding: 28px 22px; min-height: 160px; }
+  .who-card.tint-slate { background: rgba(43,108,176,.14); border: 1px solid rgba(43,108,176,.28); }
+  .who-card.tint-mid { background: rgba(90,143,196,.14); border: 1px solid rgba(90,143,196,.28); }
+  .who-card.tint-amber { background: var(--amber-tint); border: 1px solid rgba(196,98,45,.3); }
+  .who-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .who-card p { font-size: 13px; }
+
+  /* ─── Footer (rule #11) ─────────────────────────────── */
+  .site-footer { background: var(--charcoal-lt); padding: 28px 0 0; border-top: 1px solid rgba(189,212,234,.12); }
+  .footer-top { display: grid; grid-template-columns: 1fr; gap: 18px; padding-bottom: 16px; }
+  .footer-form { display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
+  .footer-form label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+  .footer-form-row { display: flex; gap: 8px; }
+  .footer-form input { flex: 1; font-family: var(--font-body); font-size: 13px; padding: 9px 12px; border-radius: 4px; border: 1px solid rgba(189,212,234,.2); background: var(--charcoal); color: var(--ice); }
+  .footer-form button { background: var(--slate-blue); border: none; border-radius: 4px; padding: 0 14px; color: var(--ice); cursor: pointer; }
+  .footer-note { font-size: 10px; color: var(--gray); }
+  .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .footer-col-label { font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .footer-links { list-style: none; display: grid; gap: 6px; }
+  .footer-links a { font-size: 12px; color: var(--powder-blue); text-decoration: none; }
+  .footer-links a:hover { color: var(--ice); }
+  .footer-bottom { border-top: 1px solid rgba(189,212,234,.1); margin-top: 4px; padding: 16px 0 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .footer-bottom span { font-size: 11px; color: var(--gray); }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(189,212,234,.3); color: var(--powder-blue); transition: border-color .15s ease, color .15s ease; }
+  .footer-social a:hover { border-color: var(--ice); color: var(--ice); }
+  .footer-social svg { width: 14px; height: 14px; }
+  .footer-wordmark-band { padding: 4px 0 8px; overflow: hidden; }
+  .footer-wordmark-row { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.5vw, 22px); }
+  /* Deliberate, scoped exception to the "DM Sans never heavier than 500" brand rule,
+     for this one element only. Weight 700 added to the font import above to support it. */
+  .footer-wordmark-text {
+    white-space: nowrap;
+    font-family: var(--font-body); font-weight: 700; text-transform: uppercase;
+    color: var(--ice); letter-spacing: .01em;
+    font-size: clamp(22px, 5.5vw, 76px);
+  }
+  /* Reserved placeholder for a looping GIF logo mark, not a static icon — sized to roughly match the
+     wordmark's height, styled with a visible dashed border so it reads as a real placeholder slot. */
+  .footer-logo-space {
+    flex: 0 0 auto; width: clamp(22px, 5.5vw, 76px); height: clamp(22px, 5.5vw, 76px);
+    border: 1px dashed rgba(189,212,234,.35); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(189,212,234,.45);
+  }
+
+  /* ─── Tablet and up ─────────────────────────────────── */
+  @media (min-width: 768px) {
+    .wrap { padding: 0 40px; }
+    .nav-inner { padding: 16px 40px; }
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-block; }
+    .nav-toggle { display: none; }
+    section { padding: 88px 0; }
+    h1 { font-size: 46px; }
+    h2 { font-size: 44px; }
+    h3 { font-size: 22px; }
+    .hero-media { height: 88vh; min-height: 620px; max-height: 900px; }
+    .hero-brand { font-size: 84px; }
+    .hero h1 { font-size: 44px; max-width: 640px; }
+    .compare-grid { grid-template-columns: 1fr 1fr; }
+    .format-scroller { overflow: visible; display: grid; grid-template-columns: repeat(5, 1fr); }
+    .format-card { flex: none; }
+    .full-width-photo { aspect-ratio: 25/6; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .pkg-grid { grid-template-columns: repeat(4, 1fr); }
+    .offset-collage { height: 460px; }
+    .who-grid { grid-template-columns: repeat(3, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .amber-moment { height: 88vh; min-height: 620px; max-height: 900px; }
+    .amber-moment h2 { font-size: 40px; }
+  }
+  @media (min-width: 1280px) {
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo">
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="26" cy="26" r="23" stroke="#F2F5F9" stroke-width="1.5"/>
+        <circle cx="26" cy="26" r="15" stroke="#F2F5F9" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle cx="26" cy="26" r="3" fill="#F2F5F9"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(45 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(90 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(135 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(180 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(225 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(270 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(315 26 26)"/>
+        <rect x="44" y="24" width="10" height="4" rx="2" fill="#F2F5F9"/>
+      </svg>
+      <span class="nav-logo-divider" aria-hidden="true"></span>
+      <span class="nav-logo-text">
+        <span class="nav-wordmark">The Craft Collective</span>
+        <span class="nav-tagline">Curated Team Experiences</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="private-celebrations.html">Private Celebrations</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <a class="nav-cta" href="#book">Book a Session</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how-it-works">How It Works</a>
+    <a href="about.html">About</a>
+    <a href="private-celebrations.html">Private Celebrations</a>
+    <a href="faq.html">FAQ</a>
+    <a href="#book">Book a Session</a>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-media">
+    <!--
+      Real build: replace the placeholder div below with —
+      <video autoplay muted loop playsinline poster="/assets/hero-poster.jpg">
+        <source src="/assets/hero-loop.mp4" type="video/mp4">
+      </video>
+      Respect prefers-reduced-motion by pausing/removing autoplay for that media query in JS.
+    -->
+    <div class="placeholder-note"><span>Hero video placeholder — looping cocktail footage drops in here</span></div>
+  </div>
+  <div class="hero-content">
+    <div class="wrap">
+      <div class="hero-brand">The Craft Collective</div>
+      <h1>Your team deserves better than another <span class="accent">happy hour.</span></h1>
+      <div class="btn-row">
+        <a href="#book" class="btn btn-primary">Book a Session</a>
+        <a href="how-it-works.html" class="btn btn-outline">See How It Works</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- WHAT IT IS -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <div class="eyebrow">What it is</div>
+        <h2>A team building experience <span class="accent">where everyone's involved.</span></h2>
+        <p class="lede">The Craft Collective is a hands-on team building experience. Your team splits into Makers, who build cocktails, and Judges, who score them, with a live leaderboard tracking the standings until the final round decides the&nbsp;winner.</p>
+      </div>
+      <div class="photo-placeholder-dark" role="img" aria-label="Placeholder photo">Photo placeholder — team at a bar station</div>
+    </div>
+  </div>
+</section>
+
+<!-- THE FORMAT (homepage preview) -->
+<section class="bg-ice" id="how-it-works">
+  <div class="wrap">
+    <div class="eyebrow">The format</div>
+    <h2>Everything handled. <span class="accent">You just show up.</span></h2>
+    <div class="format-ticker">
+      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block wide" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="tick-block cut" role="img" aria-label="Placeholder photo, partially visible"></div>
+    </div>
+    <p class="pkg-addons-note" style="text-align:left; margin-top:32px; margin-bottom:12px;">Shown here: The Collective Cup, our flagship, 1 of 4 formats.</p>
+    <div class="format-scroller">
+      <div class="format-card">
+        <div class="format-tag">Live demo</div>
+        <h3>The 101</h3>
+        <p>The facilitator builds one cocktail from scratch, live, before anyone touches a station.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-tag">Round 1</div>
+        <h3>The Classic</h3>
+        <p>Teams replicate the demo cocktail. First scores hit the leaderboard.</p>
+      </div>
+      <div class="format-card tint-mid">
+        <div class="format-tag">Round 2</div>
+        <h3>The Build</h3>
+        <p>Judges order from a cheat sheet of cocktails and mocktails. Makers build to order.</p>
+      </div>
+      <div class="format-card tint-amber">
+        <div class="format-tag">Round 3</div>
+        <h3>The Signature</h3>
+        <p>Full creative freedom. Teams name their own cocktail and pitch it to the judges.</p>
+      </div>
+      <div class="format-card tint-mid">
+        <div class="format-tag">Close</div>
+        <h3>Awards Ceremony</h3>
+        <p>Two awards handed out on the spot, for the winning pod and the sharpest judges.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIO -->
+<section class="bg-charcoal-lt">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <div class="eyebrow">Who's behind it</div>
+        <h2>Built by someone who has <span class="accent">done both sides of this.</span></h2>
+        <p class="lede">Gerrard Allam is a professionally trained bartender and licensed urban planner with over a decade behind the bar, and just as long facilitating public workshops and community events. The Craft Collective is where those two careers meet.</p>
+        <a href="about.html" class="btn btn-outline">Read The Craft Collective's story</a>
+      </div>
+      <div class="photo-placeholder-dark" role="img" aria-label="Placeholder photo">Photo placeholder — founder portrait</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY BOOK -->
+<section class="bg-powder">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <div class="eyebrow" style="color:var(--slate-blue);">Why book</div>
+        <h2>Bespoke experiences built to <span class="accent">bring teams closer.</span></h2>
+        <ul class="why-list">
+          <li><strong>Built for your team's size:</strong> designed for groups of 10 to 80, wherever your team gathers</li>
+          <li><strong>A story worth telling Monday:</strong> scored rounds, a live leaderboard, and a keepsake to take home</li>
+          <li><strong>No surprises:</strong> one price, no hidden fees, no last-minute add-ons</li>
+        </ul>
+      </div>
+      <div class="why-photo" role="img" aria-label="Placeholder photo">Photo placeholder — team at a bar station</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT MAKES IT DIFFERENT -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">What makes it different</div>
+    <h2>Not a class. Not a workshop. An engaging team building exercise that <span class="accent">creates real energy.</span></h2>
+    <div class="photo-strip">
+      <div class="photo-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="photo-block" role="img" aria-label="Placeholder photo"></div>
+      <div class="photo-block" role="img" aria-label="Placeholder photo"></div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-col them">
+        <div class="compare-label">Everyone else</div>
+        <div class="compare-item">People watch a bartender demonstrate</div>
+        <div class="compare-item">One track for everyone, no differentiated roles</div>
+        <div class="compare-item">No scoring, no stakes, no reason to care</div>
+        <div class="compare-item">Energy peaks at the demo, fades during practice</div>
+        <div class="compare-item">Nothing to take home except a memory</div>
+      </div>
+      <div class="compare-col us">
+        <div class="compare-label">The Craft Collective</div>
+        <div class="compare-item">The event is built around your team</div>
+        <div class="compare-item">Every person is involved</div>
+        <div class="compare-item">Two parallel tracks: makers and judges</div>
+        <div class="compare-item">Live leaderboard, scored rounds, real stakes</div>
+        <div class="compare-item">Round 3 worth more than Rounds 1 and 2, anyone can win</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">Packages</div>
+    <h2>Find the right format <span class="accent">for your team.</span></h2>
+    <p class="lede">All packages include facilitator, equipment, mixers, syrups, bitters, garnishes, ice, score cards, and recipe cards. Spirits provided by your team from a curated list sent 10 days before.</p>
+
+    <div class="offset-collage">
+      <div class="img-a" role="img" aria-label="Placeholder photo — wider image"></div>
+      <div class="img-b" role="img" aria-label="Placeholder photo — offset smaller image"></div>
+    </div>
+
+    <div class="pkg-grid">
+      <div class="pkg-card tint-slate">
+        <div class="pkg-name">The Session</div>
+        <div class="pkg-price">From $94/person (at 16 guests)</div>
+        <div class="pkg-meta">10 to 16 guests · about 90 minutes</div>
+        <p class="pkg-desc">One to two stations, two lightly scored rounds, no formal award ceremony.</p>
+      </div>
+      <div class="pkg-card tint-mid">
+        <div class="pkg-name">The Collective</div>
+        <div class="pkg-price">From $80/person (at 30 guests)</div>
+        <div class="pkg-meta">12 to 30 guests · about 2 hours</div>
+        <p class="pkg-desc">Two stations, two scored rounds, awards ceremony.</p>
+      </div>
+      <div class="pkg-card featured">
+        <div class="pkg-badge">Most Popular</div>
+        <div class="pkg-name">The Collective Cup</div>
+        <div class="pkg-price">From $67/person (at 48 guests)</div>
+        <div class="pkg-meta">16 to 48 guests · about 2 hours 40 minutes</div>
+        <p class="pkg-desc">Three stations, three scored rounds, full leaderboard and awards.</p>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-name">Craft House</div>
+        <div class="pkg-price">Custom pricing</div>
+        <div class="pkg-min">Starts at $4,500</div>
+        <div class="pkg-meta">48 or more guests · custom</div>
+        <p class="pkg-desc">Fully custom format and menu, built around your group.</p>
+      </div>
+    </div>
+    <p class="pkg-addons-note">Add-ons available for every package: engraved jiggers, premium garnish, custom cocktails, professional photography, and more.</p>
+  </div>
+</section>
+
+<!-- FULL-BLEED AMBER MOMENT -->
+<div class="amber-moment">
+  <!-- Real build: replace .photo-bg below with a real full-bleed photo, amber-toned or colour-graded. -->
+  <div class="photo-bg"></div>
+  <div class="wrap">
+    <h2>Unlock your team's potential</h2>
+    <div class="swap-note">Photo placeholder — full-bleed image with amber tone drops in here</div>
+  </div>
+</div>
+
+<!-- WHO BOOKS -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">Who books</div>
+    <h2>Who's booking <span class="accent">The Craft Collective?</span></h2>
+    <div class="who-grid">
+      <div class="who-card tint-slate">
+        <h3>People Ops &amp; HR Leaders</h3>
+        <p>Looking for something that actually gets people talking to each other, not another trust fall.</p>
+      </div>
+      <div class="who-card tint-mid">
+        <h3>Event Planners &amp; Agencies</h3>
+        <p>A turnkey experience you can drop into any offsite, with a 15% referral fee built in.</p>
+      </div>
+      <div class="who-card tint-amber">
+        <h3>Marketing &amp; BD Leads</h3>
+        <p>Give clients something memorable, and a real reason to follow up after.</p>
+      </div>
+    </div>
+    <div class="full-width-photo" role="img" aria-label="Placeholder photo">Photo placeholder — full width, matching card row above</div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="bg-powder" id="book">
+  <div class="wrap" style="text-align:center;">
+    <h2 style="max-width:680px; margin-left:auto; margin-right:auto;">Ready to bring The Craft Collective <span class="accent">to your team?</span></h2>
+    <p class="lede" style="margin-left:auto; margin-right:auto;">Most bookings confirmed within 48 hours. Tell us about your group and we'll come back with availability, a package recommendation, and a quote.</p>
+    <a href="book.html#details" class="btn btn-primary">Book a Session</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-form">
+        <label for="footerEmail">Submit Inquiry</label>
+        <div class="footer-form-row">
+          <input type="email" id="footerEmail" placeholder="Email">
+          <button type="button" aria-label="Submit">&rarr;</button>
+        </div>
+        <span class="footer-note">Your information is never disclosed to third parties.</span>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <div class="footer-col-label">Main Pages</div>
+          <ul class="footer-links">
+            <li><a href="#top">Homepage</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-label">Company</div>
+          <ul class="footer-links">
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#leaderboard">Live Leader Board</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-label">Contact</div>
+          <ul class="footer-links">
+            <li><a href="#book">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-wordmark-band">
+      <div class="footer-wordmark-row">
+        <span class="footer-wordmark-text">The Craft Collective</span>
+        <span class="footer-logo-space" aria-hidden="true">GIF</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>The Craft Collective LLC | Washington DC, Maryland, Virginia</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v6h4v-6h2.5l.5-4H12V8a1 1 0 0 1 1-1h2z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="10" x2="7" y2="17"/><circle cx="7" cy="7" r="0.6" fill="currentColor" stroke="none"/><path d="M11 17v-4a2 2 0 0 1 4 0v4"/><line x1="11" y1="10" x2="11" y2="17"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function () {
+    var isOpen = mobileMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>

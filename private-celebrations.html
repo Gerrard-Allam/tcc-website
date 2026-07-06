@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Celebrations — The Craft Collective</title>
+<meta name="description" content="Birthdays, bachelor and bachelorette parties, family reunions, and every other celebration that calls for something more hands-on than a toast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!--
+  LINK FIX PASS — no content or layout changes, cross-page references only:
+    Homepage references updated to index.html (was v8). About references updated to
+    about.html (was v3). Filename version numbers stay as-is for now per direct decision
+    (all six files get renamed to stable production names right before the GitHub Pages push).
+  BUILD NOTES — TCC_Web_PrivateCelebrations_v1, built from scratch (no Framer screenshot reference —
+  this page didn't exist in the earlier Framer build). Content per Gerrard's direct instructions:
+  cover the range of private occasions (birthdays, bachelor/bachelorette parties, family reunions, and
+  similar), a few image placeholders, and a simple embedded contact form.
+
+  Decisions made building this page:
+    1. This is a genuinely different audience than the rest of the site (private/social vs. corporate
+       B2B), so copy was written fresh for this page rather than adapted from the corporate hero/CTA
+       language elsewhere on the site — reused the "hands-on" house term deliberately for consistency,
+       but did not reuse corporate-specific framing (team building, People Ops, agency referral, etc.).
+    2. Contact form is NOT a copy of the Book page's form. Dropped Company Name, Your Role, the
+       corporate Package dropdown, and the agency-referral checkbox, none of which fit a private
+       inquiry. Added an Event Type field instead (Birthday, Bachelor Party, Bachelorette Party, Family
+       Reunion, Anniversary or Milestone, Holiday Gathering, Other Celebration).
+    3. No pricing or payment-terms fine print on this page. The locked 50%/48-hour/rush-fee terms in
+       the handoff are explicitly scoped to the corporate packages — there's no equivalent locked data
+       for private events, so nothing was invented. This page stays a lead-capture page; pricing gets
+       worked out in the follow-up conversation.
+    4. No "competition" / "competitive" language, consistent with the sitewide banned-word list, and
+       no stock-photo language (unforgettable, elevate, luxury framing) despite this being exactly the
+       kind of page that tends to default to it.
+    5. Four image placeholders total (one hero, three in a photo strip) — kept deliberately light since
+       this was asked for as "a simple page," not a full multi-section build like the other five pages.
+    6. Nav/footer follow the same locked system as every other page, with this page's own nav link now
+       marked aria-current. Also went back and updated the "Private Celebrations" placeholder link on
+       all five existing pages (Homepage, About, How It Works, Book, FAQ) to point here now that a real
+       file exists — this closes out the placeholder flagged in the Website Brand Guidelines doc.
+    7. Bug fix: the contact form's labels, input text, placeholder text, and submit button were
+       originally set with a dark-background color scheme (ice-toned text and near-white button on
+       near-white backgrounds) despite this section using the light bg-ice background — meaning nearly
+       everything in the form was invisible against its own background. Corrected to the same
+       dark-text-on-light pattern already used correctly on the Book page's form.
+
+  CHANGES — final round:
+    1. Contact section restructured into a two-column layout at desktop (form left, image placeholders
+       right). Root cause of the "blank space" complaint: the form has a natural content width well
+       under the section's full 1080px, so at desktop widths there was a genuinely empty column to the
+       right of it. Two placeholders now fill it, stacked at desktop, side by side under the form on
+       mobile where there's no spare column to begin with.
+    2. Nav divider added (icon | divider | wordmark), matching the exact spec in the locked
+       TCC_Brand_Guidelines_v3.html.
+-->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --charcoal:    #2C2C2A;
+    --charcoal-lt: #383836;
+    --slate-blue:  #2B6CB0;
+    --mid-blue:    #5A8FC4;
+    --powder-blue: #BDD4EA;
+    --amber:       #C4622D;
+    --amber-tint:  rgba(196,98,45,.14);
+    --ice:         #F2F5F9;
+    --gray:        #888780;
+    --white:       #FFFFFF;
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+
+    --max-w: 1080px;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--powder-blue);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg, video { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--mid-blue); outline-offset: 3px; }
+
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  section { padding: 56px 0; }
+
+  .bg-charcoal { background: var(--charcoal); }
+  .bg-ice { background: var(--ice); color: var(--charcoal); }
+  .bg-ice h2, .bg-ice h3 { color: var(--charcoal); }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; color: var(--ice); line-height: 1.12; }
+  h1 { font-size: 40px; margin-bottom: 16px; }
+  h2 { font-size: 26px; margin-bottom: 16px; }
+  h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  p { font-size: 15px; font-weight: 300; }
+  .lede { font-size: 16px; font-weight: 300; max-width: 600px; margin-bottom: 20px; }
+  .eyebrow { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 14px; }
+  .accent { font-style: italic; font-weight: 400; color: var(--mid-blue); white-space: nowrap; }
+  .bg-ice .accent { color: var(--slate-blue); }
+
+  .btn { display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border-radius: 4px; padding: 13px 24px; border: 1px solid transparent; cursor: pointer; transition: background .15s ease, transform .15s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--ice); color: var(--charcoal); }
+  .btn-primary:hover { background: var(--powder-blue); }
+
+  /* ─── Nav ──────────────────────────────────────────── */
+  .site-nav { position: sticky; top: 0; z-index: 50; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
+  .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-divider { width: 1px; height: 26px; background: rgba(189,212,234,.3); flex-shrink: 0; }
+  .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .nav-logo-text { display: flex; flex-direction: column; gap: 1px; }
+  .nav-wordmark { font-family: var(--font-display); font-weight: 500; font-size: 14px; color: var(--ice); line-height: 1; }
+  .nav-tagline { font-size: 7px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+  .nav-links { display: none; gap: 24px; list-style: none; }
+  .nav-links a { font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--ice); text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--mid-blue); }
+  .nav-cta { display: none; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ice); background: var(--slate-blue); border: none; border-radius: 4px; padding: 10px 18px; text-decoration: none; cursor: pointer; transition: background .15s ease; }
+  .nav-cta:hover { background: #245a94; }
+  .nav-toggle { background: none; border: none; color: var(--ice); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-family: var(--font-body); font-weight: 500; cursor: pointer; padding: 6px 4px; }
+  .mobile-menu { display: none; flex-direction: column; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { padding: 14px 20px; font-size: 13px; color: var(--ice); text-decoration: none; border-top: 1px solid rgba(189,212,234,.08); }
+  .mobile-menu a[aria-current="page"] { color: var(--mid-blue); }
+
+  /* ─── Hero ────────────────────────────────────────────── */
+  .hero-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
+  .hero-photo { aspect-ratio: 4/5; background: var(--charcoal-lt); border-radius: 4px; border: 1px solid rgba(189,212,234,.12); }
+
+  /* ─── Occasions ───────────────────────────────────────── */
+  .occasion-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+  .occasion-card { background: var(--white); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; padding: 20px 22px; }
+  .occasion-card h3 { font-size: 18px; color: var(--charcoal); margin-bottom: 8px; }
+  .occasion-card p { font-size: 13px; color: #55534d; line-height: 1.6; }
+
+  /* ─── Photo strip ─────────────────────────────────────── */
+  .photo-strip { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+  .photo-strip .strip-photo { aspect-ratio: 4/3; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; }
+
+  /* ─── Contact form ────────────────────────────────────── */
+  .contact-form { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .contact-layout { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
+  .contact-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .contact-photo { aspect-ratio: 4/3; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; }
+  .field-full { grid-column: 1 / -1; }
+  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--charcoal); margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--charcoal);
+    background: rgba(44,44,42,.04); border: 1px solid rgba(44,44,42,.18); border-radius: 4px;
+    padding: 12px 14px;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--slate-blue); background: var(--white); }
+  .field input::placeholder, .field textarea::placeholder { color: rgba(44,44,42,.4); }
+  .field select { appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%23888780'/></svg>");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 32px;
+  }
+  .field textarea { resize: vertical; min-height: 52px; }
+  .form-submit-btn {
+    width: 100%; background: var(--charcoal); color: var(--ice); border: none; border-radius: 4px;
+    padding: 16px; font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: background .15s ease;
+  }
+  .form-submit-btn:hover { background: var(--charcoal-lt); }
+  .form-note { font-size: 12px; color: var(--gray); margin-top: 14px; }
+  .form-success { margin-top: 8px; max-width: 640px; background: rgba(43,108,176,.08); border: 1px solid rgba(43,108,176,.25); border-radius: 4px; padding: 20px 22px; }
+  .form-success p { font-size: 14px; color: var(--charcoal); }
+  .form-success[hidden] { display: none; }
+
+  /* ─── Footer (matches other pages) ───────────────────── */
+  .site-footer { background: var(--charcoal-lt); padding: 28px 0 0; border-top: 1px solid rgba(189,212,234,.12); }
+  .footer-top { display: grid; grid-template-columns: 1fr; gap: 18px; padding-bottom: 16px; }
+  .footer-form { display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
+  .footer-form label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+  .footer-form-row { display: flex; gap: 8px; }
+  .footer-form input { flex: 1; font-family: var(--font-body); font-size: 13px; padding: 9px 12px; border-radius: 4px; border: 1px solid rgba(189,212,234,.2); background: var(--charcoal); color: var(--ice); }
+  .footer-form button { background: var(--slate-blue); border: none; border-radius: 4px; padding: 0 14px; color: var(--ice); cursor: pointer; }
+  .footer-note { font-size: 10px; color: var(--gray); }
+  .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .footer-col-label { font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .footer-links { list-style: none; display: grid; gap: 6px; }
+  .footer-links a { font-size: 12px; color: var(--powder-blue); text-decoration: none; }
+  .footer-links a:hover { color: var(--ice); }
+  .footer-bottom { border-top: 1px solid rgba(189,212,234,.1); margin-top: 4px; padding: 16px 0 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .footer-bottom span { font-size: 11px; color: var(--gray); }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(189,212,234,.3); color: var(--powder-blue); transition: border-color .15s ease, color .15s ease; }
+  .footer-social a:hover { border-color: var(--ice); color: var(--ice); }
+  .footer-social svg { width: 14px; height: 14px; }
+  .footer-wordmark-band { padding: 4px 0 8px; overflow: hidden; }
+  .footer-wordmark-row { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.5vw, 22px); }
+  .footer-wordmark-text {
+    white-space: nowrap;
+    font-family: var(--font-body); font-weight: 700; text-transform: uppercase;
+    color: var(--ice); letter-spacing: .01em;
+    font-size: clamp(22px, 5.5vw, 76px);
+  }
+  /* Reserved placeholder for a looping GIF logo mark, not a static icon — sized to roughly match the
+     wordmark's height, styled with a visible dashed border so it reads as a real placeholder slot. */
+  .footer-logo-space {
+    flex: 0 0 auto; width: clamp(22px, 5.5vw, 76px); height: clamp(22px, 5.5vw, 76px);
+    border: 1px dashed rgba(189,212,234,.35); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(189,212,234,.45);
+  }
+
+  /* ─── Tablet and up ─────────────────────────────────── */
+  @media (min-width: 768px) {
+    .wrap { padding: 0 40px; }
+    .nav-inner { padding: 16px 40px; }
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-block; }
+    .nav-toggle { display: none; }
+    section { padding: 88px 0; }
+    h1 { font-size: 56px; }
+    h2 { font-size: 44px; }
+    h3 { font-size: 22px; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+
+    .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 48px; }
+    .occasion-grid { grid-template-columns: repeat(3, 1fr); }
+    .photo-strip { grid-template-columns: repeat(3, 1fr); }
+    .contact-layout { grid-template-columns: 1fr 300px; align-items: start; }
+    .contact-photos { grid-template-columns: 1fr; gap: 16px; }
+    .contact-photo { aspect-ratio: 3/4; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="26" cy="26" r="23" stroke="#F2F5F9" stroke-width="1.5"/>
+        <circle cx="26" cy="26" r="15" stroke="#F2F5F9" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle cx="26" cy="26" r="3" fill="#F2F5F9"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(45 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(90 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(135 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(180 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(225 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(270 26 26)"/>
+        <line x1="26" y1="23" x2="26" y2="4" stroke="#F2F5F9" stroke-width="1" transform="rotate(315 26 26)"/>
+        <rect x="44" y="24" width="10" height="4" rx="2" fill="#F2F5F9"/>
+      </svg>
+      <span class="nav-logo-divider" aria-hidden="true"></span>
+      <span class="nav-logo-text">
+        <span class="nav-wordmark">The Craft Collective</span>
+        <span class="nav-tagline">Curated Team Experiences</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="private-celebrations.html" aria-current="page">Private Celebrations</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <a class="nav-cta" href="book.html#details">Book a Session</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="how-it-works.html">How It Works</a>
+    <a href="about.html">About</a>
+    <a href="private-celebrations.html" aria-current="page">Private Celebrations</a>
+    <a href="faq.html">FAQ</a>
+    <a href="book.html#details">Book a Session</a>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<!-- HERO -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Private celebrations</div>
+        <h1>The same hands-on format, <span class="accent">built for your celebration.</span></h1>
+        <p class="lede">Birthdays, bachelor and bachelorette parties, family reunions, anniversaries, holiday gatherings. Any group that wants to actually do something together instead of standing around with a drink in hand.</p>
+        <a href="#details" class="btn btn-primary">Tell us about your celebration</a>
+      </div>
+      <div class="hero-photo" role="img" aria-label="Placeholder photo — group celebrating around a bar station"></div>
+    </div>
+  </div>
+</section>
+
+<!-- OCCASIONS -->
+<section class="bg-ice">
+  <div class="wrap">
+    <div class="eyebrow">Every kind of celebration</div>
+    <h2>Made for the moments <span class="accent">worth celebrating properly.</span></h2>
+
+    <div class="occasion-grid">
+      <div class="occasion-card">
+        <h3>Birthdays</h3>
+        <p>Turn a birthday into something the whole group builds together, not just a round of drinks and a cake.</p>
+      </div>
+      <div class="occasion-card">
+        <h3>Bachelor &amp; Bachelorette Parties</h3>
+        <p>One structured hour that gets the whole group building side by side before the rest of the weekend takes over.</p>
+      </div>
+      <div class="occasion-card">
+        <h3>Family Reunions</h3>
+        <p>Something for every generation in the room to do together, not just the ones who already know how to make a drink.</p>
+      </div>
+      <div class="occasion-card">
+        <h3>Anniversaries &amp; Milestones</h3>
+        <p>Mark the occasion with something the group actually does together, not just a toast.</p>
+      </div>
+      <div class="occasion-card">
+        <h3>Holiday Gatherings</h3>
+        <p>A structured hour that gives a big group something to do together besides stand around the kitchen.</p>
+      </div>
+      <div class="occasion-card">
+        <h3>Something Else</h3>
+        <p>If it's a group and it's worth celebrating, tell us what you have in mind. We'll tell you if it fits.</p>
+      </div>
+    </div>
+
+    <div class="photo-strip">
+      <div class="strip-photo" role="img" aria-label="Placeholder photo — celebration in progress, cocktails being built"></div>
+      <div class="strip-photo" role="img" aria-label="Placeholder photo — group gathered around a bar station"></div>
+      <div class="strip-photo" role="img" aria-label="Placeholder photo — finished cocktail close-up"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS (SHORT) -->
+<section class="bg-charcoal">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Everyone splits into two roles. <span class="accent">Nobody just watches.</span></h2>
+    <p class="lede">Some build the cocktails, some score them, and both roles stay active the whole time. A live leaderboard tracks the standings, and real awards close things out at the end, not a participation ribbon. A facilitator runs the whole thing, brings the equipment, and handles setup and breakdown.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="bg-ice" id="details">
+  <div class="wrap">
+    <div class="eyebrow">Get in touch</div>
+    <h2>Tell us about your celebration.</h2>
+    <p class="lede">Fill in what you know. We'll follow up with ideas, availability, and pricing.</p>
+
+    <div class="contact-layout">
+      <div>
+        <form id="celebrationForm" class="contact-form" novalidate>
+          <div class="field">
+            <label for="cName">Name</label>
+            <input type="text" id="cName" name="name" placeholder="Jane Smith" required>
+          </div>
+          <div class="field">
+            <label for="cEmail">Email</label>
+            <input type="email" id="cEmail" name="email" placeholder="jane@email.com" required>
+          </div>
+
+          <div class="field">
+            <label for="cPhone">Phone Number</label>
+            <input type="tel" id="cPhone" name="phone" placeholder="+1 (202) 000-0000">
+          </div>
+          <div class="field">
+            <label for="cEventType">Event Type</label>
+            <select id="cEventType" name="eventType" required>
+              <option value="" disabled selected>Select...</option>
+              <option>Birthday</option>
+              <option>Bachelor Party</option>
+              <option>Bachelorette Party</option>
+              <option>Family Reunion</option>
+              <option>Anniversary or Milestone</option>
+              <option>Holiday Gathering</option>
+              <option>Other Celebration</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="cDate">Preferred Date</label>
+            <input type="date" id="cDate" name="preferredDate">
+          </div>
+          <div class="field">
+            <label for="cGroupSize">Approximate Group Size</label>
+            <input type="number" id="cGroupSize" name="groupSize" min="1" placeholder="e.g. 15">
+          </div>
+
+          <div class="field field-full">
+            <label for="cMessage">Anything Else We Should Know? (optional)</label>
+            <textarea id="cMessage" name="message" placeholder="Location, timing, anything that would help us plan."></textarea>
+          </div>
+
+          <div class="field-full">
+            <button type="submit" class="form-submit-btn">Submit</button>
+          </div>
+        </form>
+
+        <div class="form-success" id="formSuccess" hidden>
+          <p>Thanks. We've got your details. We'll follow up soon with ideas, availability, and pricing.</p>
+        </div>
+      </div>
+
+      <div class="contact-photos">
+        <div class="contact-photo" role="img" aria-label="Placeholder photo — celebration setup"></div>
+        <div class="contact-photo" role="img" aria-label="Placeholder photo — finished cocktails"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-form">
+        <label for="footerEmail">Submit Inquiry</label>
+        <div class="footer-form-row">
+          <input type="email" id="footerEmail" placeholder="Email">
+          <button type="button" aria-label="Submit">&rarr;</button>
+        </div>
+        <span class="footer-note">Your information is never disclosed to third parties.</span>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <div class="footer-col-label">Main Pages</div>
+          <ul class="footer-links">
+            <li><a href="index.html">Homepage</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-label">Company</div>
+          <ul class="footer-links">
+            <li><a href="how-it-works.html">How It Works</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#leaderboard">Live Leader Board</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-label">Contact</div>
+          <ul class="footer-links">
+            <li><a href="#details">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-wordmark-band">
+      <div class="footer-wordmark-row">
+        <span class="footer-wordmark-text">The Craft Collective</span>
+        <span class="footer-logo-space" aria-hidden="true">GIF</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>The Craft Collective LLC | Washington DC, Maryland, Virginia</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v6h4v-6h2.5l.5-4H12V8a1 1 0 0 1 1-1h2z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="10" x2="7" y2="17"/><circle cx="7" cy="7" r="0.6" fill="currentColor" stroke="none"/><path d="M11 17v-4a2 2 0 0 1 4 0v4"/><line x1="11" y1="10" x2="11" y2="17"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function () {
+    var isOpen = mobileMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ─── Contact form ────────────────────────────────────
+  var celebrationForm = document.getElementById('celebrationForm');
+  var formSuccess = document.getElementById('formSuccess');
+
+  celebrationForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    if (!celebrationForm.checkValidity()) {
+      celebrationForm.reportValidity();
+      return;
+    }
+
+    // Real build: replace this block with a fetch() POST to the Formspree / Netlify Forms
+    // endpoint once one exists — same open item as the Book page's form.
+    // var data = new FormData(celebrationForm);
+    // fetch('YOUR_ENDPOINT_HERE', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+
+    celebrationForm.hidden = true;
+    formSuccess.hidden = false;
+    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+
+</body>
+</html>
