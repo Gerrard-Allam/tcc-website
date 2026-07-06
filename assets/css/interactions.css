@@ -1,0 +1,122 @@
+/* ==========================================================================
+   The Craft Collective — Shared Interaction Layer
+   Referenced by all six pages (index, about, how-it-works, book, faq,
+   private-celebrations). One file, one place to fix or extend.
+
+   Scope: scroll-reveal on existing headings/cards, card hover states,
+   a slow fixed hero-video zoom, nav underline hover.
+
+   Brand-rule compliance: no drop shadows, no gradients, no glows, no
+   third color introduced. Motion only — border-color shifts and
+   transform (translateY / scale), nothing else.
+
+   Accessibility: every effect is wrapped in prefers-reduced-motion:
+   no-preference. Users who've asked for reduced motion get static,
+   fully visible content — no fade-in, no zoom, no hover motion.
+   Reveal states are added by JS at runtime (see interactions.js), so a
+   user with JS disabled or blocked simply sees the normal static page,
+   never hidden content.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---- Scroll reveal ----------------------------------------------------
+     .reveal-init / .is-visible are added and toggled by interactions.js.
+     Nothing in the authored HTML needs to change for this to work. */
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .6s ease, transform .6s ease;
+    will-change: opacity, transform;
+  }
+  .reveal-init.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- Card hover: border brightens, slight lift, no shadow ------------- */
+  .format-card, .format-plan-card, .pkg-card, .who-card, .track-card,
+  .credential-card, .occasion-card, .step-card {
+    transition: border-color .25s ease, transform .25s ease;
+  }
+  .format-card:hover, .format-plan-card:hover, .pkg-card:hover, .who-card:hover,
+  .track-card:hover, .credential-card:hover, .occasion-card:hover, .step-card:hover {
+    border-color: var(--mid-blue, #5A8FC4);
+    transform: translateY(-4px);
+  }
+
+  /* ---- Photo / decorative blocks: gentle scale on hover ----------------
+     Safe to apply now even against placeholder divs — once real <img>
+     tags replace them (object-fit: cover), the effect carries over
+     cleanly as long as the parent keeps overflow:hidden. */
+  .photo-block, .strip-photo, .contact-photo, .tick-block, .faq-photo,
+  .founder-photo, .why-photo, .why-photo-wide, .hero-photo,
+  .full-width-photo, .photo-placeholder-dark {
+    overflow: hidden;
+    transition: transform .4s ease;
+  }
+  .photo-block:hover, .strip-photo:hover, .contact-photo:hover,
+  .tick-block:hover, .faq-photo:hover {
+    transform: scale(1.03);
+  }
+
+  /* ---- Hero video: slow fixed zoom, NOT scroll-linked -------------------
+     Deliberately not parallax. A fixed-duration loop is smoother on
+     lower-end phones and carries no scroll-jank risk. */
+  .hero-media video {
+    animation: heroSlowZoom 22s ease-in-out infinite alternate;
+    transform-origin: center;
+  }
+  @keyframes heroSlowZoom {
+    from { transform: scale(1); }
+    to   { transform: scale(1.06); }
+  }
+
+  /* ---- Nav underline: expands from center on hover ----------------------
+     Applies to the persistent nav only, not the mobile slide-out menu
+     (touch has no hover state, so this never fires there anyway). */
+  .nav-links a {
+    position: relative;
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--mid-blue, #5A8FC4);
+    transition: left .25s ease, right .25s ease;
+  }
+  .nav-links a:hover::after {
+    left: 0;
+    right: 0;
+  }
+
+  /* ---- Accent clause: slight delayed emphasis on reveal -----------------
+     Only fires the first time a heading enters view, alongside the
+     heading's own reveal — not a separate scroll trigger, just a
+     staggered opacity within the same transition so the italic clause
+     settles in a beat after the leading text. */
+  h1 .accent, h2 .accent {
+    display: inline-block;
+    transition: opacity .5s ease .15s;
+  }
+  .reveal-init h1 .accent, .reveal-init h2 .accent {
+    opacity: 0;
+  }
+  .reveal-init.is-visible h1 .accent, .reveal-init.is-visible h2 .accent {
+    opacity: 1;
+  }
+}
+
+/* ---- Reduced motion: everything static and fully visible ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init, .reveal-init h1 .accent, .reveal-init h2 .accent {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-media video {
+    animation: none !important;
+  }
+}
