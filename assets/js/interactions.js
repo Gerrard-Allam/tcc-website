@@ -59,3 +59,26 @@
     observer.observe(el);
   });
 })();
+
+/* ==========================================================================
+   Hero video — reduced-motion handling.
+   Only present on the homepage (#heroVideo); no-ops everywhere else.
+   Autoplaying video ignores CSS prefers-reduced-motion entirely, so this
+   has to be handled in JS: pause the loop and fall back to the poster
+   frame (already set as the video's poster attribute in the HTML) for
+   anyone who has that preference set.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var heroVideo = document.getElementById("heroVideo");
+  if (!heroVideo) return; // Not on this page.
+
+  var prefersReducedMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReducedMotion) {
+    heroVideo.pause();
+    heroVideo.removeAttribute("autoplay");
+  }
+})();
