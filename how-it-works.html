@@ -272,10 +272,12 @@
 
   /* ─── Intro (THE FORMAT) ─────────────────────────────── */
   .intro-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
-  .intro-photo { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; border: 1px solid rgba(189,212,234,.12); }
+  .intro-photo { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; border: 1px solid rgba(189,212,234,.12); overflow: hidden; }
+  .intro-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .format-ticker { display: flex; gap: 10px; overflow: hidden; margin: 32px 0 8px; }
-  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; }
+  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; overflow: hidden; }
+  .format-ticker .tick-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .format-ticker .tick-block.wide { flex: 1.8 1 0; aspect-ratio: 4/3; }
   .format-ticker .tick-block.cut { flex: 0 0 36px; min-width: 36px; }
 
@@ -304,7 +306,8 @@
      sitewide nowrap rule. Desktop keeps the standard nowrap behavior below, inside the 768px query. */
   .stages-accent-wrap { white-space: normal; }
   .stage-photos { display: grid; grid-template-columns: 1.75fr 1fr; gap: 16px; margin: 28px 0 8px; height: 180px; }
-  .stage-photo { background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; height: 100%; }
+  .stage-photo { background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; height: 100%; overflow: hidden; }
+  .stage-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .ros-label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin: 32px 0 12px; }
 
   .ros-table { display: grid; gap: 12px; }
@@ -340,7 +343,8 @@
   .material-caption { font-size: 13px; color: var(--powder-blue); margin-bottom: 16px; }
   .material-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .material-row.single { grid-template-columns: 1fr; }
-  .material-item { aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; }
+  .material-item { aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; overflow: hidden; }
+  .material-item img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .material-item.landscape { aspect-ratio: 4/3; }
   .material-item.wide { aspect-ratio: 16/9; }
   .material-item.round1 { border-top: 3px solid var(--slate-blue); }
@@ -381,11 +385,9 @@
      wordmark's height, styled with a visible dashed border so it reads as a real placeholder slot. */
   .footer-logo-space {
     flex: 0 0 auto; width: clamp(22px, 5.5vw, 76px); height: clamp(22px, 5.5vw, 76px);
-    border: 1px dashed rgba(189,212,234,.35); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-body); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
-    color: rgba(189,212,234,.45);
+    border-radius: 50%; overflow: hidden;
   }
+  .footer-logo-space img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ─── Tablet and up ─────────────────────────────────── */
   @media (min-width: 768px) {
@@ -472,14 +474,14 @@
         <h2>Everything handled. <span class="accent">You just show up.</span></h2>
         <p class="lede">Here's exactly what happens from booking to wrap-up, and why every detail is deliberate.</p>
       </div>
-      <div class="intro-photo" role="img" aria-label="Placeholder photo — cocktail detail"></div>
+      <div class="intro-photo"><img src="assets/images/intro-photo.jpg" alt="Old fashioned cocktail with branded ice cube and citrus garnish" loading="lazy"></div>
     </div>
     <div class="format-ticker">
-      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block wide" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block cut" role="img" aria-label="Placeholder photo, partially visible"></div>
+      <div class="tick-block"><img src="assets/images/ticker-3.jpg" alt="Rosemary garnish detail" loading="lazy"></div>
+      <div class="tick-block wide"><img src="assets/images/ticker-2-wide.jpg" alt="Amber cocktail detail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-1.jpg" alt="Mint garnish detail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-4.jpg" alt="Cocktail shaker pour detail" loading="lazy"></div>
+      <div class="tick-block cut"><img src="assets/images/ticker-5-cut.jpg" alt="Cocktail garnish detail" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -564,8 +566,9 @@
     <p class="lede">The format is back-loaded by design. Makers work in pods of two, with up to two pods per station and up to three stations running side by side. Each round raises the stakes. By Round 3, anyone can win.</p>
 
     <div class="stage-photos">
-      <div class="stage-photo" role="img" aria-label="Placeholder photo — cocktail garnish detail"></div>
-      <div class="stage-photo" role="img" aria-label="Placeholder photo — facilitator pouring"></div>
+      <!-- stage-photo-2: Getty-licensed via Unsplash+ per filename — confirm usage rights before live. -->
+      <div class="stage-photo"><img src="assets/images/stage-photo-1.jpg" alt="Cocktail being garnished with mint" loading="lazy"></div>
+      <div class="stage-photo"><img src="assets/images/stage-photo-2.jpg" alt="Bartender pouring an espresso martini" loading="lazy"></div>
     </div>
 
     <div class="ros-label">The Collective Cup run of show</div>
@@ -645,8 +648,9 @@
       <h3>Maker Recipe Card</h3>
       <p class="material-caption">One per pod. Cocktail build on the front, mocktail build on the back.</p>
       <div class="material-row">
-        <div class="material-item landscape" role="img" aria-label="Placeholder — Maker Recipe Card, cocktail side"></div>
-        <div class="material-item landscape" role="img" aria-label="Placeholder — Maker Recipe Card, mocktail side"></div>
+        <!-- Template placeholders — Gerrard to swap for finalized recipe content in future session -->
+        <div class="material-item landscape"><img src="assets/images/recipe-cocktail.jpg" alt="Maker Recipe Card, cocktail side" loading="lazy"></div>
+        <div class="material-item landscape"><img src="assets/images/recipe-mocktail.jpg" alt="Maker Recipe Card, mocktail side" loading="lazy"></div>
       </div>
     </div>
 
@@ -654,9 +658,9 @@
       <h3>Judges Score Cards</h3>
       <p class="material-caption">One per round. Handed to each judge pair, collected by the facilitator at the end.</p>
       <div class="material-row cols-3">
-        <div class="material-item round1" role="img" aria-label="Placeholder — Judges Score Card, Round 1"></div>
-        <div class="material-item round2" role="img" aria-label="Placeholder — Judges Score Card, Round 2"></div>
-        <div class="material-item round3" role="img" aria-label="Placeholder — Judges Score Card, Round 3"></div>
+        <div class="material-item round1"><img src="assets/images/score-round1.jpg" alt="Judges Score Card, Round 1, The Classic" loading="lazy"></div>
+        <div class="material-item round2"><img src="assets/images/score-round2.jpg" alt="Judges Score Card, Round 2, The Twist" loading="lazy"></div>
+        <div class="material-item round3"><img src="assets/images/score-round3.jpg" alt="Judges Score Card, Round 3, The Signature" loading="lazy"></div>
       </div>
     </div>
 
@@ -664,16 +668,18 @@
       <h3>Champion Certificates</h3>
       <p class="material-caption">Awarded to the winning pod and to the winning judges, signed by the facilitator on the spot.</p>
       <div class="material-row">
-        <div class="material-item landscape" role="img" aria-label="Placeholder — Champion Certificate, light version"></div>
-        <div class="material-item landscape" role="img" aria-label="Placeholder — Champion Certificate, dark version"></div>
+        <!-- Template placeholders — Gerrard to swap for finalized certificate design in future session.
+             Note: source template has a typo, "FACILIATATOR" should read "FACILITATOR" — fix on replacement. -->
+        <div class="material-item landscape"><img src="assets/images/certificate-light.jpg" alt="Champion Certificate, light version" loading="lazy"></div>
+        <div class="material-item landscape"><img src="assets/images/certificate-dark.jpg" alt="Champion Certificate, dark version" loading="lazy"></div>
       </div>
     </div>
 
     <div class="material-block">
       <h3>Live Leaderboard</h3>
-      <p class="material-caption">Displayed in the room, updated round by round as scores come in. Placeholder for a looping GIF.</p>
+      <p class="material-caption">Displayed in the room, updated round by round as scores come in.</p>
       <div class="material-row single">
-        <div class="material-item wide" role="img" aria-label="Placeholder — Live Leaderboard, looping GIF"></div>
+        <div class="material-item wide"><img src="assets/images/leaderboard.gif" alt="Live leaderboard tool in use, showing scores updating" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -727,7 +733,7 @@
     <div class="footer-wordmark-band">
       <div class="footer-wordmark-row">
         <span class="footer-wordmark-text">The Craft Collective</span>
-        <span class="footer-logo-space" aria-hidden="true">GIF</span>
+        <span class="footer-logo-space" aria-hidden="true"><img src="assets/images/logo-mark.gif" alt="" loading="lazy"></span>
       </div>
     </div>
     <div class="footer-bottom">

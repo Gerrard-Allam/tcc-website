@@ -225,13 +225,17 @@
 
   /* ─── Photo strip / offset collage ─────────────────── */
   .photo-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0 32px; }
-  .photo-block { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; }
+  .photo-block { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; overflow: hidden; }
+  .photo-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .offset-collage { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: stretch; margin: 28px 0 8px; height: 340px; }
-  .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; }
-  .offset-collage .img-b { background: var(--charcoal-lt); border-radius: 4px; height: 100%; border: 1px solid rgba(189,212,234,.12); }
+  .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; overflow: hidden; }
+  .offset-collage .img-a img, .offset-collage .img-b img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .offset-collage .img-b { background: var(--charcoal-lt); border-radius: 4px; height: 100%; border: 1px solid rgba(189,212,234,.12); overflow: hidden; }
 
-  .full-width-photo { width: 100%; aspect-ratio: 19/10; background: var(--charcoal-lt); border-radius: 4px; margin-top: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray); text-align: center; }
+  .full-width-photo { width: 100%; aspect-ratio: 19/10; background: var(--charcoal-lt); border-radius: 4px; margin-top: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray); text-align: center; overflow: hidden; }
+  .full-width-photo.photo-fill { background: none; }
+  .full-width-photo.photo-fill img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ─── Comparison grid ──────────────────────────────── */
   .compare-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
@@ -259,14 +263,19 @@
 
   /* ─── Format image ticker (v7, edit #5) ─────────────── */
   .format-ticker { display: flex; gap: 10px; overflow: hidden; margin: 28px 0 8px; }
-  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; }
+  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; overflow: hidden; }
+  .format-ticker .tick-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .format-ticker .tick-block.wide { flex: 1.8 1 0; aspect-ratio: 4/3; }
   .format-ticker .tick-block.cut { flex: 0 0 36px; min-width: 36px; }
 
   /* ─── Why book ─────────────────────────────────────── */
   .why-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
   .why-photo { aspect-ratio: 4/5; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(44,44,42,.5); text-align: center; padding: 16px; }
+  .why-photo.photo-fill { background: none; border: none; display: block; padding: 0; overflow: hidden; }
+  .why-photo.photo-fill img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .photo-placeholder-dark { aspect-ratio: 4/5; background: rgba(189,212,234,.08); border: 1px solid rgba(189,212,234,.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--gray); text-align: center; padding: 16px; }
+  .photo-fill { aspect-ratio: 4/5; border-radius: 4px; overflow: hidden; }
+  .photo-fill img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .why-list { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
   .why-list li { font-size: 13px; line-height: 1.55; }
   .why-list strong { color: var(--charcoal); }
@@ -298,11 +307,12 @@
   }
   .amber-moment .photo-bg {
     position: absolute; inset: 0;
-    background: repeating-linear-gradient(135deg, #3a2418, #3a2418 12px, #472c1c 12px, #472c1c 24px);
+    background-image: url('assets/images/full-bleed-photo.jpg');
+    background-size: cover; background-position: center;
   }
   .amber-moment .photo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(196,98,45,.55), rgba(196,98,45,.72)); }
   .amber-moment .wrap { position: relative; z-index: 1; }
-  .amber-moment h2 { text-transform: uppercase; font-family: var(--font-display); font-size: 26px; letter-spacing: .02em; color: var(--ice); max-width: 480px; margin: 0 auto; }
+  .amber-moment h2 { text-transform: uppercase; font-family: var(--font-body); font-weight: 700; font-size: 26px; letter-spacing: .02em; color: var(--ice); max-width: 480px; margin: 0 auto; }
   .amber-moment .swap-note { position: relative; z-index: 1; margin-top: 16px; font-size: 11px; color: rgba(242,245,249,.75); }
 
   /* ─── Who books (rules #9, #10) ─────────────────────── */
@@ -348,11 +358,9 @@
      wordmark's height, styled with a visible dashed border so it reads as a real placeholder slot. */
   .footer-logo-space {
     flex: 0 0 auto; width: clamp(22px, 5.5vw, 76px); height: clamp(22px, 5.5vw, 76px);
-    border: 1px dashed rgba(189,212,234,.35); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-body); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
-    color: rgba(189,212,234,.45);
+    border-radius: 50%; overflow: hidden;
   }
+  .footer-logo-space img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ─── Tablet and up ─────────────────────────────────── */
   @media (min-width: 768px) {
@@ -437,14 +445,9 @@
 <!-- HERO -->
 <header class="hero">
   <div class="hero-media">
-    <!--
-      Real build: replace the placeholder div below with —
-      <video autoplay muted loop playsinline poster="/assets/hero-poster.jpg">
-        <source src="/assets/hero-loop.mp4" type="video/mp4">
-      </video>
-      Respect prefers-reduced-motion by pausing/removing autoplay for that media query in JS.
-    -->
-    <div class="placeholder-note"><span>Hero video placeholder — looping cocktail footage drops in here</span></div>
+    <video id="heroVideo" autoplay muted loop playsinline poster="assets/images/hero-poster.jpg">
+      <source src="assets/images/hero-loop.mp4" type="video/mp4">
+    </video>
   </div>
   <div class="hero-content">
     <div class="wrap">
@@ -467,7 +470,9 @@
         <h2>A team building experience <span class="accent">where everyone's involved.</span></h2>
         <p class="lede">The Craft Collective is a hands-on team building experience. Your team splits into Makers, who build cocktails, and Judges, who score them, with a live leaderboard tracking the standings until the final round decides the&nbsp;winner.</p>
       </div>
-      <div class="photo-placeholder-dark" role="img" aria-label="Placeholder photo">Photo placeholder — team at a bar station</div>
+      <div class="photo-fill">
+        <img src="assets/images/what-it-is-photo.jpg" alt="Team members garnishing cocktails together and laughing" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -478,11 +483,11 @@
     <div class="eyebrow">The format</div>
     <h2>Everything handled. <span class="accent">You just show up.</span></h2>
     <div class="format-ticker">
-      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block wide" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="tick-block cut" role="img" aria-label="Placeholder photo, partially visible"></div>
+      <div class="tick-block"><img src="assets/images/ticker-1.jpg" alt="Mint garnish detail" loading="lazy"></div>
+      <div class="tick-block wide"><img src="assets/images/ticker-2-wide.jpg" alt="Amber cocktail detail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-3.jpg" alt="Rosemary garnish detail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-4.jpg" alt="Cocktail shaker pour detail" loading="lazy"></div>
+      <div class="tick-block cut"><img src="assets/images/ticker-5-cut.jpg" alt="Cocktail garnish detail" loading="lazy"></div>
     </div>
     <p class="pkg-addons-note" style="text-align:left; margin-top:32px; margin-bottom:12px;">Shown here: The Collective Cup, our flagship, 1 of 4 formats.</p>
     <div class="format-scroller">
@@ -525,7 +530,9 @@
         <p class="lede">Gerrard Allam is a professionally trained bartender and licensed urban planner with over a decade behind the bar, and just as long facilitating public workshops and community events. The Craft Collective is where those two careers meet.</p>
         <a href="about.html" class="btn btn-outline">Read The Craft Collective's story</a>
       </div>
-      <div class="photo-placeholder-dark" role="img" aria-label="Placeholder photo">Photo placeholder — founder portrait</div>
+      <div class="photo-fill">
+        <img src="assets/images/bio-photo-worldclass.jpg" alt="Gerrard Allam competing at the World Class bartending competition" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -543,7 +550,10 @@
           <li><strong>No surprises:</strong> one price, no hidden fees, no last-minute add-ons</li>
         </ul>
       </div>
-      <div class="why-photo" role="img" aria-label="Placeholder photo">Photo placeholder — team at a bar station</div>
+      <div class="why-photo photo-fill">
+        <!-- Real event photo, consent confirmed by Gerrard (v25 session) -->
+        <img src="assets/images/why-book-photo.jpg" alt="Gerrard Allam facilitating a team building session at a bar station" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -554,9 +564,12 @@
     <div class="eyebrow">What makes it different</div>
     <h2>Not a class. Not a workshop. An engaging team building exercise that <span class="accent">creates real energy.</span></h2>
     <div class="photo-strip">
-      <div class="photo-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="photo-block" role="img" aria-label="Placeholder photo"></div>
-      <div class="photo-block" role="img" aria-label="Placeholder photo"></div>
+      <!-- wmd-2: AI-generated, provenance unconfirmed by Gerrard as of this session. Flag for review. -->
+      <!-- wmd-3: same wine-reception stock photo flagged twice this session as an "everyone else" mismatch
+           (no cocktail-making shown) — placed here per Gerrard's explicit direction despite that. -->
+      <div class="photo-block"><img src="assets/images/wmd-1.jpg" alt="Bartender pouring a cocktail into rocks glasses" loading="lazy"></div>
+      <div class="photo-block"><img src="assets/images/wmd-2.jpg" alt="Bartender reviewing a scorecard at a bar" loading="lazy"></div>
+      <div class="photo-block"><img src="assets/images/wmd-3.jpg" alt="Group socializing with wine at an evening event" loading="lazy"></div>
     </div>
     <div class="compare-grid">
       <div class="compare-col them">
@@ -587,8 +600,9 @@
     <p class="lede">All packages include facilitator, equipment, mixers, syrups, bitters, garnishes, ice, score cards, and recipe cards. Spirits provided by your team from a curated list sent 10 days before.</p>
 
     <div class="offset-collage">
-      <div class="img-a" role="img" aria-label="Placeholder photo — wider image"></div>
-      <div class="img-b" role="img" aria-label="Placeholder photo — offset smaller image"></div>
+      <!-- img-a: real photo, consent confirmed by Gerrard (v25 session) -->
+      <div class="img-a"><img src="assets/images/pkg-collage-a.jpg" alt="Team laughing together during a cocktail session" loading="lazy"></div>
+      <div class="img-b"><img src="assets/images/pkg-collage-b.jpg" alt="Bartenders shaking a cocktail behind the bar" loading="lazy"></div>
     </div>
 
     <div class="pkg-grid">
@@ -625,11 +639,9 @@
 
 <!-- FULL-BLEED AMBER MOMENT -->
 <div class="amber-moment">
-  <!-- Real build: replace .photo-bg below with a real full-bleed photo, amber-toned or colour-graded. -->
   <div class="photo-bg"></div>
   <div class="wrap">
     <h2>Unlock your team's potential</h2>
-    <div class="swap-note">Photo placeholder — full-bleed image with amber tone drops in here</div>
   </div>
 </div>
 
@@ -652,7 +664,9 @@
         <p>Give clients something memorable, and a real reason to follow up after.</p>
       </div>
     </div>
-    <div class="full-width-photo" role="img" aria-label="Placeholder photo">Photo placeholder — full width, matching card row above</div>
+    <div class="full-width-photo photo-fill">
+      <img src="assets/images/who-books-photo.jpg" alt="Three colorful craft cocktails on a bar" loading="lazy">
+    </div>
   </div>
 </section>
 
@@ -704,7 +718,7 @@
     <div class="footer-wordmark-band">
       <div class="footer-wordmark-row">
         <span class="footer-wordmark-text">The Craft Collective</span>
-        <span class="footer-logo-space" aria-hidden="true">GIF</span>
+        <span class="footer-logo-space" aria-hidden="true"><img src="assets/images/logo-mark.gif" alt="" loading="lazy"></span>
       </div>
     </div>
     <div class="footer-bottom">
