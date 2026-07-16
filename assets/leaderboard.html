@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Leaderboard — The Craft Collective</title>
+<meta name="robots" content="noindex">
+</head>
+<body>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#1B1B19;min-height:100%;width:100%;}
+.wrap{font-family:'DM Sans',sans-serif;background:#1B1B19;padding:24px;border-radius:10px;display:grid;grid-template-columns:7fr 3fr;gap:20px;align-items:stretch;min-height:100vh;width:100%;}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;}.side-col{position:static;max-height:none;}}
+
+.main-col{min-width:0;display:flex;flex-direction:column;}
+.side-col{min-width:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+
+/* LEADERBOARD */
+.lb{background:#2C2C2A;border-radius:8px;overflow:hidden;flex:1;display:flex;flex-direction:column;}
+.lb-header{padding:18px 24px 0;}
+.lb-header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-text h1{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:#F2F5F9;}
+.brand-text p{font-size:9px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#C4622D;margin-top:3px;}
+.round-pills{display:flex;gap:6px;}
+.pill{font-size:10px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid #5A8FC4;color:#BDD4EA;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;transition:all 0.15s;}
+.pill.active{background:#2B6CB0;border-color:#2B6CB0;color:#F2F5F9;}
+.amber-bar{height:2px;background:#C4622D;margin:14px 0 0;}
+.lb-body{padding:16px 24px;flex:1;display:flex;flex-direction:column;}
+.meta-row{display:flex;justify-content:space-between;margin-bottom:14px;}
+.meta-row .ev{font-size:11px;color:#BDD4EA;font-weight:300;}
+.meta-row .mx{font-size:10px;color:#5A8FC4;}
+.lb-table{width:100%;border-collapse:collapse;}
+.lb-table th{font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5A8FC4;padding:6px 10px;border-bottom:1px solid #3a3a38;text-align:left;}
+.lb-table td{padding:0;border-bottom:0.5px solid #383836;}
+.pod-row{display:flex;align-items:center;padding:10px;gap:10px;cursor:pointer;transition:background 0.15s;}
+.pod-row:hover{background:rgba(91,143,196,0.08);}
+.rank{font-size:22px;font-weight:500;font-family:'Cormorant Garamond',serif;color:#F2F5F9;width:32px;text-align:center;flex-shrink:0;}
+.rank.r1{color:#C4622D;} .rank.r2{color:#BDD4EA;} .rank.r3{color:#5A8FC4;}
+.pod-info{flex:1;min-width:0;}
+.pod-name{font-size:14px;font-weight:500;color:#F2F5F9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pod-members{font-size:10px;color:#888780;font-weight:300;margin-top:1px;}
+.score-col{width:64px;text-align:center;flex-shrink:0;}
+.score-val{font-size:18px;font-weight:500;font-family:'Cormorant Garamond',serif;color:#F2F5F9;}
+.score-val.leading{color:#C4622D;}
+.score-delta{font-size:9px;color:#5A8FC4;margin-top:1px;}
+.bar-col{flex:1;min-width:60px;padding:0 8px;}
+.bar-track{height:4px;background:#383836;border-radius:2px;}
+.bar-fill{height:4px;border-radius:2px;background:#2B6CB0;transition:width 0.4s;}
+.bar-fill.r1{background:#C4622D;}
+.round-scores{display:flex;gap:6px;flex-shrink:0;}
+.rscore{font-size:10px;color:#BDD4EA;background:#383836;padding:2px 7px;border-radius:3px;}
+.rscore.active-r{background:#2B6CB0;color:#F2F5F9;}
+.controls{background:#2C2C2A;border-top:1px solid #383836;padding:14px 24px;}
+.controls-title{font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5A8FC4;margin-bottom:10px;}
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ctrl-card{background:#383836;border-radius:6px;padding:10px 12px;}
+.ctrl-label{font-size:9px;color:#888780;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.ctrl-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.ctrl-row label{font-size:10px;color:#BDD4EA;min-width:28px;}
+.ctrl-row input[type=number]{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:11px;padding:3px 6px;border-radius:3px;width:52px;font-family:'DM Sans',sans-serif;text-align:center;}
+.ctrl-row input[type=text]{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 6px;border-radius:3px;flex:1;font-family:'DM Sans',sans-serif;}
+.ctrl-row select{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 6px;border-radius:3px;flex:1;font-family:'DM Sans',sans-serif;}
+.btn-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.btn{font-size:10px;font-weight:500;font-family:'DM Sans',sans-serif;padding:5px 12px;border-radius:4px;border:none;cursor:pointer;transition:opacity 0.15s;}
+.btn-primary{background:#2B6CB0;color:#F2F5F9;}
+.btn-amber{background:#C4622D;color:#F2F5F9;}
+.btn-ghost{background:#383836;color:#BDD4EA;}
+.btn:hover{opacity:0.85;}
+.empty-state{text-align:center;padding:40px 20px;color:#5A8FC4;font-size:13px;}
+
+/* STATION RULES — dark side panel */
+.rules{background:#242422;border:1px solid #383836;border-radius:8px;padding:22px 22px;display:flex;flex-direction:column;}
+.rules-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.rules-brand-text h3{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;color:#F2F5F9;}
+.rules-brand-text p{font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#C4622D;margin-top:2px;}
+.rules-amber-rule{height:1.5px;background:#C4622D;margin-bottom:16px;}
+.rules-section-label{font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#5A8FC4;margin-bottom:9px;margin-top:18px;}
+.rules-section-label:first-of-type{margin-top:0;}
+.scoring-grid{display:grid;grid-template-columns:1fr 28px 32px;gap:5px 8px;align-items:center;}
+.sg-crit{font-size:11.5px;color:#F2F5F9;}
+.sg-mult{font-size:11.5px;color:#5A8FC4;font-weight:500;text-align:right;}
+.sg-max{font-size:11.5px;color:#888780;text-align:right;}
+.sg-header{font-size:9.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#888780;border-bottom:0.5px solid #383836;padding-bottom:4px;margin-bottom:4px;}
+.rules-total{font-size:12.5px;font-weight:500;color:#F2F5F9;border-top:0.5px solid #383836;padding-top:8px;margin-top:8px;display:flex;justify-content:space-between;}
+.scale-row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.scale-pip{font-size:11px;color:#BDD4EA;background:#383836;padding:3px 8px;border-radius:3px;}
+.rules-list{display:flex;flex-direction:column;gap:10px;}
+.rules-item{display:flex;gap:9px;align-items:flex-start;}
+.rules-dot{width:5px;height:5px;border-radius:50%;background:#2B6CB0;flex-shrink:0;margin-top:6px;}
+.rules-dot.amber{background:#C4622D;}
+.rules-text{font-size:12px;color:#BDD4EA;line-height:1.55;}
+.rules-awards{background:#1B1B19;border:1px solid #383836;border-radius:4px;padding:12px 14px;margin-top:18px;}
+.rules-awards-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C4622D;margin-bottom:5px;}
+.rules-awards-text{font-size:12px;color:#F2F5F9;line-height:1.55;font-weight:300;}
+</style>
+
+<div class="wrap">
+
+  <div class="main-col">
+    <div class="lb">
+      <div class="lb-header">
+        <div class="lb-header-top">
+          <div class="brand">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="16" stroke="#5A8FC4" stroke-width="1.5"/>
+              <circle cx="18" cy="18" r="9" stroke="#5A8FC4" stroke-width="1" stroke-dasharray="3 2.5"/>
+              <circle cx="18" cy="18" r="2.2" fill="#5A8FC4"/>
+              <line x1="18" y1="15.8" x2="18" y2="3" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="18" y1="20.2" x2="18" y2="33" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="15.8" y1="18" x2="3" y2="18" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="20.2" y1="18" x2="33" y2="18" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="17" y1="17" x2="9" y2="9" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="19" y1="19" x2="27" y2="27" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="19" y1="17" x2="27" y2="9" stroke="#5A8FC4" stroke-width="1"/>
+              <line x1="17" y1="19" x2="9" y2="27" stroke="#5A8FC4" stroke-width="1"/>
+              <rect x="32" y="16.5" width="4" height="3" rx="0.5" fill="#5A8FC4"/>
+            </svg>
+            <div class="brand-text">
+              <h1>The Craft Collective</h1>
+              <p>Curated Team Experiences</p>
+            </div>
+          </div>
+          <div class="round-pills" id="roundPills2"></div>
+        </div>
+        <div class="amber-bar"></div>
+      </div>
+      <div class="lb-body">
+        <div class="meta-row">
+          <span class="ev" id="eventLabel2">The Collective Cup &nbsp;·&nbsp; Live Standings</span>
+          <span class="mx" id="scoreMax2">Round 1 max 100 pts</span>
+        </div>
+        <table class="lb-table">
+          <thead><tr><th style="width:44px;">#</th><th>Pod</th><th style="width:72px;text-align:center;">Score</th><th style="width:100px;">Progress</th><th style="width:100px;">Rounds</th></tr></thead>
+          <tbody id="lbBody2"></tbody>
+        </table>
+      </div>
+      <div class="controls">
+        <div class="controls-title">Facilitator controls</div>
+        <div class="controls-grid">
+          <div class="ctrl-card">
+            <div class="ctrl-label">Add pod</div>
+            <div class="ctrl-row"><label>Name</label><input type="text" id="podName2" placeholder="The Negroni Nights" style="width:100%;"></div>
+            <div class="ctrl-row"><label>Team</label><input type="text" id="podMembers2" placeholder="Alex, Jordan, Sam"></div>
+            <div class="btn-row"><button class="btn btn-primary" onclick="addPod2()">Add pod</button><button class="btn btn-ghost" onclick="document.getElementById('podName2').value='';document.getElementById('podMembers2').value='';">Clear</button></div>
+          </div>
+          <div class="ctrl-card">
+            <div class="ctrl-label">Enter scores</div>
+            <div class="ctrl-row"><label>Pod</label><select id="scorePod2"></select></div>
+            <div class="ctrl-row"><label>R1</label><input type="number" id="s21" min="0" max="100" placeholder="—"></div>
+            <div class="ctrl-row"><label>R2</label><input type="number" id="s22" min="0" max="100" placeholder="—"></div>
+            <div class="ctrl-row"><label>R3</label><input type="number" id="s23" min="0" max="110" placeholder="—"></div>
+            <div class="btn-row"><button class="btn btn-amber" onclick="saveScores2()">Save scores</button><button class="btn btn-ghost" onclick="removePod2()">Remove pod</button></div>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <span style="font-size:9px;color:#5A8FC4;text-transform:uppercase;letter-spacing:0.08em;">Active round:</span>
+          <button class="btn btn-ghost" onclick="setRound2(1)" id="rb21">Round 1</button>
+          <button class="btn btn-ghost" onclick="setRound2(2)" id="rb22">Round 2</button>
+          <button class="btn btn-ghost" onclick="setRound2(3)" id="rb23">Round 3</button>
+          <button class="btn btn-ghost" onclick="setRound2(4)" id="rb24">Final</button>
+          <span style="font-size:9px;color:#5A8FC4;margin-left:8px;text-transform:uppercase;letter-spacing:0.08em;">Event name:</span>
+          <input type="text" id="eventName2" placeholder="The Collective Cup" style="background:#383836;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;width:160px;" oninput="updateLabel2()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="side-col">
+    <div class="rules">
+      <div class="rules-header">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="12" stroke="#2B6CB0" stroke-width="1.5"/>
+          <circle cx="14" cy="14" r="7" stroke="#2B6CB0" stroke-width="1" stroke-dasharray="2.5 2"/>
+          <circle cx="14" cy="14" r="2" fill="#2B6CB0"/>
+          <line x1="14" y1="12" x2="14" y2="3" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="14" y1="16" x2="14" y2="25" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="12" y1="14" x2="3" y2="14" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="16" y1="14" x2="25" y2="14" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="13" y1="13" x2="7" y2="7" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="15" y1="15" x2="21" y2="21" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="15" y1="13" x2="21" y2="7" stroke="#2B6CB0" stroke-width="1"/>
+          <line x1="13" y1="15" x2="7" y2="21" stroke="#2B6CB0" stroke-width="1"/>
+          <rect x="24" y="13" width="4" height="2" rx="0.5" fill="#2B6CB0"/>
+        </svg>
+        <div class="rules-brand-text">
+          <h3>The Craft Collective</h3>
+          <p>Station Rules</p>
+        </div>
+      </div>
+      <div class="rules-amber-rule"></div>
+
+      <div class="rules-section-label">How scoring works</div>
+      <div class="scoring-grid">
+        <span class="sg-header">Criterion</span><span class="sg-header" style="text-align:right;">×</span><span class="sg-header" style="text-align:right;">Max</span>
+        <span class="sg-crit">Enjoyment</span><span class="sg-mult">×5</span><span class="sg-max">25</span>
+        <span class="sg-crit">Made for me</span><span class="sg-mult">×4</span><span class="sg-max">20</span>
+        <span class="sg-crit">Presentation</span><span class="sg-mult">×4</span><span class="sg-max">20</span>
+        <span class="sg-crit">Expression of spirit</span><span class="sg-mult">×2</span><span class="sg-max">10</span>
+        <span class="sg-crit">Balance</span><span class="sg-mult">×3</span><span class="sg-max">15</span>
+        <span class="sg-crit">Cocktail name</span><span class="sg-mult">×2</span><span class="sg-max">10</span>
+        <span class="sg-crit">Technique</span><span class="sg-mult">×1</span><span class="sg-max">5</span>
+      </div>
+      <div class="rules-total"><span>Round total</span><span>100 pts</span></div>
+      <div class="rules-total" style="color:#C4622D;border-top:none;padding-top:2px;"><span>Round 3 + pitch bonus</span><span>110 pts</span></div>
+
+      <div class="rules-section-label">Score scale</div>
+      <div class="scale-row">
+        <span class="scale-pip">1 — missed</span>
+        <span class="scale-pip">2 — needs work</span>
+        <span class="scale-pip">3 — good</span>
+        <span class="scale-pip">4 — really good</span>
+        <span class="scale-pip">5 — order another</span>
+      </div>
+
+      <div class="rules-section-label">The format</div>
+      <div class="rules-list">
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">You are a maker or a judge — check with your facilitator if unsure.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Makers work in pods. Name your pod at the start.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 1: replicate The 101 cocktail with one creative choice.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 2: a surprise ingredient is revealed. It must go in your cocktail.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 3: full creative freedom. Name it, build it, pitch it in 30 seconds.</div></div>
+      </div>
+
+      <div class="rules-section-label">The maker–judge relationship</div>
+      <div class="rules-list">
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Ask your judge what they want before you build.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Read them. Build something for them, not just for the score.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Ask if they want it as a cocktail or mocktail — every time.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Judges: score honestly. The Palate Award goes to the sharpest palate, not the most generous one.</div></div>
+      </div>
+
+      <div class="rules-awards">
+        <div class="rules-awards-label">Two awards tonight</div>
+        <div class="rules-awards-text">The Collective Cup — winning maker pod.<br>The Palate Award — sharpest judge panel.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const ROUND_MAX2=[100,100,110];
+let pods2=[]; let activeRound2=1;
+
+function cumMax2(r){let t=0;for(let i=0;i<Math.min(r,3);i++)t+=ROUND_MAX2[i];return t;}
+function totalScore2(p){return(p.r1||0)+(p.r2||0)+(p.r3||0);}
+
+function renderPills2(){
+  const el=document.getElementById('roundPills2');
+  el.innerHTML=['Round 1','Round 2','Round 3','Final'].map((l,i)=>
+    `<button class="pill${activeRound2===i+1?' active':''}" onclick="setRound2(${i+1})">${l}</button>`).join('');
+}
+
+function setRound2(r){
+  activeRound2=r;renderPills2();
+  const mx=document.getElementById('scoreMax2');
+  if(r<=3)mx.textContent=`Round ${r} max ${ROUND_MAX2[r-1]} pts`;
+  else mx.textContent='Final standings · max 310 pts';
+  ['rb21','rb22','rb23','rb24'].forEach((id,i)=>{
+    const b=document.getElementById(id);
+    b.style.background=activeRound2===i+1?'#2B6CB0':'#383836';
+    b.style.color=activeRound2===i+1?'#F2F5F9':'#BDD4EA';
+  });
+  render2();
+}
+
+function render2(){
+  const tbody=document.getElementById('lbBody2');
+  if(!pods2.length){tbody.innerHTML='<tr><td colspan="5"><div class="empty-state">No pods added yet.</div></td></tr>';return;}
+  const sorted=[...pods2].sort((a,b)=>{
+    const sa=activeRound2===1?(a.r1||0):activeRound2===2?(a.r1||0)+(a.r2||0):totalScore2(a);
+    const sb=activeRound2===1?(b.r1||0):activeRound2===2?(b.r1||0)+(b.r2||0):totalScore2(b);
+    return sb-sa;
+  });
+  const maxP=cumMax2(Math.min(activeRound2,3));
+  const topS=activeRound2===1?(sorted[0]?.r1||0):activeRound2===2?((sorted[0]?.r1||0)+(sorted[0]?.r2||0)):totalScore2(sorted[0]);
+  tbody.innerHTML='';
+  sorted.forEach((p,idx)=>{
+    const ds=activeRound2===1?(p.r1||0):activeRound2===2?((p.r1||0)+(p.r2||0)):totalScore2(p);
+    const pct=maxP>0?Math.round((ds/maxP)*100):0;
+    const gap=idx===0?0:topS-ds;
+    const rc=idx===0?'r1':idx===1?'r2':idx===2?'r3':'';
+    const rs=[
+      p.r1!=null?`<span class="rscore${activeRound2===1?' active-r':''}">${p.r1}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
+      p.r2!=null?`<span class="rscore${activeRound2===2?' active-r':''}">${p.r2}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
+      p.r3!=null?`<span class="rscore${activeRound2===3?' active-r':''}">${p.r3}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
+    ];
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td colspan="5"><div class="pod-row" onclick="selectPod2('${p.id}')">
+      <span class="rank ${rc}">${idx+1}</span>
+      <div class="pod-info"><div class="pod-name">${p.name}</div>${p.members?`<div class="pod-members">${p.members}</div>`:''}</div>
+      <div class="score-col"><div class="score-val${idx===0?' leading':''}">${ds}</div><div class="score-delta">${idx===0?'leading':'−'+gap}</div></div>
+      <div class="bar-col"><div class="bar-track"><div class="bar-fill${idx===0?' r1':''}" style="width:${pct}%"></div></div></div>
+      <div class="round-scores">${rs.join('')}</div>
+    </div></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function addPod2(){
+  const name=document.getElementById('podName2').value.trim();
+  if(!name)return;
+  const members=document.getElementById('podMembers2').value.trim();
+  pods2.push({id:'p'+Date.now(),name,members,r1:null,r2:null,r3:null});
+  document.getElementById('podName2').value='';
+  document.getElementById('podMembers2').value='';
+  updatePodSelect2();render2();
+}
+
+function updatePodSelect2(){
+  document.getElementById('scorePod2').innerHTML=pods2.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+}
+
+function selectPod2(id){
+  const p=pods2.find(x=>x.id===id);if(!p)return;
+  document.getElementById('scorePod2').value=id;
+  document.getElementById('s21').value=p.r1!=null?p.r1:'';
+  document.getElementById('s22').value=p.r2!=null?p.r2:'';
+  document.getElementById('s23').value=p.r3!=null?p.r3:'';
+}
+
+function saveScores2(){
+  const id=document.getElementById('scorePod2').value;
+  const p=pods2.find(x=>x.id===id);if(!p)return;
+  const v1=document.getElementById('s21').value;
+  const v2=document.getElementById('s22').value;
+  const v3=document.getElementById('s23').value;
+  p.r1=v1!==''?Math.min(parseInt(v1)||0,100):null;
+  p.r2=v2!==''?Math.min(parseInt(v2)||0,100):null;
+  p.r3=v3!==''?Math.min(parseInt(v3)||0,110):null;
+  render2();
+}
+
+function removePod2(){
+  const id=document.getElementById('scorePod2').value;
+  pods2=pods2.filter(x=>x.id!==id);
+  updatePodSelect2();
+  ['s21','s22','s23'].forEach(id=>document.getElementById(id).value='');
+  render2();
+}
+
+function updateLabel2(){
+  const name=document.getElementById('eventName2').value.trim()||'The Collective Cup';
+  document.getElementById('eventLabel2').textContent=name+' \u00b7 Live Standings';
+}
+
+setRound2(1);render2();
+</script>
+
+</body>
+</html>
