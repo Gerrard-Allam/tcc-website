@@ -31,7 +31,7 @@
   // page's own h1). Safe to extend this list later without touching HTML.
   var selector = [
     "h1", "h2",
-    ".format-card", ".format-plan-card", ".pkg-card", ".who-card",
+    ".format-plan-card", ".pkg-card", ".who-card",
     ".track-card", ".credential-card", ".occasion-card", ".step-card",
     ".faq-item"
   ].join(", ");
@@ -81,4 +81,54 @@
     heroVideo.pause();
     heroVideo.removeAttribute("autoplay");
   }
+})();
+
+/* ==========================================================================
+   Footer "Submit Inquiry" form — present identically on all six pages.
+   Single shared handler rather than duplicating this in six inline scripts.
+   Feedback is shown inline via the existing .footer-note text (swapped
+   temporarily) since this compact widget has no room for a separate
+   success/error box like the Book/Private Celebrations forms have.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var form = document.getElementById("footerInquiryForm");
+  if (!form) return;
+
+  var note = document.getElementById("footerNote");
+  var noteDefault = note.textContent;
+  var input = document.getElementById("footerEmail");
+  var button = form.querySelector("button[type=submit]");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    button.disabled = true;
+    var data = new FormData(form);
+
+    fetch("https://formspree.io/f/mnjejprk", {
+      method: "POST",
+      body: data,
+      headers: { Accept: "application/json" }
+    }).then(function (response) {
+      button.disabled = false;
+      if (response.ok) {
+        input.value = "";
+        note.textContent = "Thanks — we'll be in touch soon.";
+      } else {
+        note.textContent = "Something went wrong. Please try again.";
+      }
+      setTimeout(function () { note.textContent = noteDefault; }, 6000);
+    }).catch(function () {
+      button.disabled = false;
+      note.textContent = "Something went wrong. Please try again.";
+      setTimeout(function () { note.textContent = noteDefault; }, 6000);
+    });
+  });
 })();
