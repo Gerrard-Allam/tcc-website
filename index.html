@@ -25,7 +25,7 @@
        plan to delete about.html and point everything at a homepage anchor. That earlier plan is
        superseded by this decision.
     4. Added the missing id="how-it-works" to the Format preview section. The hero button and both
-       nav menus have linked to href="#how-it-works" since at least v7 with no matching id anywhere
+       nav menus have linked to href="how-it-works.html" since at least v7 with no matching id anywhere
        on the page — that link has been silently broken until this fix.
     5. Nav "About" (desktop + mobile) and footer "About" link now point directly to
        about.html instead of the never-real "#about" anchor.
@@ -211,14 +211,14 @@
   /* ─── Hero ─────────────────────────────────────────── */
   .hero { position: relative; padding: 0; border-bottom: 1px solid rgba(189,212,234,.12); overflow: hidden; }
   .hero-media { position: relative; height: 72vh; min-height: 480px; max-height: 760px; background: var(--charcoal-lt); }
-  .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% center; }
   .hero-media .placeholder-note {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     text-align: center; font-size: 12px; letter-spacing: .06em; color: var(--powder-blue);
     background: repeating-linear-gradient(135deg, var(--charcoal-lt), var(--charcoal-lt) 10px, #33332f 10px, #33332f 20px);
   }
   .hero-media .placeholder-note span { background: rgba(44,44,42,.7); padding: 8px 16px; border-radius: 4px; border: 1px solid rgba(189,212,234,.2); }
-  .hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(44,44,42,.15) 0%, rgba(44,44,42,.55) 60%, rgba(44,44,42,.9) 100%); }
+  .hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(44,44,42,.08) 0%, rgba(44,44,42,.35) 60%, rgba(44,44,42,.65) 100%); }
   .hero-content { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 32px 0 40px; }
   .hero-brand { font-family: var(--font-display); font-weight: 500; font-size: 40px; color: var(--ice); margin-bottom: 14px; letter-spacing: .005em; line-height: 1.05; }
   .hero h1 { font-size: 26px; max-width: 560px; }
@@ -231,11 +231,13 @@
   .offset-collage { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: stretch; margin: 28px 0 8px; height: 340px; }
   .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; overflow: hidden; }
   .offset-collage .img-a img, .offset-collage .img-b img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .offset-collage .img-b img { object-position: 75% center; }
   .offset-collage .img-b { background: var(--charcoal-lt); border-radius: 4px; height: 100%; border: 1px solid rgba(189,212,234,.12); overflow: hidden; }
 
-  .full-width-photo { width: 100%; aspect-ratio: 19/10; background: var(--charcoal-lt); border-radius: 4px; margin-top: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray); text-align: center; overflow: hidden; }
+  .full-width-photo { width: 100%; aspect-ratio: 1.8/1; background: var(--charcoal-lt); border-radius: 4px; margin-top: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray); text-align: center; overflow: hidden; }
   .full-width-photo.photo-fill { background: none; }
   .full-width-photo.photo-fill img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .full-width-photo.photo-fill picture { display: block; width: 100%; height: 100%; }
 
   /* ─── Comparison grid ──────────────────────────────── */
   .compare-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
@@ -251,6 +253,12 @@
   .compare-col.us .compare-item { color: var(--powder-blue); }
 
   /* ─── Format preview cards (rule #10 variation) ─────── */
+  .format-scroller-wrap { position: relative; }
+  .scroll-fade-hint {
+    position: absolute; top: 0; right: 0; bottom: 8px; width: 40px;
+    background: linear-gradient(90deg, rgba(244,247,250,0), var(--ice) 85%);
+    pointer-events: none;
+  }
   .format-scroller { display: flex; gap: 12px; overflow-x: auto; margin-top: 28px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
   .format-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 4px; padding: 18px 16px; border: 1px solid rgba(44,44,42,.12); border-top: 3px solid var(--slate-blue); }
   .format-card.tint-mid { background: #eef4fa; border-top-color: var(--mid-blue); }
@@ -262,11 +270,17 @@
   .format-card p { font-size: 12px; line-height: 1.55; color: #55534d; }
 
   /* ─── Format image ticker (v7, edit #5) ─────────────── */
-  .format-ticker { display: flex; gap: 10px; overflow: hidden; margin: 28px 0 8px; }
-  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; overflow: hidden; }
+  .ticker-viewport { overflow: hidden; margin: 28px 0 8px; }
+  .format-ticker { display: flex; gap: 10px; width: max-content; animation: ticker-scroll 32s linear infinite; }
+  .ticker-viewport:hover .format-ticker { animation-play-state: paused; }
+  @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .format-ticker .tick-block { flex: 0 0 auto; height: 140px; width: auto; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; overflow: hidden; }
   .format-ticker .tick-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .format-ticker .tick-block.wide { flex: 1.8 1 0; aspect-ratio: 4/3; }
-  .format-ticker .tick-block.cut { flex: 0 0 36px; min-width: 36px; }
+  .format-ticker .tick-block.wide { aspect-ratio: 4/3; }
+  .format-ticker .tick-block.cut { flex: 0 0 36px; width: 36px; aspect-ratio: auto; }
+  @media (prefers-reduced-motion: reduce) {
+    .format-ticker { animation: none; }
+  }
 
   /* ─── Why book ─────────────────────────────────────── */
   .why-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
@@ -302,8 +316,8 @@
   .amber-moment {
     position: relative; text-align: center; background: var(--charcoal-lt); overflow: hidden;
     height: 72vh; min-height: 480px; max-height: 760px;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 32px 0;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    padding: 14vh 0 32px;
   }
   .amber-moment .photo-bg {
     position: absolute; inset: 0;
@@ -364,6 +378,7 @@
 
   /* ─── Tablet and up ─────────────────────────────────── */
   @media (min-width: 768px) {
+    .full-width-photo { aspect-ratio: 14/5; }
     .wrap { padding: 0 40px; }
     .nav-inner { padding: 16px 40px; }
     .nav-links { display: flex; }
@@ -379,7 +394,7 @@
     .compare-grid { grid-template-columns: 1fr 1fr; }
     .format-scroller { overflow: visible; display: grid; grid-template-columns: repeat(5, 1fr); }
     .format-card { flex: none; }
-    .full-width-photo { aspect-ratio: 25/6; }
+    .scroll-fade-hint { display: none; }
     .why-grid { grid-template-columns: 1fr 1fr; }
     .pkg-grid { grid-template-columns: repeat(4, 1fr); }
     .offset-collage { height: 460px; }
@@ -423,7 +438,7 @@
       </span>
     </a>
     <ul class="nav-links">
-      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="private-celebrations.html">Private Celebrations</a></li>
       <li><a href="faq.html">FAQ</a></li>
@@ -432,7 +447,7 @@
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#how-it-works">How It Works</a>
+    <a href="how-it-works.html">How It Works</a>
     <a href="about.html">About</a>
     <a href="private-celebrations.html">Private Celebrations</a>
     <a href="faq.html">FAQ</a>
@@ -471,7 +486,7 @@
         <p class="lede">The Craft Collective is a hands-on team building experience. Your team splits into Makers, who build cocktails, and Judges, who score them, with a live leaderboard tracking the standings until the final round decides the&nbsp;winner.</p>
       </div>
       <div class="photo-fill">
-        <img src="assets/images/what-it-is-photo.jpg" alt="Team members garnishing cocktails together and laughing" loading="lazy">
+        <img src="assets/images/what-it-is-photo.jpg" alt="Team members pouring and sharing a cocktail together" loading="lazy">
       </div>
     </div>
   </div>
@@ -482,14 +497,24 @@
   <div class="wrap">
     <div class="eyebrow">The format</div>
     <h2>Everything handled. <span class="accent">You just show up.</span></h2>
+    <div class="ticker-viewport">
     <div class="format-ticker">
       <div class="tick-block"><img src="assets/images/ticker-1.jpg" alt="Mint garnish detail" loading="lazy"></div>
       <div class="tick-block wide"><img src="assets/images/ticker-2-wide.jpg" alt="Amber cocktail detail" loading="lazy"></div>
       <div class="tick-block"><img src="assets/images/ticker-3.jpg" alt="Rosemary garnish detail" loading="lazy"></div>
       <div class="tick-block"><img src="assets/images/ticker-4.jpg" alt="Cocktail shaker pour detail" loading="lazy"></div>
       <div class="tick-block cut"><img src="assets/images/ticker-5-cut.jpg" alt="Cocktail garnish detail" loading="lazy"></div>
+      <!-- Duplicate set — required for the seamless marquee loop. Keep in sync with the set above;
+           aria-hidden since it's a visual duplicate, not new content for screen readers. -->
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-1.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block wide" aria-hidden="true"><img src="assets/images/ticker-2-wide.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-3.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-4.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block cut" aria-hidden="true"><img src="assets/images/ticker-5-cut.jpg" alt="" loading="lazy"></div>
+    </div>
     </div>
     <p class="pkg-addons-note" style="text-align:left; margin-top:32px; margin-bottom:12px;">Shown here: The Collective Cup, our flagship, 1 of 4 formats.</p>
+    <div class="format-scroller-wrap">
     <div class="format-scroller">
       <div class="format-card">
         <div class="format-tag">Live demo</div>
@@ -517,6 +542,8 @@
         <p>Two awards handed out on the spot, for the winning pod and the sharpest judges.</p>
       </div>
     </div>
+    <div class="scroll-fade-hint" aria-hidden="true"></div>
+    </div>
   </div>
 </section>
 
@@ -527,10 +554,12 @@
       <div>
         <div class="eyebrow">Who's behind it</div>
         <h2>Built by someone who has <span class="accent">done both sides of this.</span></h2>
-        <p class="lede">Gerrard Allam is a professionally trained bartender and licensed urban planner with over a decade behind the bar, and just as long facilitating public workshops and community events. The Craft Collective is where those two careers meet.</p>
+        <p class="lede">Gerrard Allam is a professionally trained bartender and licensed urban planner with over a decade behind the bar, and just as long facilitating public workshops and community events in his professional career as a planner and designer. The Craft Collective is where those two careers meet.</p>
         <a href="about.html" class="btn btn-outline">Read The Craft Collective's story</a>
       </div>
       <div class="photo-fill">
+        <!-- TEMP: AI-generated recreation, used because the original photo of this real event is lost.
+             Depicts a real event but is not an actual photograph of it. Flagged per Gerrard's direction. -->
         <img src="assets/images/bio-photo-worldclass.jpg" alt="Gerrard Allam competing at the World Class bartending competition" loading="lazy">
       </div>
     </div>
@@ -551,8 +580,9 @@
         </ul>
       </div>
       <div class="why-photo photo-fill">
-        <!-- Real event photo, consent confirmed by Gerrard (v25 session) -->
-        <img src="assets/images/why-book-photo.jpg" alt="Gerrard Allam facilitating a team building session at a bar station" loading="lazy">
+        <!-- Stock photo, no consent issue. Swapped from the teaching photo to avoid duplicating
+             the same real-event image used on the About page. -->
+        <img src="assets/images/why-book-photo.jpg" alt="Team members sharing a moment behind the bar" loading="lazy">
       </div>
     </div>
   </div>
@@ -564,7 +594,7 @@
     <div class="eyebrow">What makes it different</div>
     <h2>Not a class. Not a workshop. An engaging team building exercise that <span class="accent">creates real energy.</span></h2>
     <div class="photo-strip">
-      <!-- wmd-2: AI-generated, provenance unconfirmed by Gerrard as of this session. Flag for review. -->
+      <!-- wmd-2: confirmed stock photo by Gerrard, no consent issue. -->
       <!-- wmd-3: same wine-reception stock photo flagged twice this session as an "everyone else" mismatch
            (no cocktail-making shown) — placed here per Gerrard's explicit direction despite that. -->
       <div class="photo-block"><img src="assets/images/wmd-1.jpg" alt="Bartender pouring a cocktail into rocks glasses" loading="lazy"></div>
@@ -665,7 +695,10 @@
       </div>
     </div>
     <div class="full-width-photo photo-fill">
-      <img src="assets/images/who-books-photo.jpg" alt="Three colorful craft cocktails on a bar" loading="lazy">
+      <picture>
+        <source media="(max-width: 767px)" srcset="assets/images/who-books-mobile.jpg">
+        <img src="assets/images/who-books-photo.jpg" alt="Three colorful craft cocktails on a bar" loading="lazy">
+      </picture>
     </div>
   </div>
 </section>
@@ -682,14 +715,15 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-form">
+      <form class="footer-form" id="footerInquiryForm">
         <label for="footerEmail">Submit Inquiry</label>
         <div class="footer-form-row">
-          <input type="email" id="footerEmail" placeholder="Email">
-          <button type="button" aria-label="Submit">&rarr;</button>
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required>
+          <button type="submit" aria-label="Submit">&rarr;</button>
         </div>
-        <span class="footer-note">Your information is never disclosed to third parties.</span>
-      </div>
+        <input type="hidden" name="_subject" value="General inquiry from thecraftcollectivedc.com footer">
+        <span class="footer-note" id="footerNote">Your information is never disclosed to third parties.</span>
+      </form>
       <div class="footer-cols">
         <div>
           <div class="footer-col-label">Main Pages</div>
@@ -702,9 +736,9 @@
         <div>
           <div class="footer-col-label">Company</div>
           <ul class="footer-links">
-            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="how-it-works.html">How It Works</a></li>
             <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#leaderboard">Live Leader Board</a></li>
+            <li><a href="assets/leaderboard.html" target="_blank" rel="noopener">Live Leader Board</a></li>
           </ul>
         </div>
         <div>

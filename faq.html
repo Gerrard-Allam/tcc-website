@@ -451,14 +451,15 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-form">
+      <form class="footer-form" id="footerInquiryForm">
         <label for="footerEmail">Submit Inquiry</label>
         <div class="footer-form-row">
-          <input type="email" id="footerEmail" placeholder="Email">
-          <button type="button" aria-label="Submit">&rarr;</button>
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required>
+          <button type="submit" aria-label="Submit">&rarr;</button>
         </div>
-        <span class="footer-note">Your information is never disclosed to third parties.</span>
-      </div>
+        <input type="hidden" name="_subject" value="General inquiry from thecraftcollectivedc.com footer">
+        <span class="footer-note" id="footerNote">Your information is never disclosed to third parties.</span>
+      </form>
       <div class="footer-cols">
         <div>
           <div class="footer-col-label">Main Pages</div>
@@ -473,7 +474,7 @@
           <ul class="footer-links">
             <li><a href="how-it-works.html">How It Works</a></li>
             <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#leaderboard">Live Leader Board</a></li>
+            <li><a href="assets/leaderboard.html" target="_blank" rel="noopener">Live Leader Board</a></li>
           </ul>
         </div>
         <div>

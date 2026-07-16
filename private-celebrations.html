@@ -179,6 +179,9 @@
   .form-success { margin-top: 8px; max-width: 640px; background: rgba(43,108,176,.08); border: 1px solid rgba(43,108,176,.25); border-radius: 4px; padding: 20px 22px; }
   .form-success p { font-size: 14px; color: var(--charcoal); }
   .form-success[hidden] { display: none; }
+  .form-error { margin-top: 8px; max-width: 640px; background: rgba(196,45,45,.08); border: 1px solid rgba(196,45,45,.3); border-radius: 4px; padding: 20px 22px; }
+  .form-error p { font-size: 14px; color: var(--charcoal); }
+  .form-error[hidden] { display: none; }
 
   /* ─── Footer (matches other pages) ───────────────────── */
   .site-footer { background: var(--charcoal-lt); padding: 28px 0 0; border-top: 1px solid rgba(189,212,234,.12); }
@@ -411,6 +414,10 @@
         <div class="form-success" id="formSuccess" hidden>
           <p>Thanks. We've got your details. We'll follow up soon with ideas, availability, and pricing.</p>
         </div>
+
+        <div class="form-error" id="formError" hidden>
+          <p>Something went wrong sending this — please try again, or email us directly if it keeps happening.</p>
+        </div>
       </div>
 
       <div class="contact-photos">
@@ -424,14 +431,15 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-form">
+      <form class="footer-form" id="footerInquiryForm">
         <label for="footerEmail">Submit Inquiry</label>
         <div class="footer-form-row">
-          <input type="email" id="footerEmail" placeholder="Email">
-          <button type="button" aria-label="Submit">&rarr;</button>
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required>
+          <button type="submit" aria-label="Submit">&rarr;</button>
         </div>
-        <span class="footer-note">Your information is never disclosed to third parties.</span>
-      </div>
+        <input type="hidden" name="_subject" value="General inquiry from thecraftcollectivedc.com footer">
+        <span class="footer-note" id="footerNote">Your information is never disclosed to third parties.</span>
+      </form>
       <div class="footer-cols">
         <div>
           <div class="footer-col-label">Main Pages</div>
@@ -446,7 +454,7 @@
           <ul class="footer-links">
             <li><a href="how-it-works.html">How It Works</a></li>
             <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#leaderboard">Live Leader Board</a></li>
+            <li><a href="assets/leaderboard.html" target="_blank" rel="noopener">Live Leader Board</a></li>
           </ul>
         </div>
         <div>
@@ -497,6 +505,7 @@
   // ─── Contact form ────────────────────────────────────
   var celebrationForm = document.getElementById('celebrationForm');
   var formSuccess = document.getElementById('formSuccess');
+  var formError = document.getElementById('formError');
 
   celebrationForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -506,14 +515,34 @@
       return;
     }
 
-    // Real build: replace this block with a fetch() POST to the Formspree / Netlify Forms
-    // endpoint once one exists — same open item as the Book page's form.
-    // var data = new FormData(celebrationForm);
-    // fetch('YOUR_ENDPOINT_HERE', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+    formError.hidden = true;
+    var submitBtn = celebrationForm.querySelector('.form-submit-btn');
+    var originalBtnText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
-    celebrationForm.hidden = true;
-    formSuccess.hidden = false;
-    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var data = new FormData(celebrationForm);
+    fetch('https://formspree.io/f/mwvgvlzy', {
+      method: 'POST',
+      body: data,
+      headers: { Accept: 'application/json' }
+    }).then(function (response) {
+      if (response.ok) {
+        celebrationForm.hidden = true;
+        formSuccess.hidden = false;
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        formError.hidden = false;
+        formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }).catch(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+      formError.hidden = false;
+      formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
 </script>
 

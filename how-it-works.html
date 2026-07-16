@@ -9,6 +9,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <!--
+  CHANGES — v9 (2026-07-15 session), per Gerrard's direct confirmation:
+    1. Four Formats cards: added a "Price" row back to all four cards, matching the homepage
+       Packages section figures exactly (The Session $94/16, The Collective $80/30, The Collective
+       Cup $67/48, Craft House "Custom, starts at $4,500"). This explicitly reverses the v3 decision
+       ("Pricing is dropped entirely, per Gerrard's confirmation") — flagged to Gerrard as a direct
+       reversal of a previously-confirmed decision before making the change; he confirmed he wants
+       it back. Also removed the now-contradictory closing line "Pricing is included in the proposal
+       once we know your group size and date," since that's no longer true with prices shown directly.
   LINK FIX PASS — no content or layout changes, cross-page references only:
     Homepage references updated to index.html (was v8). About references updated to
     about.html (was v3). Filename version numbers stay as-is for now per direct decision
@@ -495,6 +503,7 @@
     <div class="formats-grid">
       <div class="format-plan-card">
         <div class="format-plan-name">The Session</div>
+        <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $94/person (at 16 guests)</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">10 to 16</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">1 to 2</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Skill building</span></div>
@@ -503,6 +512,7 @@
       </div>
       <div class="format-plan-card">
         <div class="format-plan-name">The Collective</div>
+        <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $80/person (at 30 guests)</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">12 to 30</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">2</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">2 round competition</span></div>
@@ -511,6 +521,7 @@
       </div>
       <div class="format-plan-card featured">
         <div class="format-plan-name">The Collective Cup</div>
+        <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $67/person (at 48 guests)</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">16 to 48</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">3</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">3 round two-track competition</span></div>
@@ -520,6 +531,7 @@
       </div>
       <div class="format-plan-card">
         <div class="format-plan-name">The Craft House</div>
+        <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">Custom, starts at $4,500</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">48 or more</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">Custom</span></div>
         <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Custom</span></div>
@@ -528,7 +540,7 @@
       </div>
     </div>
 
-    <p class="lede" style="margin-top:24px;">The walkthrough below follows The Collective Cup, our flagship three-round format. The Session and The Collective run a shorter version of the same structure. Pricing is included in the proposal once we know your group size and date.</p>
+    <p class="lede" style="margin-top:24px;">The walkthrough below follows The Collective Cup, our flagship three-round format. The Session and The Collective run a shorter version of the same structure.</p>
   </div>
 </section>
 
@@ -697,14 +709,15 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-form">
+      <form class="footer-form" id="footerInquiryForm">
         <label for="footerEmail">Submit Inquiry</label>
         <div class="footer-form-row">
-          <input type="email" id="footerEmail" placeholder="Email">
-          <button type="button" aria-label="Submit">&rarr;</button>
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required>
+          <button type="submit" aria-label="Submit">&rarr;</button>
         </div>
-        <span class="footer-note">Your information is never disclosed to third parties.</span>
-      </div>
+        <input type="hidden" name="_subject" value="General inquiry from thecraftcollectivedc.com footer">
+        <span class="footer-note" id="footerNote">Your information is never disclosed to third parties.</span>
+      </form>
       <div class="footer-cols">
         <div>
           <div class="footer-col-label">Main Pages</div>
@@ -719,7 +732,7 @@
           <ul class="footer-links">
             <li><a href="how-it-works.html" aria-current="page">How It Works</a></li>
             <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#leaderboard">Live Leader Board</a></li>
+            <li><a href="assets/leaderboard.html" target="_blank" rel="noopener">Live Leader Board</a></li>
           </ul>
         </div>
         <div>
