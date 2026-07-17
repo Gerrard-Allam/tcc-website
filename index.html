@@ -211,7 +211,10 @@
   /* ─── Hero ─────────────────────────────────────────── */
   .hero { position: relative; padding: 0; border-bottom: 1px solid rgba(189,212,234,.12); overflow: hidden; }
   .hero-media { position: relative; height: 72vh; min-height: 480px; max-height: 760px; background: var(--charcoal-lt); }
-  .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% center; }
+  .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  /* NOTE (v28): mobile object-position bias (was 30% center) removed here — that value was tuned for the
+     previous hero clip. New source is hero-loop.mp4 (re-encoded from HERO_Image_Rev2.mp4, ~18.5MB near-lossless,
+     desktop framing). Re-evaluate on an actual phone once Gerrard reviews how the new footage sits in frame. */
   .hero-media .placeholder-note {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     text-align: center; font-size: 12px; letter-spacing: .06em; color: var(--powder-blue);
@@ -231,7 +234,11 @@
   .offset-collage { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: stretch; margin: 28px 0 8px; height: 340px; }
   .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; overflow: hidden; }
   .offset-collage .img-a img, .offset-collage .img-b img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .offset-collage .img-b img { object-position: 75% center; }
+  .offset-collage .img-b img { object-position: 60% center; }
+  @media (max-width: 767px) {
+    .offset-collage .img-a img { object-position: 65% center; }
+    .offset-collage .img-b img { object-position: 35% center; }
+  }
   .offset-collage .img-b { background: var(--charcoal-lt); border-radius: 4px; height: 100%; border: 1px solid rgba(189,212,234,.12); overflow: hidden; }
 
   .full-width-photo { width: 100%; aspect-ratio: 1.8/1; background: var(--charcoal-lt); border-radius: 4px; margin-top: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray); text-align: center; overflow: hidden; }
@@ -260,6 +267,7 @@
     pointer-events: none;
   }
   .format-scroller { display: flex; gap: 12px; overflow-x: auto; margin-top: 28px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+  .swipe-hint { font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--slate-blue); text-align: right; margin-top: 6px; }
   .format-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 4px; padding: 18px 16px; border: 1px solid rgba(44,44,42,.12); border-top: 3px solid var(--slate-blue); }
   .format-card.tint-mid { background: #eef4fa; border-top-color: var(--mid-blue); }
   .format-card.tint-amber { background: #fbeee6; border-top-color: var(--amber); }
@@ -271,7 +279,11 @@
 
   /* ─── Format image ticker (v7, edit #5) ─────────────── */
   .ticker-viewport { overflow: hidden; margin: 28px 0 8px; }
-  .format-ticker { display: flex; gap: 10px; width: max-content; animation: ticker-scroll 32s linear infinite; }
+  .format-ticker { display: flex; gap: 10px; width: max-content; animation: ticker-scroll 110s linear infinite; }
+  /* v28: duration scaled up from 32s (5 images) to 110s (17 images) to hold the same per-image pace.
+     The old "resets halfway" complaint was the visible seam of only 5 images repeating twice —
+     the loop itself was already seamless (translateX(-50%) across two identical sets); more images
+     just makes that seam far less perceptible. */
   .ticker-viewport:hover .format-ticker { animation-play-state: paused; }
   @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .format-ticker .tick-block { flex: 0 0 auto; height: 140px; width: auto; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; overflow: hidden; }
@@ -322,7 +334,7 @@
   .amber-moment .photo-bg {
     position: absolute; inset: 0;
     background-image: url('assets/images/full-bleed-photo.jpg');
-    background-size: cover; background-position: center;
+    background-size: cover; background-position: center 30%;
   }
   .amber-moment .photo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(196,98,45,.55), rgba(196,98,45,.72)); }
   .amber-moment .wrap { position: relative; z-index: 1; }
@@ -395,6 +407,7 @@
     .format-scroller { overflow: visible; display: grid; grid-template-columns: repeat(5, 1fr); }
     .format-card { flex: none; }
     .scroll-fade-hint { display: none; }
+    .swipe-hint { display: none; }
     .why-grid { grid-template-columns: 1fr 1fr; }
     .pkg-grid { grid-template-columns: repeat(4, 1fr); }
     .offset-collage { height: 460px; }
@@ -499,18 +512,42 @@
     <h2>Everything handled. <span class="accent">You just show up.</span></h2>
     <div class="ticker-viewport">
     <div class="format-ticker">
-      <div class="tick-block"><img src="assets/images/ticker-1.jpg" alt="Mint garnish detail" loading="lazy"></div>
-      <div class="tick-block wide"><img src="assets/images/ticker-2-wide.jpg" alt="Amber cocktail detail" loading="lazy"></div>
-      <div class="tick-block"><img src="assets/images/ticker-3.jpg" alt="Rosemary garnish detail" loading="lazy"></div>
-      <div class="tick-block"><img src="assets/images/ticker-4.jpg" alt="Cocktail shaker pour detail" loading="lazy"></div>
-      <div class="tick-block cut"><img src="assets/images/ticker-5-cut.jpg" alt="Cocktail garnish detail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-1.jpg" alt="Bartender garnishing a cocktail with a citrus twist" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-2.jpg" alt="Rosemary garnish placed on a cocktail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-3.jpg" alt="Bartender dropping a cherry garnish into a cocktail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-4.jpg" alt="Overhead view of a Negroni with orange peel" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-5.jpg" alt="Whiskey glass with a single large ice cube" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-6.jpg" alt="Pink cocktail with a dried flower garnish" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-7.jpg" alt="Couple toasting cocktails outdoors at night" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-8.jpg" alt="Guest holding a citrus garnished cocktail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-9.jpg" alt="Frothy cocktail on a marble table" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-10.jpg" alt="Smoked cocktail with fresh herb garnish" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-11.jpg" alt="Two martinis being garnished at a bar" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-12.jpg" alt="Negroni and martini on a bar counter" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-13.jpg" alt="Woman drinking a pink cocktail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-14.jpg" alt="Friends toasting cocktails at golden hour" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-15.jpg" alt="Woman laughing while holding a cocktail" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-16.jpg" alt="Bartender pouring a cocktail through a strainer" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/ticker-17.jpg" alt="Bartender pouring a cocktail into a coupe glass" loading="lazy"></div>
       <!-- Duplicate set — required for the seamless marquee loop. Keep in sync with the set above;
            aria-hidden since it's a visual duplicate, not new content for screen readers. -->
       <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-1.jpg" alt="" loading="lazy"></div>
-      <div class="tick-block wide" aria-hidden="true"><img src="assets/images/ticker-2-wide.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-2.jpg" alt="" loading="lazy"></div>
       <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-3.jpg" alt="" loading="lazy"></div>
       <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-4.jpg" alt="" loading="lazy"></div>
-      <div class="tick-block cut" aria-hidden="true"><img src="assets/images/ticker-5-cut.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-5.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-6.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-7.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-8.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-9.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-10.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-11.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-12.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-13.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-14.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-15.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-16.jpg" alt="" loading="lazy"></div>
+      <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-17.jpg" alt="" loading="lazy"></div>
     </div>
     </div>
     <p class="pkg-addons-note" style="text-align:left; margin-top:32px; margin-bottom:12px;">Shown here: The Collective Cup, our flagship, 1 of 4 formats.</p>
@@ -543,6 +580,7 @@
       </div>
     </div>
     <div class="scroll-fade-hint" aria-hidden="true"></div>
+    <div class="swipe-hint" aria-hidden="true">Swipe for more →</div>
     </div>
   </div>
 </section>
@@ -575,7 +613,7 @@
         <h2>Bespoke experiences built to <span class="accent">bring teams closer.</span></h2>
         <ul class="why-list">
           <li><strong>Built for your team's size:</strong> designed for groups of 10 to 80, wherever your team gathers</li>
-          <li><strong>A story worth telling Monday:</strong> scored rounds, a live leaderboard, and a keepsake to take home</li>
+          <li><strong>A story worth telling the next day:</strong> scored rounds, a live leaderboard, and a keepsake to take home</li>
           <li><strong>No surprises:</strong> one price, no hidden fees, no last-minute add-ons</li>
         </ul>
       </div>
@@ -598,7 +636,7 @@
       <!-- wmd-3: same wine-reception stock photo flagged twice this session as an "everyone else" mismatch
            (no cocktail-making shown) — placed here per Gerrard's explicit direction despite that. -->
       <div class="photo-block"><img src="assets/images/wmd-1.jpg" alt="Bartender pouring a cocktail into rocks glasses" loading="lazy"></div>
-      <div class="photo-block"><img src="assets/images/wmd-2.jpg" alt="Bartender reviewing a scorecard at a bar" loading="lazy"></div>
+      <div class="photo-block"><img src="assets/images/wmd-2.jpg" alt="Guest evaluating a cocktail at the bar" loading="lazy"></div>
       <div class="photo-block"><img src="assets/images/wmd-3.jpg" alt="Group socializing with wine at an evening event" loading="lazy"></div>
     </div>
     <div class="compare-grid">
@@ -737,7 +775,7 @@
           <div class="footer-col-label">Company</div>
           <ul class="footer-links">
             <li><a href="how-it-works.html">How It Works</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
             <li><a href="assets/leaderboard.html" target="_blank" rel="noopener">Live Leader Board</a></li>
           </ul>
         </div>
@@ -745,6 +783,8 @@
           <div class="footer-col-label">Contact</div>
           <ul class="footer-links">
             <li><a href="#book">Contact</a></li>
+            <li><a href="mailto:thecraftcollective.info@gmail.com">Email us directly</a></li>
+            <li><a href="private-celebrations.html">Private Celebrations</a></li>
           </ul>
         </div>
       </div>
