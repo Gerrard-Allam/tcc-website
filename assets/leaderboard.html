@@ -26,27 +26,43 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .brand-text h1{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:#F2F5F9;}
 .brand-text p{font-size:9px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#C4622D;margin-top:3px;}
 .round-pills{display:flex;gap:6px;}
-.pill{font-size:10px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid #5A8FC4;color:#BDD4EA;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;transition:all 0.15s;}
+.pill{font-size:10px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid #5A8FC4;color:#BDD4EA;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
 .pill.active{background:#2B6CB0;border-color:#2B6CB0;color:#F2F5F9;}
+.mult-badge{font-size:8.5px;font-weight:600;background:#C4622D;color:#F2F5F9;padding:1px 5px;border-radius:8px;letter-spacing:0.02em;}
+.mult-badge-mini{font-size:8px;color:#C4622D;font-weight:600;margin-left:2px;}
 .amber-bar{height:2px;background:#C4622D;margin:14px 0 0;}
+
+.final-ribbon{display:none;align-items:center;gap:8px;background:linear-gradient(90deg,rgba(196,98,45,0.18),rgba(196,98,45,0.04));border:1px solid rgba(196,98,45,0.4);border-radius:6px;padding:8px 14px;margin:0 24px;margin-top:14px;}
+.final-ribbon.show{display:flex;}
+.final-ribbon-text{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#C4622D;}
+
 .lb-body{padding:16px 24px;flex:1;display:flex;flex-direction:column;}
-.meta-row{display:flex;justify-content:space-between;margin-bottom:14px;}
+.meta-row{display:flex;justify-content:space-between;margin-bottom:14px;align-items:baseline;}
 .meta-row .ev{font-size:11px;color:#BDD4EA;font-weight:300;}
-.meta-row .mx{font-size:10px;color:#5A8FC4;}
+.meta-row .mx{font-size:10px;color:#5A8FC4;text-align:right;}
 .lb-table{width:100%;border-collapse:collapse;}
 .lb-table th{font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5A8FC4;padding:6px 10px;border-bottom:1px solid #3a3a38;text-align:left;}
 .lb-table td{padding:0;border-bottom:0.5px solid #383836;}
-.pod-row{display:flex;align-items:center;padding:10px;gap:10px;cursor:pointer;transition:background 0.15s;}
+.pod-row{display:flex;align-items:center;padding:10px;gap:10px;cursor:pointer;transition:background 0.15s,transform 0.4s ease;}
 .pod-row:hover{background:rgba(91,143,196,0.08);}
-.rank{font-size:22px;font-weight:500;font-family:'Cormorant Garamond',serif;color:#F2F5F9;width:32px;text-align:center;flex-shrink:0;}
+.pod-row.winner-row{background:rgba(196,98,45,0.1);border-left:3px solid #C4622D;}
+.pod-row.winner-row:hover{background:rgba(196,98,45,0.16);}
+.rank-wrap{width:34px;flex-shrink:0;text-align:center;}
+.rank{font-size:22px;font-weight:500;font-family:'Cormorant Garamond',serif;color:#F2F5F9;display:block;}
 .rank.r1{color:#C4622D;} .rank.r2{color:#BDD4EA;} .rank.r3{color:#5A8FC4;}
+.rank-delta{font-size:9px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:1px;margin-top:1px;}
+.rank-delta.up{color:#2B6CB0;}
+.rank-delta.down{color:#888780;}
+.rank-delta.same{color:#5A5A57;}
 .pod-info{flex:1;min-width:0;}
 .pod-name{font-size:14px;font-weight:500;color:#F2F5F9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pod-members{font-size:10px;color:#888780;font-weight:300;margin-top:1px;}
-.score-col{width:64px;text-align:center;flex-shrink:0;}
-.score-val{font-size:18px;font-weight:500;font-family:'Cormorant Garamond',serif;color:#F2F5F9;}
+.winner-tag{display:inline-flex;align-items:center;gap:3px;font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#C4622D;background:rgba(196,98,45,0.14);border:1px solid rgba(196,98,45,0.4);border-radius:10px;padding:1px 7px;margin-left:8px;}
+.score-col{width:70px;text-align:center;flex-shrink:0;}
+.score-val{font-size:20px;font-weight:500;font-family:'Cormorant Garamond',serif;color:#F2F5F9;}
 .score-val.leading{color:#C4622D;}
 .score-delta{font-size:9px;color:#5A8FC4;margin-top:1px;}
+.score-delta.winner-label{color:#C4622D;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:8.5px;}
 .bar-col{flex:1;min-width:60px;padding:0 8px;}
 .bar-track{height:4px;background:#383836;border-radius:2px;}
 .bar-fill{height:4px;border-radius:2px;background:#2B6CB0;transition:width 0.4s;}
@@ -63,7 +79,6 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .ctrl-row label{font-size:10px;color:#BDD4EA;min-width:28px;}
 .ctrl-row input[type=number]{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:11px;padding:3px 6px;border-radius:3px;width:52px;font-family:'DM Sans',sans-serif;text-align:center;}
 .ctrl-row input[type=text]{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 6px;border-radius:3px;flex:1;font-family:'DM Sans',sans-serif;}
-.ctrl-row select{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 6px;border-radius:3px;flex:1;font-family:'DM Sans',sans-serif;}
 .btn-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
 .btn{font-size:10px;font-weight:500;font-family:'DM Sans',sans-serif;padding:5px 12px;border-radius:4px;border:none;cursor:pointer;transition:opacity 0.15s;}
 .btn-primary{background:#2B6CB0;color:#F2F5F9;}
@@ -71,6 +86,13 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .btn-ghost{background:#383836;color:#BDD4EA;}
 .btn:hover{opacity:0.85;}
 .empty-state{text-align:center;padding:40px 20px;color:#5A8FC4;font-size:13px;}
+.bottom-row{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bottom-label{font-size:9px;color:#5A8FC4;text-transform:uppercase;letter-spacing:0.08em;}
+.mult-input-wrap{display:flex;align-items:center;gap:5px;background:#383836;border:1px solid #C4622D;border-radius:4px;padding:3px 8px;}
+.mult-input-wrap span{font-size:10px;color:#C4622D;font-weight:600;}
+.mult-input-wrap input{background:transparent;border:none;color:#F2F5F9;font-size:11px;width:36px;text-align:center;font-family:'DM Sans',sans-serif;}
+.mult-input-wrap input:focus{outline:none;}
+.event-input{background:#383836;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;width:160px;}
 
 /* STATION RULES — dark side panel */
 .rules{background:#242422;border:1px solid #383836;border-radius:8px;padding:22px 22px;display:flex;flex-direction:column;}
@@ -128,13 +150,18 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         </div>
         <div class="amber-bar"></div>
       </div>
+
+      <div class="final-ribbon" id="finalRibbon">
+        <span class="final-ribbon-text">Final Standings — Event Complete</span>
+      </div>
+
       <div class="lb-body">
         <div class="meta-row">
           <span class="ev" id="eventLabel2">The Collective Cup &nbsp;·&nbsp; Live Standings</span>
           <span class="mx" id="scoreMax2">Round 1 max 100 pts</span>
         </div>
         <table class="lb-table">
-          <thead><tr><th style="width:44px;">#</th><th>Pod</th><th style="width:72px;text-align:center;">Score</th><th style="width:100px;">Progress</th><th style="width:100px;">Rounds</th></tr></thead>
+          <thead><tr><th style="width:44px;">#</th><th>Pod</th><th style="width:78px;text-align:center;" id="scoreColHeader">Score</th><th style="width:100px;">Progress</th><th style="width:100px;">Rounds</th></tr></thead>
           <tbody id="lbBody2"></tbody>
         </table>
       </div>
@@ -156,14 +183,19 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
             <div class="btn-row"><button class="btn btn-amber" onclick="saveScores2()">Save scores</button><button class="btn btn-ghost" onclick="removePod2()">Remove pod</button></div>
           </div>
         </div>
-        <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <span style="font-size:9px;color:#5A8FC4;text-transform:uppercase;letter-spacing:0.08em;">Active round:</span>
+        <div class="bottom-row">
+          <span class="bottom-label">Active round:</span>
           <button class="btn btn-ghost" onclick="setRound2(1)" id="rb21">Round 1</button>
           <button class="btn btn-ghost" onclick="setRound2(2)" id="rb22">Round 2</button>
           <button class="btn btn-ghost" onclick="setRound2(3)" id="rb23">Round 3</button>
           <button class="btn btn-ghost" onclick="setRound2(4)" id="rb24">Final</button>
-          <span style="font-size:9px;color:#5A8FC4;margin-left:8px;text-transform:uppercase;letter-spacing:0.08em;">Event name:</span>
-          <input type="text" id="eventName2" placeholder="The Collective Cup" style="background:#383836;border:1px solid #5A8FC4;color:#F2F5F9;font-size:10px;padding:3px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;width:160px;" oninput="updateLabel2()">
+          <span class="bottom-label" style="margin-left:6px;">Round 3 multiplier:</span>
+          <div class="mult-input-wrap">
+            <span>×</span>
+            <input type="number" id="r3Mult2" min="1" max="5" step="0.1" value="2" oninput="updateMultiplier2()">
+          </div>
+          <span class="bottom-label" style="margin-left:6px;">Event name:</span>
+          <input type="text" id="eventName2" class="event-input" placeholder="The Collective Cup" oninput="updateLabel2()">
         </div>
       </div>
     </div>
@@ -205,7 +237,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         <span class="sg-crit">Technique</span><span class="sg-mult">×1</span><span class="sg-max">5</span>
       </div>
       <div class="rules-total"><span>Round total</span><span>100 pts</span></div>
-      <div class="rules-total" style="color:#C4622D;border-top:none;padding-top:2px;"><span>Round 3 + pitch bonus</span><span>110 pts</span></div>
+      <div class="rules-total" style="color:#C4622D;border-top:none;padding-top:2px;"><span>Round 3 + pitch bonus</span><span id="r3RulesNote">110 pts, ×2 multiplier</span></div>
 
       <div class="rules-section-label">Score scale</div>
       <div class="scale-row">
@@ -244,22 +276,52 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 
 <script>
 const ROUND_MAX2=[100,100,110];
-let pods2=[]; let activeRound2=1;
+let pods2=[];
+let activeRound2=1;
+let r3Multiplier2=2;
+let rowEls2=new Map(); // podId -> <tr> element currently in the DOM
 
-function cumMax2(r){let t=0;for(let i=0;i<Math.min(r,3);i++)t+=ROUND_MAX2[i];return t;}
-function totalScore2(p){return(p.r1||0)+(p.r2||0)+(p.r3||0);}
+function roundMax2(r){ return r===3 ? ROUND_MAX2[2]*r3Multiplier2 : ROUND_MAX2[r-1]; }
+function cumMax2(r){ let t=0; for(let i=1;i<=Math.min(r,3);i++) t+=roundMax2(i); return t; }
+
+// Score accumulated through a given round (1-3). Round 3 score is multiplied.
+function scoreThroughRound2(p,r){
+  let s=p.r1||0;
+  if(r>=2) s+=(p.r2||0);
+  if(r>=3) s+=(p.r3||0)*r3Multiplier2;
+  return s;
+}
+
+function ranksForRound2(r){
+  const eff=Math.min(r,3);
+  const scored=pods2.map(p=>({id:p.id,score:scoreThroughRound2(p,eff)}));
+  scored.sort((a,b)=>b.score-a.score);
+  const ranks={};
+  scored.forEach((s,i)=>{ranks[s.id]=i+1;});
+  return ranks;
+}
 
 function renderPills2(){
   const el=document.getElementById('roundPills2');
-  el.innerHTML=['Round 1','Round 2','Round 3','Final'].map((l,i)=>
-    `<button class="pill${activeRound2===i+1?' active':''}" onclick="setRound2(${i+1})">${l}</button>`).join('');
+  const labels=['Round 1','Round 2','Round 3','Final'];
+  el.innerHTML=labels.map((l,i)=>{
+    const isR3=i===2;
+    const badge=isR3?`<span class="mult-badge">×${r3Multiplier2}</span>`:'';
+    return `<button class="pill${activeRound2===i+1?' active':''}" onclick="setRound2(${i+1})">${l}${badge}</button>`;
+  }).join('');
 }
 
 function setRound2(r){
-  activeRound2=r;renderPills2();
+  activeRound2=r;
+  renderPills2();
   const mx=document.getElementById('scoreMax2');
-  if(r<=3)mx.textContent=`Round ${r} max ${ROUND_MAX2[r-1]} pts`;
-  else mx.textContent='Final standings · max 310 pts';
+  const header=document.getElementById('scoreColHeader');
+  const ribbon=document.getElementById('finalRibbon');
+  if(r===1){ mx.textContent=`Round 1 max ${roundMax2(1)} pts`; header.textContent='Score'; }
+  else if(r===2){ mx.textContent=`Cumulative through Round 2 · max ${cumMax2(2)} pts`; header.textContent='Total'; }
+  else if(r===3){ mx.textContent=`Total Score · max ${cumMax2(3)} pts (Round 3 ×${r3Multiplier2})`; header.textContent='Total Score'; }
+  else { mx.textContent=`Final Standings · max ${cumMax2(3)} pts`; header.textContent='FINAL'; }
+  ribbon.classList.toggle('show', r===4);
   ['rb21','rb22','rb23','rb24'].forEach((id,i)=>{
     const b=document.getElementById(id);
     b.style.background=activeRound2===i+1?'#2B6CB0':'#383836';
@@ -268,37 +330,127 @@ function setRound2(r){
   render2();
 }
 
+function updateMultiplier2(){
+  const v=parseFloat(document.getElementById('r3Mult2').value);
+  r3Multiplier2=(!isNaN(v)&&v>=1)?v:1;
+  document.getElementById('r3RulesNote').textContent=`110 pts, ×${r3Multiplier2} multiplier`;
+  renderPills2();
+  setRound2(activeRound2);
+}
+
+function buildRowContent(p,idx,sortedLen,currentRanks,prevRanks){
+  const eff=Math.min(activeRound2,3);
+  const ds=scoreThroughRound2(p,eff);
+  const maxP=cumMax2(eff);
+  const pct=maxP>0?Math.round((ds/maxP)*100):0;
+  const topScore=scoreThroughRound2(Object.keys(currentRanks).find(id=>currentRanks[id]===1)?pods2.find(x=>x.id===Object.keys(currentRanks).find(id=>currentRanks[id]===1)):p, eff);
+  const gap=idx===0?0:topScore-ds;
+  const rc=idx===0?'r1':idx===1?'r2':idx===2?'r3':'';
+  const isFinal=activeRound2===4;
+  const isWinner=isFinal&&idx===0;
+
+  // rank-change indicator, only from Round 2 onward
+  let deltaHtml='';
+  if(activeRound2>=2 && prevRanks && prevRanks[p.id]!=null){
+    const prevRank=prevRanks[p.id];
+    const curRank=currentRanks[p.id];
+    const delta=prevRank-curRank;
+    if(delta>0) deltaHtml=`<span class="rank-delta up">▲${delta}</span>`;
+    else if(delta<0) deltaHtml=`<span class="rank-delta down">▼${Math.abs(delta)}</span>`;
+    else deltaHtml=`<span class="rank-delta same">–</span>`;
+  }
+
+  const rs=[
+    p.r1!=null?`<span class="rscore${activeRound2===1?' active-r':''}">${p.r1}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
+    p.r2!=null?`<span class="rscore${activeRound2===2?' active-r':''}">${p.r2}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
+    p.r3!=null?`<span class="rscore${activeRound2===3?' active-r':''}">${p.r3}<span class="mult-badge-mini">×${r3Multiplier2}</span></span>`:'<span class="rscore" style="opacity:0.4">—</span>',
+  ];
+
+  const winnerTag=isWinner?'<span class="winner-tag">🏆 Winner</span>':'';
+  const scoreLabel=isWinner?'<div class="score-delta winner-label">Winner</div>':(idx===0?'<div class="score-delta">leading</div>':`<div class="score-delta">−${gap}</div>`);
+
+  return `
+    <span class="rank-wrap"><span class="rank ${rc}">${idx+1}</span>${deltaHtml}</span>
+    <div class="pod-info"><div class="pod-name">${p.name}${winnerTag}</div>${p.members?`<div class="pod-members">${p.members}</div>`:''}</div>
+    <div class="score-col"><div class="score-val${idx===0?' leading':''}">${ds}</div>${scoreLabel}</div>
+    <div class="bar-col"><div class="bar-track"><div class="bar-fill${idx===0?' r1':''}" style="width:${pct}%"></div></div></div>
+    <div class="round-scores">${rs.join('')}</div>
+  `;
+}
+
 function render2(){
   const tbody=document.getElementById('lbBody2');
-  if(!pods2.length){tbody.innerHTML='<tr><td colspan="5"><div class="empty-state">No pods added yet.</div></td></tr>';return;}
-  const sorted=[...pods2].sort((a,b)=>{
-    const sa=activeRound2===1?(a.r1||0):activeRound2===2?(a.r1||0)+(a.r2||0):totalScore2(a);
-    const sb=activeRound2===1?(b.r1||0):activeRound2===2?(b.r1||0)+(b.r2||0):totalScore2(b);
-    return sb-sa;
-  });
-  const maxP=cumMax2(Math.min(activeRound2,3));
-  const topS=activeRound2===1?(sorted[0]?.r1||0):activeRound2===2?((sorted[0]?.r1||0)+(sorted[0]?.r2||0)):totalScore2(sorted[0]);
-  tbody.innerHTML='';
+
+  if(!pods2.length){
+    rowEls2.clear();
+    tbody.innerHTML='<tr><td colspan="5"><div class="empty-state">No pods added yet.</div></td></tr>';
+    return;
+  }
+
+  const currentRanks=ranksForRound2(activeRound2);
+  const prevRoundNum=activeRound2===4?3:activeRound2-1;
+  const prevRanks=activeRound2>=2?ranksForRound2(prevRoundNum):null;
+
+  const sorted=[...pods2].sort((a,b)=>currentRanks[a.id]-currentRanks[b.id]);
+
+  // FLIP step 1: record old positions of existing rows
+  const oldTops=new Map();
+  rowEls2.forEach((el,id)=>{ oldTops.set(id, el.getBoundingClientRect().top); });
+
+  // Clear the "no pods" placeholder if present
+  if(tbody.children.length===1 && tbody.children[0].querySelector('.empty-state')){
+    tbody.innerHTML='';
+  }
+
+  // Build/update rows, then reorder via appendChild
   sorted.forEach((p,idx)=>{
-    const ds=activeRound2===1?(p.r1||0):activeRound2===2?((p.r1||0)+(p.r2||0)):totalScore2(p);
-    const pct=maxP>0?Math.round((ds/maxP)*100):0;
-    const gap=idx===0?0:topS-ds;
-    const rc=idx===0?'r1':idx===1?'r2':idx===2?'r3':'';
-    const rs=[
-      p.r1!=null?`<span class="rscore${activeRound2===1?' active-r':''}">${p.r1}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
-      p.r2!=null?`<span class="rscore${activeRound2===2?' active-r':''}">${p.r2}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
-      p.r3!=null?`<span class="rscore${activeRound2===3?' active-r':''}">${p.r3}</span>`:'<span class="rscore" style="opacity:0.4">—</span>',
-    ];
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td colspan="5"><div class="pod-row" onclick="selectPod2('${p.id}')">
-      <span class="rank ${rc}">${idx+1}</span>
-      <div class="pod-info"><div class="pod-name">${p.name}</div>${p.members?`<div class="pod-members">${p.members}</div>`:''}</div>
-      <div class="score-col"><div class="score-val${idx===0?' leading':''}">${ds}</div><div class="score-delta">${idx===0?'leading':'−'+gap}</div></div>
-      <div class="bar-col"><div class="bar-track"><div class="bar-fill${idx===0?' r1':''}" style="width:${pct}%"></div></div></div>
-      <div class="round-scores">${rs.join('')}</div>
-    </div></td>`;
-    tbody.appendChild(tr);
+    let tr=rowEls2.get(p.id);
+    if(!tr){
+      tr=document.createElement('tr');
+      tr.innerHTML=`<td colspan="5"><div class="pod-row" onclick="selectPod2('${p.id}')"></div></td>`;
+      rowEls2.set(p.id,tr);
+    }
+    const isFinal=activeRound2===4&&idx===0;
+    const podRowDiv=tr.querySelector('.pod-row');
+    podRowDiv.classList.toggle('winner-row', isFinal);
+    podRowDiv.setAttribute('onclick',`selectPod2('${p.id}')`);
+    podRowDiv.innerHTML=buildRowContent(p,idx,sorted.length,currentRanks,prevRanks);
+    tbody.appendChild(tr); // moves existing node or appends new one, in sorted order
   });
+
+  // Remove rows for pods no longer present
+  [...rowEls2.keys()].forEach(id=>{
+    if(!pods2.find(p=>p.id===id)){
+      const el=rowEls2.get(id);
+      if(el.parentNode) el.parentNode.removeChild(el);
+      rowEls2.delete(id);
+    }
+  });
+
+  // FLIP step 2: measure new positions, apply inverse transform, then animate to 0
+  const rowsToAnimate=[];
+  rowEls2.forEach((el,id)=>{
+    if(oldTops.has(id)){
+      const newTop=el.getBoundingClientRect().top;
+      const delta=oldTops.get(id)-newTop;
+      if(Math.abs(delta)>0.5){
+        const inner=el.querySelector('.pod-row');
+        inner.style.transition='none';
+        inner.style.transform=`translateY(${delta}px)`;
+        rowsToAnimate.push(inner);
+      }
+    }
+  });
+  if(rowsToAnimate.length){
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        rowsToAnimate.forEach(inner=>{
+          inner.style.transition='transform 0.4s ease, background 0.15s';
+          inner.style.transform='';
+        });
+      });
+    });
+  }
 }
 
 function addPod2(){
@@ -348,7 +500,8 @@ function updateLabel2(){
   document.getElementById('eventLabel2').textContent=name+' \u00b7 Live Standings';
 }
 
-setRound2(1);render2();
+renderPills2();
+setRound2(1);
 </script>
 
 </body>
