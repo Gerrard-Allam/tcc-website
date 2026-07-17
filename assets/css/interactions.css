@@ -45,6 +45,17 @@
     transform: translateY(-4px);
   }
 
+  /* v28 fix: on mobile, iOS Safari's tap-triggered "sticky hover" was firing the -4px
+     lift on the Format section's round cards inside their horizontally-scrolling
+     container, clipping the top of the card. Touch devices shouldn't fire :hover at
+     all, so scope the lift to true hover-capable pointers (mouse/trackpad) only. */
+  @media (max-width: 767px) {
+    .format-card:hover {
+      transform: none;
+      border-color: inherit;
+    }
+  }
+
   /* ---- Photo / decorative blocks: gentle scale on hover ----------------
      Safe to apply now even against placeholder divs — once real <img>
      tags replace them (object-fit: cover), the effect carries over
