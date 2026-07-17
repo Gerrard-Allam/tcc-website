@@ -234,10 +234,10 @@
   .offset-collage { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: stretch; margin: 28px 0 8px; height: 340px; }
   .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; overflow: hidden; }
   .offset-collage .img-a img, .offset-collage .img-b img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .offset-collage .img-b img { object-position: 60% center; }
-  @media (max-width: 767px) {
-    .offset-collage .img-a img { object-position: 65% center; }
-    .offset-collage .img-b img { object-position: 35% center; }
+  .offset-collage .img-a img { object-position: center 25%; }
+  .offset-collage .img-b img { object-position: 95.9% center; }
+  @media (min-width: 768px) {
+    .offset-collage .img-b img { object-position: 100% center; }
   }
   .offset-collage .img-b { background: var(--charcoal-lt); border-radius: 4px; height: 100%; border: 1px solid rgba(189,212,234,.12); overflow: hidden; }
 
@@ -267,7 +267,7 @@
     pointer-events: none;
   }
   .format-scroller { display: flex; gap: 12px; overflow-x: auto; margin-top: 28px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
-  .swipe-hint { font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--slate-blue); text-align: right; margin-top: 6px; }
+  .swipe-hint { font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--slate-blue); text-align: left; margin-top: 6px; }
   .format-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 4px; padding: 18px 16px; border: 1px solid rgba(44,44,42,.12); border-top: 3px solid var(--slate-blue); }
   .format-card.tint-mid { background: #eef4fa; border-top-color: var(--mid-blue); }
   .format-card.tint-amber { background: #fbeee6; border-top-color: var(--amber); }
@@ -340,6 +340,22 @@
   .amber-moment .wrap { position: relative; z-index: 1; }
   .amber-moment h2 { text-transform: uppercase; font-family: var(--font-body); font-weight: 700; font-size: 26px; letter-spacing: .02em; color: var(--ice); max-width: 480px; margin: 0 auto; }
   .amber-moment .swap-note { position: relative; z-index: 1; margin-top: 16px; font-size: 11px; color: rgba(242,245,249,.75); }
+  /* v30: desktop-only fix, final version (mobile intentionally left untouched, confirmed fine as-is).
+     Superseded the v29 `contain` approach — that fixed the cropping but left letterboxing
+     that didn't match the photo's own composition (glass isn't exactly centered in the
+     source photo, so plain centering left it off-axis from the heading).
+     This version: height is tied to viewport WIDTH (not capped viewport-height) at a ratio
+     deliberately narrower than the photo's own shape, which guarantees `cover` only ever
+     crops width, never height — proven empirically with marker images at 1920/2560px widths,
+     not just calculated. The photo itself (full-bleed-photo-desktop.jpg) is pre-cropped from
+     the original, centered exactly on the glass stem's real position as marked by Gerrard,
+     so plain `background-position: center` is correct with no percentage guesswork. */
+  @media (min-width: 768px) {
+    .amber-moment { height: 60.7vw; min-height: 480px; max-height: none; }
+    .amber-moment .photo-bg { background-image: url('assets/images/full-bleed-photo-desktop.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .amber-moment .photo-bg::after { display: none; }
+    .amber-moment h2 { max-width: 900px; }
+  }
 
   /* ─── Who books (rules #9, #10) ─────────────────────── */
   .who-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
@@ -413,8 +429,7 @@
     .offset-collage { height: 460px; }
     .who-grid { grid-template-columns: repeat(3, 1fr); }
     .footer-top { grid-template-columns: 1fr 1fr; }
-    .amber-moment { height: 88vh; min-height: 620px; max-height: 900px; }
-    .amber-moment h2 { font-size: 40px; }
+    .amber-moment h2 { font-size: 68px; }
   }
   @media (min-width: 1280px) {
   }
@@ -596,9 +611,7 @@
         <a href="about.html" class="btn btn-outline">Read The Craft Collective's story</a>
       </div>
       <div class="photo-fill">
-        <!-- TEMP: AI-generated recreation, used because the original photo of this real event is lost.
-             Depicts a real event but is not an actual photograph of it. Flagged per Gerrard's direction. -->
-        <img src="assets/images/bio-photo-worldclass.jpg" alt="Gerrard Allam competing at the World Class bartending competition" loading="lazy">
+        <img src="assets/images/bio-photo-worldclass.jpg" alt="Gerrard Allam presenting at the World Class bartending competition" loading="lazy">
       </div>
     </div>
   </div>
