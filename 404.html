@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — The Craft Collective</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal:    #2C2C2A;
+    --charcoal-lt: #383836;
+    --slate-blue:  #2B6CB0;
+    --mid-blue:    #5A8FC4;
+    --powder-blue: #BDD4EA;
+    --amber:       #C4622D;
+    --amber-tint:  rgba(196,98,45,.14);
+    --ice:         #F2F5F9;
+    --gray:        #888780;
+    --white:       #FFFFFF;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    background: var(--charcoal);
+    color: var(--powder-blue);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .error-wrap {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    padding: 32px 20px;
+  }
+
+  .error-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/images/404-spill.jpg');
+    background-size: cover;
+    background-position: center 35%;
+  }
+  .error-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(44,44,42,.88), rgba(44,44,42,.94));
+  }
+
+  .error-content {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--mid-blue);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.1;
+    color: var(--ice);
+    margin-bottom: 18px;
+  }
+  h1 .accent {
+    font-style: italic;
+    color: var(--mid-blue);
+  }
+
+  p.lede {
+    font-size: 15px;
+    color: var(--powder-blue);
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 14px 28px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .btn-primary { background: var(--ice); color: var(--charcoal); }
+  .btn-primary:hover { background: var(--powder-blue); }
+
+  .wordmark {
+    margin-top: 40px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    color: rgba(242,245,249,.5);
+    letter-spacing: .04em;
+  }
+
+  @media (min-width: 768px) {
+    h1 { font-size: 56px; }
+    p.lede { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="error-wrap">
+  <div class="error-bg"></div>
+  <div class="error-content">
+    <div class="eyebrow">404</div>
+    <h1>Well, that's <span class="accent">a spill.</span></h1>
+    <p class="lede">The page you're looking for got knocked over somewhere along the way. Let's get you back on solid ground.</p>
+    <a href="index.html" class="btn btn-primary">Back to Home</a>
+    <div class="wordmark">The Craft Collective</div>
+  </div>
+</div>
+
+</body>
+</html>

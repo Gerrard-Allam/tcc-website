@@ -201,6 +201,10 @@
   h1 { font-size: 32px; margin-bottom: 20px; }
   h2 { font-size: 26px; margin-bottom: 16px; }
   h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  /* Legal-content pattern: white body text + bold section headings. Reusable on any future
+     legal page (Terms of Service, etc.) by applying this class to the content wrapper. */
+  .legal-content, .legal-content p { color: var(--ice); }
+  .legal-content h3 { font-weight: 700; }
   p { font-size: 15px; font-weight: 300; }
   .lede { font-size: 16px; font-weight: 300; max-width: 560px; margin-bottom: 20px; }
 
@@ -362,7 +366,7 @@
     <p class="lede" style="margin-top:16px;">The Craft Collective LLC — Washington DC, Maryland, Virginia</p>
     <p style="font-size:12px; color: var(--gray); margin-top:4px;">Last updated: July 16, 2026</p>
 
-    <div style="margin-top:48px; display:flex; flex-direction:column; gap:36px;">
+    <div class="legal-content" style="margin-top:48px; display:flex; flex-direction:column; gap:36px;">
 
       <div>
         <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">What We Collect</h3>

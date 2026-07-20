@@ -253,7 +253,7 @@
   .compare-col.us { background: rgba(43,108,176,.10); border: 1px solid rgba(43,108,176,.25); }
   .compare-label { font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; }
   .compare-col.them .compare-label { color: var(--gray); }
-  .compare-col.us .compare-label { color: var(--mid-blue); }
+  .compare-col.us .compare-label { color: var(--mid-blue); font-weight: 700; }
   .compare-item { font-size: 13px; padding: 8px 0; border-bottom: 1px solid rgba(189,212,234,.08); line-height: 1.5; }
   .compare-item:last-child { border-bottom: none; }
   .compare-col.them .compare-item { color: var(--gray); }
@@ -336,7 +336,7 @@
     background-image: url('assets/images/full-bleed-photo.jpg');
     background-size: cover; background-position: center 30%;
   }
-  .amber-moment .photo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(196,98,45,.55), rgba(196,98,45,.72)); }
+  .amber-moment .photo-bg::after { display: none; }
   .amber-moment .wrap { position: relative; z-index: 1; }
   .amber-moment h2 { text-transform: uppercase; font-family: var(--font-body); font-weight: 700; font-size: 26px; letter-spacing: .02em; color: var(--ice); max-width: 480px; margin: 0 auto; }
   .amber-moment .swap-note { position: relative; z-index: 1; margin-top: 16px; font-size: 11px; color: rgba(242,245,249,.75); }
@@ -353,7 +353,6 @@
   @media (min-width: 768px) {
     .amber-moment { height: 60.7vw; min-height: 480px; max-height: none; }
     .amber-moment .photo-bg { background-image: url('assets/images/full-bleed-photo-desktop.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; }
-    .amber-moment .photo-bg::after { display: none; }
     .amber-moment h2 { max-width: 900px; }
   }
 
@@ -565,7 +564,7 @@
       <div class="tick-block" aria-hidden="true"><img src="assets/images/ticker-17.jpg" alt="" loading="lazy"></div>
     </div>
     </div>
-    <p class="pkg-addons-note" style="text-align:left; margin-top:32px; margin-bottom:12px;">Shown here: The Collective Cup, our flagship, 1 of 4 formats.</p>
+    <p class="pkg-addons-note" style="text-align:left; margin-top:32px; margin-bottom:12px;">Shown here: the format of our flagship package, The Collective Cup.</p>
     <div class="format-scroller-wrap">
     <div class="format-scroller">
       <div class="format-card">
@@ -625,9 +624,9 @@
         <div class="eyebrow" style="color:var(--slate-blue);">Why book</div>
         <h2>Bespoke experiences built to <span class="accent">bring teams closer.</span></h2>
         <ul class="why-list">
-          <li><strong>Built for your team's size:</strong> designed for groups of 10 to 80, wherever your team gathers</li>
-          <li><strong>A story worth telling the next day:</strong> scored rounds, a live leaderboard, and a keepsake to take home</li>
-          <li><strong>No surprises:</strong> one price, no hidden fees, no last-minute add-ons</li>
+          <li><strong>Built for your team's size:</strong> designed for groups of 10 to 80, wherever your <span style="white-space:nowrap;">team gathers</span>.</li>
+          <li><strong>A story worth telling the next day:</strong> scored rounds, a live leaderboard, and a keepsake to take home.</li>
+          <li><strong>No surprises:</strong> one price, no hidden fees, no last-minute add-ons.</li>
         </ul>
       </div>
       <div class="why-photo photo-fill">
