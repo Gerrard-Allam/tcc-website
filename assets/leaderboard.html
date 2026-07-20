@@ -53,6 +53,31 @@ document.addEventListener('DOMContentLoaded', function(){
 html,body{background:#1B1B19;min-height:100%;width:100%;}
 .wrap{font-family:'DM Sans',sans-serif;background:#1B1B19;padding:24px;border-radius:10px;display:grid;grid-template-columns:7fr 3fr;gap:20px;align-items:stretch;min-height:100vh;width:100%;}
 @media (max-width:860px){.wrap{grid-template-columns:1fr;}.side-col{position:static;max-height:none;}}
+@media (max-width:480px){
+  .wrap{padding:12px 10px;}
+  .lb-header{padding:14px 14px 0;}
+  .lb-body{padding:12px 10px;}
+  .brand-text h1{font-size:15px;}
+  .brand-text p{font-size:8px;}
+  .lb-table thead{display:none;}
+  .pod-row{padding:8px 6px;gap:6px;}
+  .rank-wrap{width:22px;}
+  .rank{font-size:17px;}
+  .rank-delta{font-size:8px;}
+  .pod-name{font-size:12.5px;}
+  .pod-members{font-size:8.5px;}
+  .winner-tag{font-size:7.5px;padding:1px 5px;margin-left:5px;}
+  .score-col{width:44px;}
+  .score-val{font-size:16px;}
+  .score-delta{font-size:8px;}
+  .bar-col{display:none;}
+  .pod-row{flex-wrap:wrap;}
+  .round-scores{flex-basis:100%;justify-content:flex-end;margin-top:4px;gap:4px;}
+  .rscore{font-size:9px;padding:2px 6px;}
+  .mult-badge-mini{font-size:7px;}
+  .meta-row .ev{font-size:10px;}
+  .meta-row .mx{font-size:9px;}
+}
 
 .main-col{min-width:0;display:flex;flex-direction:column;}
 .side-col{min-width:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
@@ -236,8 +261,15 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <span class="bottom-label" style="margin-left:6px;">Event name:</span>
           <input type="text" id="eventName2" class="event-input" placeholder="The Collective Cup" oninput="updateLabel2()">
           <span class="bottom-label" style="margin-left:6px;">Viewer PIN:</span>
-          <input type="text" id="viewerPin2" class="event-input" style="width:100px;" placeholder="e.g. 4521" oninput="syncToFirebase()">
+          <input type="text" id="viewerPin2" class="event-input" style="width:100px;" placeholder="e.g. 4521" oninput="syncToFirebase();document.getElementById('qrPanel').style.display='none';document.getElementById('qrToggleBtn').textContent='Show QR';">
           <span id="liveStatus" style="font-size:10px;font-weight:500;color:#5A5A57;">○ Not sharing</span>
+          <button class="btn btn-ghost" id="qrToggleBtn" onclick="toggleQR()">Show QR</button>
+        </div>
+        <div id="qrPanel" style="display:none;margin-top:14px;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:16px;text-align:center;">
+          <img id="qrImg" src="" alt="QR code to join live leaderboard" style="width:180px;height:180px;border-radius:4px;background:#fff;padding:8px;">
+          <div style="font-size:10px;color:#5A8FC4;margin-top:10px;text-transform:uppercase;letter-spacing:0.08em;">Scan to follow along</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:#F2F5F9;letter-spacing:0.08em;margin-top:8px;">PIN: <span id="qrPinDisplay"></span></div>
+          <div id="qrLinkText" style="font-size:10px;color:#888780;margin-top:6px;word-break:break-all;"></div>
         </div>
       </div>
     </div>
@@ -343,6 +375,7 @@ function syncToFirebase(){
   if(!pin){
     statusEl.textContent='○ Not sharing';
     statusEl.style.color='#5A5A57';
+    document.getElementById('qrPanel').style.display='none';
     return;
   }
   const state = {
@@ -355,6 +388,31 @@ function syncToFirebase(){
   db.ref('events/' + pin + '/state').set(state);
   statusEl.textContent='● Live — sharing with viewers';
   statusEl.style.color='#C4622D';
+}
+
+function toggleQR(){
+  const panel = document.getElementById('qrPanel');
+  const btn = document.getElementById('qrToggleBtn');
+  const isOpen = panel.style.display === 'block';
+
+  if(isOpen){
+    panel.style.display = 'none';
+    btn.textContent = 'Show QR';
+    return;
+  }
+
+  const pin = document.getElementById('viewerPin2').value.trim();
+  if(!pin){
+    alert('Set a Viewer PIN first, then click Show QR.');
+    return;
+  }
+  const viewUrl = 'https://gerrard-allam.github.io/tcc-website/assets/leaderboard-view.html?pin=' + encodeURIComponent(pin);
+  const qrImgUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(viewUrl);
+  document.getElementById('qrImg').src = qrImgUrl;
+  document.getElementById('qrPinDisplay').textContent = pin;
+  document.getElementById('qrLinkText').textContent = viewUrl;
+  panel.style.display = 'block';
+  btn.textContent = 'Hide QR';
 }
 
 function roundMax2(r){ return r===3 ? ROUND_MAX2[2]*r3Multiplier2 : ROUND_MAX2[r-1]; }
