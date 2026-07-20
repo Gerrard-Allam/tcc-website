@@ -5,8 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Live Leaderboard — The Craft Collective</title>
 <meta name="robots" content="noindex">
+<!-- Firebase Realtime Database — used to sync live scores to the participant viewer page (assets/leaderboard-view.html) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HOST PIN — change this number to change the facilitator PIN.
+     This is the ONLY place you need to edit to change it.
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>const HOST_PIN = "1280";</script>
+
+<div id="pinGate" style="position:fixed;inset:0;background:#1B1B19;display:flex;align-items:center;justify-content:center;z-index:999;font-family:'DM Sans',sans-serif;">
+  <div style="text-align:center;max-width:280px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#F2F5F9;margin-bottom:4px;">The Craft Collective</div>
+    <div style="font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#C4622D;margin-bottom:24px;">Facilitator Access</div>
+    <input type="password" id="pinInput" placeholder="Enter PIN" inputmode="numeric" style="background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:16px;padding:10px 14px;border-radius:4px;width:100%;text-align:center;font-family:'DM Sans',sans-serif;letter-spacing:0.2em;">
+    <button onclick="checkPin()" style="margin-top:12px;background:#2B6CB0;color:#F2F5F9;border:none;border-radius:4px;padding:10px 20px;font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;width:100%;">Enter</button>
+    <div id="pinError" style="color:#C4622D;font-size:11px;margin-top:10px;display:none;">Incorrect PIN, try again.</div>
+  </div>
+</div>
+
+<script>
+function checkPin(){
+  const val = document.getElementById('pinInput').value.trim();
+  if(val === HOST_PIN){
+    sessionStorage.setItem('tccHostUnlocked','1');
+    document.getElementById('pinGate').style.display='none';
+  } else {
+    document.getElementById('pinError').style.display='block';
+  }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  if(sessionStorage.getItem('tccHostUnlocked')==='1'){
+    document.getElementById('pinGate').style.display='none';
+  }
+  document.getElementById('pinInput').addEventListener('keydown', function(e){
+    if(e.key==='Enter') checkPin();
+  });
+});
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
@@ -196,6 +235,9 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           </div>
           <span class="bottom-label" style="margin-left:6px;">Event name:</span>
           <input type="text" id="eventName2" class="event-input" placeholder="The Collective Cup" oninput="updateLabel2()">
+          <span class="bottom-label" style="margin-left:6px;">Viewer PIN:</span>
+          <input type="text" id="viewerPin2" class="event-input" style="width:100px;" placeholder="e.g. 4521" oninput="syncToFirebase()">
+          <span id="liveStatus" style="font-size:10px;font-weight:500;color:#5A5A57;">○ Not sharing</span>
         </div>
       </div>
     </div>
@@ -281,6 +323,40 @@ let activeRound2=1;
 let r3Multiplier2=2;
 let rowEls2=new Map(); // podId -> <tr> element currently in the DOM
 
+// ─── Firebase live sync (Viewer PIN) ────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyA80XfvJw7SCYcJPB3dGnuqDIdVi38haNY",
+  authDomain: "the-craft-collective.firebaseapp.com",
+  databaseURL: "https://the-craft-collective-default-rtdb.firebaseio.com",
+  projectId: "the-craft-collective",
+  storageBucket: "the-craft-collective.firebasestorage.app",
+  messagingSenderId: "839062638362",
+  appId: "1:839062638362:web:5a6062c7cbaba05ce826a3",
+  measurementId: "G-1BMRE02GWY"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function syncToFirebase(){
+  const pin = document.getElementById('viewerPin2').value.trim();
+  const statusEl = document.getElementById('liveStatus');
+  if(!pin){
+    statusEl.textContent='○ Not sharing';
+    statusEl.style.color='#5A5A57';
+    return;
+  }
+  const state = {
+    eventName: document.getElementById('eventName2').value.trim() || 'The Collective Cup',
+    activeRound: activeRound2,
+    r3Multiplier: r3Multiplier2,
+    pods: pods2,
+    updatedAt: Date.now()
+  };
+  db.ref('events/' + pin + '/state').set(state);
+  statusEl.textContent='● Live — sharing with viewers';
+  statusEl.style.color='#C4622D';
+}
+
 function roundMax2(r){ return r===3 ? ROUND_MAX2[2]*r3Multiplier2 : ROUND_MAX2[r-1]; }
 function cumMax2(r){ let t=0; for(let i=1;i<=Math.min(r,3);i++) t+=roundMax2(i); return t; }
 
@@ -328,6 +404,7 @@ function setRound2(r){
     b.style.color=activeRound2===i+1?'#F2F5F9':'#BDD4EA';
   });
   render2();
+  syncToFirebase();
 }
 
 function updateMultiplier2(){
@@ -461,6 +538,7 @@ function addPod2(){
   document.getElementById('podName2').value='';
   document.getElementById('podMembers2').value='';
   updatePodSelect2();render2();
+  syncToFirebase();
 }
 
 function updatePodSelect2(){
@@ -485,6 +563,7 @@ function saveScores2(){
   p.r2=v2!==''?Math.min(parseInt(v2)||0,100):null;
   p.r3=v3!==''?Math.min(parseInt(v3)||0,110):null;
   render2();
+  syncToFirebase();
 }
 
 function removePod2(){
@@ -493,11 +572,13 @@ function removePod2(){
   updatePodSelect2();
   ['s21','s22','s23'].forEach(id=>document.getElementById(id).value='');
   render2();
+  syncToFirebase();
 }
 
 function updateLabel2(){
   const name=document.getElementById('eventName2').value.trim()||'The Collective Cup';
   document.getElementById('eventLabel2').textContent=name+' \u00b7 Live Standings';
+  syncToFirebase();
 }
 
 renderPills2();
