@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Judge Scoring — The Craft Collective</title>
+<meta name="robots" content="noindex">
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sans-serif;}
+.screen{display:none;min-height:100vh;}
+.screen.show{display:block;}
+
+/* ── PIN GATE ── */
+#gateScreen.show{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#1B1B19;}
+.gate-box{text-align:center;max-width:280px;padding:0 20px;}
+.gate-brand{font-family:'Cormorant Garamond',serif;font-size:20px;color:#F2F5F9;margin-bottom:4px;}
+.gate-role{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#C4622D;margin-bottom:24px;}
+.gate-box input{background:#2C2C2A;border:1px solid #5A8FC4;color:#F2F5F9;font-size:16px;padding:10px 14px;border-radius:4px;width:100%;text-align:center;font-family:'DM Sans',sans-serif;letter-spacing:0.2em;}
+.gate-box button{margin-top:12px;background:#2B6CB0;color:#F2F5F9;border:none;border-radius:4px;padding:10px 20px;font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;width:100%;}
+.gate-error{color:#C4622D;font-size:11px;margin-top:10px;display:none;}
+
+/* ── PAIR SELECT ── */
+#pairScreen.show{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#1B1B19;padding:20px;}
+.pair-box{max-width:320px;width:100%;}
+.pair-box-title{font-family:'Cormorant Garamond',serif;font-size:19px;color:#F2F5F9;margin-bottom:4px;text-align:center;}
+.pair-box-sub{font-size:11px;color:#8A8A87;text-align:center;margin-bottom:20px;}
+.pair-option{display:block;width:100%;background:#2C2C2A;border:1px solid #3E3E3B;color:#F2F5F9;font-size:13px;padding:12px 14px;border-radius:6px;margin-bottom:8px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;}
+.pair-option:hover{border-color:#5A8FC4;}
+.pair-new-row{display:flex;gap:8px;margin-top:14px;}
+.pair-new-row input{flex:1;background:#2C2C2A;border:1px solid #3E3E3B;color:#F2F5F9;font-size:13px;padding:10px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;}
+.pair-new-row button{background:#C4622D;color:#F2F5F9;border:none;border-radius:6px;padding:0 16px;font-size:11px;font-weight:600;text-transform:uppercase;cursor:pointer;}
+
+/* ── MAIN ENTRY SCREEN ── */
+#mainScreen.show{display:block;}
+.ph-head{background:#26251F;padding:16px 18px 14px;display:flex;justify-content:space-between;align-items:center;}
+.ph-brand{font-family:'Cormorant Garamond',serif;font-size:16px;color:#F2F5F9;}
+.ph-role{font-size:8.5px;color:#8A8A87;text-align:right;line-height:1.3;}
+.ph-role b{color:#F2F5F9;display:block;font-size:10px;}
+
+.judge-id-bar{background:#DCE1E8;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #C6CCD6;}
+.judge-id{font-size:12.5px;color:#26251F;font-weight:500;}
+.judge-id-edit{font-size:9px;color:#2B6CB0;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;}
+
+.scale-bar{padding:10px 16px;transition:background 0.25s ease;}
+.scale-bar.sb-round1{background:#F6F7F9;}
+.scale-bar.sb-round1 .scale-bar-title{color:#8A8A87;}
+.scale-bar.sb-round1 .scale-bar-sub{color:#26251F;}
+.scale-bar.sb-round2{background:#2B6CB0;}
+.scale-bar.sb-round2 .scale-bar-title{color:#CFE0F2;}
+.scale-bar.sb-round2 .scale-bar-sub{color:#EAF1FA;}
+.scale-bar.sb-round3{background:#C4622D;}
+.scale-bar.sb-round3 .scale-bar-title{color:#F6DCC9;}
+.scale-bar.sb-round3 .scale-bar-sub{color:#FBEDE2;}
+.scale-bar-title{font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#F6DCC9;margin-bottom:2px;}
+.scale-bar-sub{font-size:9.5px;color:#FBEDE2;}
+
+.round-band{padding:16px 16px 10px;}
+.round-eyebrow-row{display:flex;justify-content:space-between;align-items:baseline;}
+.round-eyebrow{font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#C4622D;}
+.round-max{font-size:9.5px;color:#5A5A57;font-weight:500;}
+.round-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:#26251F;margin-top:2px;}
+
+.pod-band{margin:0 16px 14px;background:#F6F7F9;border:1px solid #C6CCD6;border-radius:6px;padding:12px 14px;}
+.pod-band-label{font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#5A5A57;margin-bottom:3px;}
+.pod-band-name{font-family:'Cormorant Garamond',serif;font-size:18px;color:#26251F;}
+.pod-band-wait{font-size:12px;color:#8A8A87;font-style:italic;}
+
+.cat-header{padding:10px 16px 4px;font-size:9.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;display:flex;justify-content:space-between;}
+.cat-natural{color:#C4622D;}
+.cat-presentation{color:#2B6CB0;}
+.cat-technical{color:#5A5A57;}
+
+.score-row{padding:9px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #DCE1E8;background:#F6F7F9;}
+.score-row-info{flex:1;min-width:0;padding-right:10px;}
+.score-row-name{font-size:12.5px;color:#26251F;font-weight:500;}
+.score-row-hint{font-size:9.5px;color:#8A8A87;margin-top:1px;}
+.score-input-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.score-input-wrap input{width:48px;background:#fff;border:1.5px solid #C6CCD6;color:#26251F;font-size:15px;font-weight:600;text-align:center;padding:8px 2px;border-radius:5px;font-family:'DM Sans',sans-serif;}
+.score-input-wrap input:focus{outline:none;border-color:#5A8FC4;}
+.score-input-wrap input.error{border-color:#C4622D;background:#FBEDE2;color:#C4622D;}
+.score-input-wrap .denom{font-size:11px;color:#8A8A87;width:26px;}
+
+.score-error-msg{margin:8px 16px 0;background:#FBEDE2;border:1px solid #C4622D;border-radius:6px;padding:9px 12px;font-size:11px;color:#8A3E1C;line-height:1.4;display:none;}
+
+.pitch-band{margin:10px 16px 4px;border:1.5px solid #C4622D;background:#FBEDE2;border-radius:6px;padding:10px 12px;}
+.pitch-band-label{font-size:8.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#C4622D;margin-bottom:8px;}
+.pitch-toggle{display:flex;gap:8px;}
+.pitch-toggle button{flex:1;font-size:11px;font-weight:500;padding:10px 6px;border-radius:5px;border:1.5px solid #C6CCD6;background:#fff;color:#5A5A57;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.pitch-toggle button.sel{border-color:#C4622D;background:#C4622D;color:#fff;}
+
+.total-band{margin:16px 16px 6px;background:#26251F;border-radius:8px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;}
+.total-label{font-size:9.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#8A8A87;}
+.total-val{font-family:'Cormorant Garamond',serif;font-size:26px;color:#F2F5F9;}
+.total-val span{font-size:13px;color:#8A8A87;}
+
+.submit-band{padding:14px 16px 30px;}
+.btn-submit{width:100%;background:#2B6CB0;color:#F2F5F9;border:none;padding:14px;border-radius:7px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;}
+.btn-submit:disabled{background:#5A5A57;cursor:not-allowed;}
+.submit-warn{font-size:9.5px;color:#8A8A87;text-align:center;margin-top:9px;line-height:1.4;padding:0 10px;}
+
+.locked-band{margin:16px 16px 30px;background:#E4EEE7;border:1px solid #4A7C59;border-radius:7px;padding:16px;text-align:center;}
+.locked-band b{color:#3D6349;font-size:13px;display:block;margin-bottom:4px;}
+.locked-band span{font-size:10.5px;color:#5A7863;}
+</style>
+</head>
+<body>
+
+<!-- PIN GATE -->
+<div class="screen show" id="gateScreen">
+  <div class="gate-box">
+    <div class="gate-brand">The Craft Collective</div>
+    <div class="gate-role">Judge Access</div>
+    <input type="text" id="pinInput" placeholder="Enter Judge PIN" inputmode="numeric">
+    <button onclick="checkJudgePin()">Enter</button>
+    <div class="gate-error" id="pinError">That PIN doesn't match an active event.</div>
+  </div>
+</div>
+
+<!-- PAIR SELECT -->
+<div class="screen" id="pairScreen">
+  <div class="pair-box">
+    <div class="pair-box-title">Which pair are you?</div>
+    <div class="pair-box-sub">Pick your names, or add yourselves if you're not listed.</div>
+    <div id="pairOptions"></div>
+    <div class="pair-new-row">
+      <input type="text" id="newPairNameJudge" placeholder="e.g. Priya &amp; Marcus">
+      <button onclick="createAndSelectPair()">Add us</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SCREEN -->
+<div class="screen" id="mainScreen">
+  <div class="ph-head">
+    <div class="ph-brand">The Craft Collective</div>
+    <div class="ph-role">Your Role<b>The Judge</b></div>
+  </div>
+
+  <div class="judge-id-bar">
+    <div class="judge-id" id="pairNameDisplay">—</div>
+    <div class="judge-id-edit" onclick="renamePair()">Rename</div>
+  </div>
+
+  <div class="scale-bar" id="scaleBar">
+    <div class="scale-bar-title">How to score</div>
+    <div class="scale-bar-sub">Agree as a pair, or average your two scores, before entering.</div>
+  </div>
+
+  <div class="round-band">
+    <div class="round-eyebrow-row">
+      <div class="round-eyebrow" id="roundEyebrow">Round —</div>
+      <div class="round-max" id="roundMaxLabel">— pts max</div>
+    </div>
+    <div class="round-title" id="roundTitle">—</div>
+  </div>
+
+  <div class="pod-band" id="podBand">
+    <div class="pod-band-label">Which pod you're scoring</div>
+    <div class="pod-band-wait" id="podBandText">Waiting for your facilitator to assign you a pod…</div>
+  </div>
+
+  <div id="formArea" style="display:none;">
+    <div class="cat-header cat-natural"><span>Natural · As a customer</span><span>50 pts</span></div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Enjoyment</div><div class="score-row-hint">Would you order this again?</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="30" id="s_enjoyment" oninput="recalcTotal()"><span class="denom">/30</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Made for me</div><div class="score-row-hint">Was it built for YOU?</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="20" id="s_madeForMe" oninput="recalcTotal()"><span class="denom">/20</span></div>
+    </div>
+
+    <div class="cat-header cat-presentation"><span>Presentation · Before you taste</span><span>20 pts</span></div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Presentation</div><div class="score-row-hint">Visual impact, garnish, neatness</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="20" id="s_presentation" oninput="recalcTotal()"><span class="denom">/20</span></div>
+    </div>
+
+    <div class="cat-header cat-technical"><span>Technical · From the 101</span><span>30 pts</span></div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Expression of spirit</div><div class="score-row-hint">Does the spirit shine?</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="5" id="s_spirit" oninput="recalcTotal()"><span class="denom">/05</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Balance</div><div class="score-row-hint">Does everything work together?</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="10" id="s_balance" oninput="recalcTotal()"><span class="denom">/10</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Cocktail name</div><div class="score-row-hint">Creative, memorable, fitting</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="10" id="s_cocktailName" oninput="recalcTotal()"><span class="denom">/10</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-row-info"><div class="score-row-name">Technique</div><div class="score-row-hint">Clean pour, proper strain</div></div>
+      <div class="score-input-wrap"><input type="number" min="0" max="5" id="s_technique" oninput="recalcTotal()"><span class="denom">/05</span></div>
+    </div>
+
+    <div class="pitch-band" id="pitchBand" style="display:none;">
+      <div class="pitch-band-label">Round 3 only · The Pitch</div>
+      <div class="pitch-toggle">
+        <button id="pitchYes" onclick="setPitch(10)">Yes, it sold me (+10)</button>
+        <button id="pitchNo" onclick="setPitch(0)">Not quite</button>
+      </div>
+    </div>
+
+    <div class="score-error-msg" id="scoreErrorMsg">One or more scores are above the maximum for that criterion. The box in question is highlighted, please revise it before submitting.</div>
+
+    <div class="total-band">
+      <div class="total-label">Round total</div>
+      <div class="total-val" id="totalVal">0 <span id="totalMaxDisp">/ 100</span></div>
+    </div>
+
+    <div class="submit-band">
+      <button class="btn-submit" id="submitBtn" onclick="submitScores()">Submit round scores</button>
+      <div class="submit-warn">Once submitted, this round locks and you can't edit it. Only your facilitator can correct a mistake.</div>
+    </div>
+  </div>
+
+  <div class="locked-band" id="lockedBand" style="display:none;">
+    <b id="lockedTitle">Submitted</b>
+    <span>This round is locked. Sit tight for the next one.</span>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80XfvJw7SCYcJPB3dGnuqDIdVi38haNY",
+  authDomain: "the-craft-collective.firebaseapp.com",
+  databaseURL: "https://the-craft-collective-default-rtdb.firebaseio.com",
+  projectId: "the-craft-collective",
+  storageBucket: "the-craft-collective.firebasestorage.app",
+  messagingSenderId: "839062638362",
+  appId: "1:839062638362:web:5a6062c7cbaba05ce826a3",
+  measurementId: "G-1BMRE02GWY"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const ROUND_INFO = {
+  1: {eyebrow:'Round 1 of 3 · The Copy Cat', title:'The Classic', max:100},
+  2: {eyebrow:'Round 2 of 3 · The Surprise Ingredient', title:'The Twist', max:100},
+  3: {eyebrow:'Round 3 of 3 · Final Round', title:'The Signature', max:110}
+};
+const CRIT_FIELDS = ['enjoyment','madeForMe','presentation','spirit','balance','cocktailName','technique'];
+const CRIT_MAX = {enjoyment:30, madeForMe:20, presentation:20, spirit:5, balance:10, cocktailName:10, technique:5};
+
+let judgePin = null;
+let pairId = null;
+let pairName = null;
+let currentRound = 1;
+let currentPitch = 0;
+let currentAssignment = null;
+let currentSubmitted = false;
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+
+function checkJudgePin(){
+  const pin = document.getElementById('pinInput').value.trim();
+  if(!pin) return;
+  db.ref('palate/'+pin+'/meta').once('value').then(snap=>{
+    if(!snap.exists()){
+      document.getElementById('pinError').style.display='block';
+      return;
+    }
+    judgePin = pin;
+    localStorage.setItem('tccJudgePin', pin);
+    const savedPairId = localStorage.getItem('tccJudgePairId_'+pin);
+    if(savedPairId){
+      db.ref('palate/'+pin+'/pairs/'+savedPairId).once('value').then(s=>{
+        if(s.exists()){
+          pairId = savedPairId; pairName = s.val().name;
+          enterMainScreen();
+        } else {
+          showPairScreen();
+        }
+      });
+    } else {
+      showPairScreen();
+    }
+  });
+}
+
+function showPairScreen(){
+  showScreen('pairScreen');
+  db.ref('palate/'+judgePin+'/pairs').once('value').then(snap=>{
+    const pairs = snap.val() || {};
+    window._pairsCache = pairs;
+    const el = document.getElementById('pairOptions');
+    const ids = Object.keys(pairs);
+    if(ids.length===0){ el.innerHTML=''; return; }
+    el.innerHTML = ids.map(id=>{
+      const btn = document.createElement('button');
+      btn.className='pair-option';
+      btn.textContent = pairs[id].name;
+      btn.onclick = function(){ selectPair(id, pairs[id].name); };
+      return btn.outerHTML;
+    }).join('');
+    // re-bind real click handlers (outerHTML above drops the JS function ref)
+    Array.from(el.children).forEach((btn,i)=>{
+      const id = ids[i];
+      btn.onclick = function(){ selectPair(id, pairs[id].name); };
+    });
+  });
+}
+
+function selectPair(id, name){
+  pairId = id; pairName = name;
+  localStorage.setItem('tccJudgePairId_'+judgePin, id);
+  enterMainScreen();
+}
+
+function createAndSelectPair(){
+  const name = document.getElementById('newPairNameJudge').value.trim();
+  if(!name) return;
+  const ref = db.ref('palate/'+judgePin+'/pairs').push();
+  ref.set({name}).then(()=>{ selectPair(ref.key, name); });
+}
+
+function renamePair(){
+  const newName = prompt('Update your names', pairName || '');
+  if(newName===null || !newName.trim()) return;
+  pairName = newName.trim();
+  db.ref('palate/'+judgePin+'/pairs/'+pairId+'/name').set(pairName);
+  document.getElementById('pairNameDisplay').textContent = pairName;
+}
+
+function enterMainScreen(){
+  showScreen('mainScreen');
+  document.getElementById('pairNameDisplay').textContent = pairName;
+  db.ref('palate/'+judgePin+'/meta/activeRound').on('value', snap=>{
+    const r = snap.val();
+    currentRound = (r>=1 && r<=3) ? r : 1;
+    renderRoundInfo();
+    listenAssignment();
+    listenScoreStatus();
+  });
+}
+
+function renderRoundInfo(){
+  const info = ROUND_INFO[currentRound];
+  document.getElementById('roundEyebrow').textContent = info.eyebrow;
+  document.getElementById('roundTitle').textContent = info.title;
+  document.getElementById('roundMaxLabel').textContent = info.max+' pts max';
+  document.getElementById('totalMaxDisp').textContent = '/ '+info.max;
+  document.getElementById('pitchBand').style.display = currentRound===3 ? 'block' : 'none';
+  const scaleBar = document.getElementById('scaleBar');
+  scaleBar.classList.remove('sb-round1','sb-round2','sb-round3');
+  scaleBar.classList.add('sb-round'+currentRound);
+}
+
+function listenAssignment(){
+  db.ref('palate/'+judgePin+'/assignments/'+currentRound+'/'+pairId).on('value', snap=>{
+    currentAssignment = snap.val();
+    const nameEl = document.getElementById('podBand');
+    if(currentAssignment){
+      nameEl.innerHTML = '<div class="pod-band-label">Which pod you are scoring</div><div class="pod-band-name">'+currentAssignment.podName+'</div>';
+    } else {
+      nameEl.innerHTML = '<div class="pod-band-label">Which pod you are scoring</div><div class="pod-band-wait">Waiting for your facilitator to assign you a pod…</div>';
+    }
+  });
+}
+
+function listenScoreStatus(){
+  db.ref('palate/'+judgePin+'/scores/'+currentRound+'/'+pairId).on('value', snap=>{
+    const s = snap.val();
+    currentSubmitted = !!(s && s.submitted);
+    if(currentSubmitted){
+      document.getElementById('formArea').style.display='none';
+      document.getElementById('lockedBand').style.display='block';
+      document.getElementById('lockedTitle').textContent = 'Submitted for '+ROUND_INFO[currentRound].title;
+    } else {
+      document.getElementById('formArea').style.display = currentAssignment ? 'block' : 'block';
+      document.getElementById('lockedBand').style.display='none';
+      CRIT_FIELDS.forEach(f=>{ document.getElementById('s_'+f).value=''; });
+      currentPitch = 0;
+      document.getElementById('pitchYes').classList.remove('sel');
+      document.getElementById('pitchNo').classList.remove('sel');
+      recalcTotal();
+    }
+  });
+}
+
+function setPitch(v){
+  currentPitch = v;
+  document.getElementById('pitchYes').classList.toggle('sel', v===10);
+  document.getElementById('pitchNo').classList.toggle('sel', v===0);
+  recalcTotal();
+}
+
+function recalcTotal(){
+  let total = 0;
+  let hasError = false;
+  CRIT_FIELDS.forEach(f=>{
+    const input = document.getElementById('s_'+f);
+    const raw = input.value;
+    const v = parseInt(raw)||0;
+    const max = CRIT_MAX[f];
+    const isInvalid = raw!=='' && (v>max || v<0);
+    input.classList.toggle('error', isInvalid);
+    if(isInvalid) hasError = true;
+    total += Math.min(Math.max(v,0), max);
+  });
+  if(currentRound===3) total += currentPitch;
+  document.getElementById('totalVal').firstChild.textContent = total+' ';
+  const errBox = document.getElementById('scoreErrorMsg');
+  const btn = document.getElementById('submitBtn');
+  if(hasError){
+    errBox.style.display='block';
+    btn.disabled = true;
+  } else {
+    errBox.style.display='none';
+    btn.disabled = false;
+  }
+  return !hasError;
+}
+
+function submitScores(){
+  if(!currentAssignment){ alert('Wait for your facilitator to assign you a pod before scoring.'); return; }
+  if(!recalcTotal()){ alert('One or more scores are above the maximum for that criterion. Fix the highlighted box before submitting.'); return; }
+  const vals = {};
+  CRIT_FIELDS.forEach(f=>{ vals[f] = Math.max(0, Math.min(CRIT_MAX[f], parseInt(document.getElementById('s_'+f).value)||0)); });
+  const total = CRIT_FIELDS.reduce((sum,f)=>sum+vals[f],0) + (currentRound===3 ? currentPitch : 0);
+  if(!confirm('Submit '+total+' points for '+currentAssignment.podName+'? This cannot be undone from your end.')) return;
+  const payload = Object.assign({}, vals, {
+    total,
+    pitchBonus: currentRound===3 ? currentPitch : 0,
+    podId: currentAssignment.podId,
+    podName: currentAssignment.podName,
+    submitted: true,
+    submittedAt: Date.now()
+  });
+  db.ref('palate/'+judgePin+'/scores/'+currentRound+'/'+pairId).set(payload);
+}
+
+// resume session if already unlocked earlier, or auto-fill PIN from a shared link
+(function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlPin = urlParams.get('pin');
+  const savedPin = localStorage.getItem('tccJudgePin');
+  if(urlPin){
+    document.getElementById('pinInput').value = urlPin;
+    checkJudgePin();
+  } else if(savedPin){
+    document.getElementById('pinInput').value = savedPin;
+  }
+})();
+document.getElementById('pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkJudgePin(); });
+</script>
+</body>
+</html>
