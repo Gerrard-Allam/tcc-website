@@ -108,6 +108,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .meta-row{display:flex;justify-content:space-between;margin-bottom:14px;align-items:baseline;}
 .meta-row .ev{font-size:11px;color:#BDD4EA;font-weight:300;}
 .meta-row .mx{font-size:10px;color:#5A8FC4;text-align:right;}
+.event-hero{font-family:'Cormorant Garamond',serif;font-size:28px;color:#F2F5F9;text-align:center;padding:14px 20px 0;letter-spacing:0.01em;}
 .lb-table{width:100%;border-collapse:collapse;}
 .lb-table th{font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5A8FC4;padding:6px 10px;border-bottom:1px solid #3a3a38;text-align:left;}
 .lb-table td{padding:0;border-bottom:0.5px solid #383836;}
@@ -151,6 +152,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .btn{font-size:10px;font-weight:500;font-family:'DM Sans',sans-serif;padding:5px 12px;border-radius:4px;border:none;cursor:pointer;transition:opacity 0.15s;}
 .btn-primary{background:#2B6CB0;color:#F2F5F9;}
 .btn-amber{background:#C4622D;color:#F2F5F9;}
+.btn:disabled{opacity:0.4;cursor:not-allowed;}
 .btn-ghost{background:#383836;color:#BDD4EA;}
 .btn:hover{opacity:0.85;}
 .empty-state{text-align:center;padding:40px 20px;color:#5A8FC4;font-size:13px;}
@@ -225,6 +227,10 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 @keyframes revealRise{from{opacity:0;transform:translateY(14px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 .reveal-names2.reveal-content-in{animation-delay:0.08s;}
 .reveal-tag2{display:inline-block;font-size:9.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#C4622D;border:1px solid #C4622D;border-radius:20px;padding:5px 14px;margin-top:10px;}
+.reveal-math2{margin-top:16px;text-align:left;max-width:280px;margin-left:auto;margin-right:auto;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:4px 14px;}
+.reveal-math-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2C2C2A;font-size:11.5px;color:#BDD4EA;}
+.reveal-math-row:last-child{border-bottom:none;}
+.reveal-math-row.total{color:#F2F5F9;font-weight:600;}
 </style>
 
 <div class="wrap">
@@ -262,9 +268,11 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         <span class="final-ribbon-text">Final Standings — Event Complete</span>
       </div>
 
+      <div class="event-hero" id="eventHero2">The Collective Cup</div>
+
       <div class="lb-body">
         <div class="meta-row">
-          <span class="ev" id="eventLabel2">The Collective Cup &nbsp;·&nbsp; Live Standings</span>
+          <span class="ev" id="eventLabel2">Live Standings</span>
           <span class="mx" id="scoreMax2">Round 1 max 100 pts</span>
         </div>
         <table class="lb-table">
@@ -283,10 +291,11 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           </div>
           <div class="ctrl-card">
             <div class="ctrl-label">Enter scores</div>
-            <div class="ctrl-row"><label>Pod</label><select id="scorePod2"></select></div>
+            <div class="ctrl-row"><label>Pod</label><select id="scorePod2" onchange="selectPod2(this.value)"></select></div>
             <div class="ctrl-row"><label>R1</label><input type="number" id="s21" min="0" max="100" placeholder="—"></div>
             <div class="ctrl-row"><label>R2</label><input type="number" id="s22" min="0" max="100" placeholder="—"></div>
             <div class="ctrl-row"><label>R3</label><input type="number" id="s23" min="0" max="110" placeholder="—"></div>
+            <div style="font-size:9.5px;color:#5A5A57;margin-top:2px;">Boxes show whatever's currently on record for this pod — judge submission or your own manual entry, whichever landed last. Edit and save to override.</div>
             <div class="btn-row"><button class="btn btn-amber" onclick="saveScores2()">Save scores</button><button class="btn btn-ghost" onclick="removePod2()">Remove pod</button></div>
           </div>
         </div>
@@ -296,6 +305,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <button class="btn btn-ghost" onclick="setRound2(2)" id="rb22">Round 2</button>
           <button class="btn btn-ghost" onclick="setRound2(3)" id="rb23">Round 3</button>
           <button class="btn btn-ghost" onclick="setRound2(4)" id="rb24">Final</button>
+          <button class="btn btn-amber" id="revealRoundBtn" onclick="revealRoundToBoard()" style="margin-left:6px;" disabled>Reveal Round 1 to board</button>
           <span class="bottom-label" style="margin-left:6px;">Round 3 multiplier:</span>
           <div class="mult-input-wrap">
             <span>×</span>
@@ -308,6 +318,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <span id="liveStatus" style="font-size:10px;font-weight:500;color:#5A5A57;">○ Not sharing</span>
           <button class="btn btn-ghost" id="qrToggleBtn" onclick="toggleQR()">Show QR</button>
         </div>
+        <div id="revealStatusLine" style="font-size:10.5px;color:#5A5A57;margin-top:8px;">Nothing revealed to the board yet — guests see a blank board until you reveal Round 1.</div>
         <div id="qrPanel" style="display:none;margin-top:14px;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:16px;text-align:center;">
           <img id="qrImg" src="" alt="QR code to join live leaderboard" style="width:180px;height:180px;border-radius:4px;background:#fff;padding:8px;">
           <div style="font-size:10px;color:#5A8FC4;margin-top:10px;text-transform:uppercase;letter-spacing:0.08em;">Scan to follow along</div>
@@ -439,6 +450,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 const ROUND_MAX2=[100,100,110];
 let pods2=[];
 let activeRound2=1;
+let revealedRound=0; // how many rounds' scores are actually visible on the public board
 let r3Multiplier2=2;
 let rowEls2=new Map(); // podId -> <tr> element currently in the DOM
 
@@ -490,6 +502,9 @@ function applyPalateScoresToBoard(){
   if(changed){
     render2();
     syncToFirebase();
+    updateRevealButton();
+    const selectedId = document.getElementById('scorePod2').value;
+    if(selectedId) selectPod2(selectedId);
   }
 }
 
@@ -638,17 +653,30 @@ function renderMonitor(){
     const assign = (palateAssignments[r]||{})[id];
     const submitted = s && s.submitted;
     if(submitted) submittedCount++;
+    let totalDisplay = 'waiting';
+    let podLine = assign ? (submitted?'Scored: ':'Assigned: ')+assign.podName : 'No pod assigned';
+    if(submitted && assign){
+      const pod = pods2.find(p=>p.id===assign.podId);
+      if(pod){
+        let running = 0;
+        for(let pr=1; pr<=r; pr++){ running += (pod['r'+pr]!=null ? pod['r'+pr] : 0); }
+        totalDisplay = running;
+        podLine += ' · +'+s.total+' this round';
+      } else {
+        totalDisplay = s.total;
+      }
+    }
     return `<div class="mon-row">
       <div class="mon-status-dot ${submitted?'in':'pending'}"></div>
       <div class="mon-pair">
         <div class="mon-pair-name">${judgePairs[id].name}</div>
-        <div class="mon-pair-pod">${assign ? (submitted?'Scored: ':'Assigned: ')+assign.podName : 'No pod assigned'}</div>
+        <div class="mon-pair-pod">${podLine}</div>
       </div>
-      <div class="mon-total ${submitted?'':'pending-txt'}">${submitted ? s.total : 'waiting'}</div>
+      <div class="mon-total ${submitted?'':'pending-txt'}">${totalDisplay}</div>
       <div class="mon-edit" onclick="editPalateScore(${r},'${id}')">${submitted?'Edit':''}</div>
     </div>`;
   }).join('');
-  if(footer) footer.textContent = submittedCount+' of '+ids.length+' judge pairs submitted for Round '+r;
+  if(footer) footer.textContent = submittedCount+' of '+ids.length+' judge pairs submitted for Round '+r+'. Totals shown are the running pod score through this round, matching Enter Scores.';
 }
 
 function editPalateScore(round, pairId){
@@ -672,6 +700,8 @@ function editPalateScore(round, pairId){
 function computePalateStandings(){
   const ids = Object.keys(judgePairs);
   const deviation = {}; ids.forEach(id=>deviation[id]=0);
+  const deviationByRound = {1:{},2:{},3:{}};
+  ids.forEach(id=>{ deviationByRound[1][id]=0; deviationByRound[2][id]=0; deviationByRound[3][id]=0; });
   let roundsUsable = 0;
   for(let r=1;r<=3;r++){
     const roundScores = palateScores[r] || {};
@@ -680,19 +710,35 @@ function computePalateStandings(){
     roundsUsable++;
     PALATE_CRIT.forEach(crit=>{
       const avg = submittedIds.reduce((sum,id)=>sum+(roundScores[id][crit]||0),0) / submittedIds.length;
-      submittedIds.forEach(id=>{ deviation[id] += Math.abs((roundScores[id][crit]||0) - avg); });
+      submittedIds.forEach(id=>{
+        const d = Math.abs((roundScores[id][crit]||0) - avg);
+        deviation[id] += d;
+        deviationByRound[r][id] += d;
+      });
     });
   }
-  return {deviation, roundsUsable, ids};
+  return {deviation, deviationByRound, roundsUsable, ids};
+}
+
+function pickPalateWinner(deviation, deviationByRound, ids){
+  // Lower cumulative deviation wins. Tiebreak: lowest Round 3 deviation, then Round 2, then Round 1 —
+  // mirrored from the Makers rule (there, highest score wins each round; here, lowest deviation is "more accurate").
+  return ids.reduce((best,id)=>{
+    if(deviation[id] !== deviation[best]) return deviation[id] < deviation[best] ? id : best;
+    if(deviationByRound[3][id] !== deviationByRound[3][best]) return deviationByRound[3][id] < deviationByRound[3][best] ? id : best;
+    if(deviationByRound[2][id] !== deviationByRound[2][best]) return deviationByRound[2][id] < deviationByRound[2][best] ? id : best;
+    if(deviationByRound[1][id] !== deviationByRound[1][best]) return deviationByRound[1][id] < deviationByRound[1][best] ? id : best;
+    return best; // fully identical — a genuine tie
+  }, ids[0]);
 }
 
 function revealPalateAward(){
-  const {deviation, roundsUsable, ids} = computePalateStandings();
+  const {deviation, deviationByRound, roundsUsable, ids} = computePalateStandings();
   if(activeRound2!==4){ alert('The reveal is only available once you\'ve moved to Final round.'); return; }
   if(ids.length<3){ alert('You need at least 3 judge pairs for the Palate Award to mean anything.'); return; }
   if(roundsUsable<1){ alert('No round yet has 3 or more submitted judge pairs — nothing to calculate.'); return; }
 
-  const winnerId = ids.reduce((best,id)=> (deviation[id] < deviation[best] ? id : best), ids[0]);
+  const winnerId = pickPalateWinner(deviation, deviationByRound, ids);
   const btn = document.getElementById('revealBtn');
   btn.disabled = true;
   btn.textContent = 'Revealing…';
@@ -708,11 +754,23 @@ function revealPalateAward(){
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
 
   setTimeout(()=>{
+    const usableRounds = [1,2,3].filter(r=>{
+      const submittedIds = ids.filter(id=> (palateScores[r]||{})[id] && (palateScores[r]||{})[id].submitted);
+      return submittedIds.length>=3;
+    });
+    const rows = usableRounds.map(r=>{
+      const d = deviationByRound[r][winnerId];
+      return `<div class="reveal-math-row"><span>Round ${r}</span><span>${d.toFixed(1)} pts from the panel average</span></div>`;
+    }).join('');
     box.innerHTML = `
       <div class="reveal-eyebrow2 reveal-content-in">The Palate Award</div>
       <div class="reveal-names2 reveal-content-in">${judgePairs[winnerId].name}</div>
       <div class="reveal-tag2 reveal-content-in">Sharpest palate of the night</div>
-      <div class="reveal-sub2 reveal-content-in" style="margin-top:12px;">Lowest cumulative deviation from panel consensus, across ${roundsUsable} round${roundsUsable===1?'':'s'}.</div>`;
+      <div class="reveal-math2 reveal-content-in">
+        ${rows}
+        <div class="reveal-math-row total"><span>Total deviation</span><span>${deviation[winnerId].toFixed(1)} pts</span></div>
+      </div>
+      <div class="reveal-sub2 reveal-content-in" style="margin-top:10px;">Lowest total deviation from panel consensus wins — smaller number means their scoring matched the room most closely.</div>`;
     btn.textContent = 'Reveal again';
     btn.disabled = false;
   }, 1900);
@@ -727,11 +785,20 @@ function syncToFirebase(){
     document.getElementById('qrPanel').style.display='none';
     return;
   }
+  const publicPods = pods2.map(p=>({
+    id: p.id,
+    name: p.name,
+    members: p.members,
+    r1: revealedRound>=1 ? p.r1 : null,
+    r2: revealedRound>=2 ? p.r2 : null,
+    r3: revealedRound>=3 ? p.r3 : null
+  }));
   const state = {
     eventName: document.getElementById('eventName2').value.trim() || 'The Collective Cup',
     activeRound: activeRound2,
+    revealedRound: revealedRound,
     r3Multiplier: r3Multiplier2,
-    pods: pods2,
+    pods: publicPods,
     updatedAt: Date.now()
   };
   db.ref('events/' + pin + '/state').set(state);
@@ -791,8 +858,15 @@ function scoreThroughRound2(p,r){
 
 function ranksForRound2(r){
   const eff=Math.min(r,3);
-  const scored=pods2.map(p=>({id:p.id,score:scoreThroughRound2(p,eff)}));
-  scored.sort((a,b)=>b.score-a.score);
+  const scored=pods2.map(p=>({id:p.id, score:scoreThroughRound2(p,eff), r1:p.r1||0, r2:p.r2||0, r3:(p.r3||0)*r3Multiplier2}));
+  scored.sort((a,b)=>{
+    if(b.score!==a.score) return b.score-a.score;
+    // Tiebreak: highest Round 3 wins, then Round 2, then Round 1
+    if(eff>=3 && b.r3!==a.r3) return b.r3-a.r3;
+    if(eff>=2 && b.r2!==a.r2) return b.r2-a.r2;
+    if(b.r1!==a.r1) return b.r1-a.r1;
+    return 0; // fully identical across every round — a genuine tie, order here is arbitrary
+  });
   const ranks={};
   scored.forEach((s,i)=>{ranks[s.id]=i+1;});
   return ranks;
@@ -808,7 +882,49 @@ function renderPills2(){
   }).join('');
 }
 
+function allPodsScoredForRound(r){
+  if(pods2.length===0) return false;
+  return pods2.every(p=>p['r'+r]!=null);
+}
+
+function updateRevealButton(){
+  const btn = document.getElementById('revealRoundBtn');
+  const statusLine = document.getElementById('revealStatusLine');
+  if(!btn) return;
+  if(activeRound2<1 || activeRound2>3){
+    btn.style.display='none';
+  } else {
+    btn.style.display='inline-block';
+    const alreadyRevealed = revealedRound>=activeRound2;
+    const ready = allPodsScoredForRound(activeRound2);
+    btn.disabled = alreadyRevealed || !ready;
+    btn.textContent = alreadyRevealed ? 'Round '+activeRound2+' already on the board' : 'Reveal Round '+activeRound2+' to board';
+  }
+  if(statusLine){
+    if(revealedRound===0){
+      statusLine.textContent = 'Nothing revealed to the board yet — guests see a blank board until you reveal Round 1.';
+    } else {
+      statusLine.textContent = 'Board currently shows results through Round '+revealedRound+'.'+(activeRound2<=3 && revealedRound<activeRound2 ? ' Round '+activeRound2+' is scored privately until you reveal it.' : '');
+    }
+  }
+}
+
+function revealRoundToBoard(){
+  if(activeRound2<1 || activeRound2>3) return;
+  if(!allPodsScoredForRound(activeRound2)){
+    alert('Not every pod has a Round '+activeRound2+' score yet, manually or from a judge. Fill in the rest before revealing.');
+    return;
+  }
+  revealedRound = Math.max(revealedRound, activeRound2);
+  syncToFirebase();
+  updateRevealButton();
+}
+
 function setRound2(r){
+  if(r===4 && revealedRound<3){
+    alert('Reveal Round 3 to the board before moving to Final, otherwise the winner banner shows before anyone has seen the Round 3 results.');
+    return;
+  }
   activeRound2=r;
   renderPills2();
   const mx=document.getElementById('scoreMax2');
@@ -829,6 +945,7 @@ function setRound2(r){
   pushPalateMeta();
   renderAssignGrid();
   renderMonitor();
+  updateRevealButton();
 }
 
 function updateMultiplier2(){
@@ -964,6 +1081,7 @@ function addPod2(){
   updatePodSelect2();render2();
   syncToFirebase();
   renderAssignGrid();
+  updateRevealButton();
 }
 
 function updatePodSelect2(){
@@ -989,6 +1107,7 @@ function saveScores2(){
   p.r3=v3!==''?Math.min(parseInt(v3)||0,110):null;
   render2();
   syncToFirebase();
+  updateRevealButton();
 }
 
 function removePod2(){
@@ -999,11 +1118,13 @@ function removePod2(){
   render2();
   syncToFirebase();
   renderAssignGrid();
+  updateRevealButton();
 }
 
 function updateLabel2(){
   const name=document.getElementById('eventName2').value.trim()||'The Collective Cup';
-  document.getElementById('eventLabel2').textContent=name+' \u00b7 Live Standings';
+  document.getElementById('eventHero2').textContent=name;
+  document.getElementById('eventLabel2').textContent='Live Standings';
   syncToFirebase();
 }
 
