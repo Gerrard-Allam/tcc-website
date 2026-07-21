@@ -45,7 +45,16 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
 .judge-id{font-size:12.5px;color:#26251F;font-weight:500;}
 .judge-id-edit{font-size:9px;color:#2B6CB0;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;}
 
-.scale-bar{background:#C4622D;padding:10px 16px;}
+.scale-bar{padding:10px 16px;transition:background 0.25s ease;}
+.scale-bar.sb-round1{background:#F6F7F9;}
+.scale-bar.sb-round1 .scale-bar-title{color:#8A8A87;}
+.scale-bar.sb-round1 .scale-bar-sub{color:#26251F;}
+.scale-bar.sb-round2{background:#2B6CB0;}
+.scale-bar.sb-round2 .scale-bar-title{color:#CFE0F2;}
+.scale-bar.sb-round2 .scale-bar-sub{color:#EAF1FA;}
+.scale-bar.sb-round3{background:#C4622D;}
+.scale-bar.sb-round3 .scale-bar-title{color:#F6DCC9;}
+.scale-bar.sb-round3 .scale-bar-sub{color:#FBEDE2;}
 .scale-bar-title{font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#F6DCC9;margin-bottom:2px;}
 .scale-bar-sub{font-size:9.5px;color:#FBEDE2;}
 
@@ -136,7 +145,7 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
     <div class="judge-id-edit" onclick="renamePair()">Rename</div>
   </div>
 
-  <div class="scale-bar">
+  <div class="scale-bar" id="scaleBar">
     <div class="scale-bar-title">How to score</div>
     <div class="scale-bar-sub">Agree as a pair, or average your two scores, before entering.</div>
   </div>
@@ -340,6 +349,9 @@ function renderRoundInfo(){
   document.getElementById('roundMaxLabel').textContent = info.max+' pts max';
   document.getElementById('totalMaxDisp').textContent = '/ '+info.max;
   document.getElementById('pitchBand').style.display = currentRound===3 ? 'block' : 'none';
+  const scaleBar = document.getElementById('scaleBar');
+  scaleBar.classList.remove('sb-round1','sb-round2','sb-round3');
+  scaleBar.classList.add('sb-round'+currentRound);
 }
 
 function listenAssignment(){
