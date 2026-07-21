@@ -451,6 +451,7 @@ const ROUND_MAX2=[100,100,110];
 let pods2=[];
 let activeRound2=1;
 let revealedRound=0; // how many rounds' scores are actually visible on the public board
+let publicPalateReveal=null; // set only once the facilitator clicks Reveal — mirrors it to the public board
 let r3Multiplier2=2;
 let rowEls2=new Map(); // podId -> <tr> element currently in the DOM
 
@@ -773,6 +774,14 @@ function revealPalateAward(){
       <div class="reveal-sub2 reveal-content-in" style="margin-top:10px;">Lowest total deviation from panel consensus wins — smaller number means their scoring matched the room most closely.</div>`;
     btn.textContent = 'Reveal again';
     btn.disabled = false;
+
+    // publish the reveal to the public board too — winner + the actual math, nothing else
+    publicPalateReveal = {
+      winnerName: judgePairs[winnerId].name,
+      total: Number(deviation[winnerId].toFixed(1)),
+      rounds: usableRounds.map(r=>({round:r, deviation:Number(deviationByRound[r][winnerId].toFixed(1))}))
+    };
+    syncToFirebase();
   }, 1900);
 }
 
@@ -799,6 +808,7 @@ function syncToFirebase(){
     revealedRound: revealedRound,
     r3Multiplier: r3Multiplier2,
     pods: publicPods,
+    palateReveal: publicPalateReveal,
     updatedAt: Date.now()
   };
   db.ref('events/' + pin + '/state').set(state);

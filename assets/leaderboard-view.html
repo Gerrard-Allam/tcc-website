@@ -105,6 +105,18 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .meta-row{display:flex;justify-content:space-between;margin-bottom:14px;align-items:baseline;}
 .meta-row .ev{font-size:11px;color:#BDD4EA;font-weight:300;}
 .meta-row .mx{font-size:10px;color:#5A8FC4;text-align:right;}
+.event-hero{font-family:'Cormorant Garamond',serif;font-size:30px;color:#F2F5F9;text-align:center;padding:16px 20px 0;letter-spacing:0.01em;}
+@media (max-width:520px){ .event-hero{font-size:23px;padding:12px 14px 0;} }
+.palate-reveal-v{margin-top:20px;background:radial-gradient(ellipse at top,#2C2C2A 0%,#1B1B19 70%);border-radius:8px;padding:24px 20px;text-align:center;animation:revealRiseV 0.6s cubic-bezier(.22,1,.36,1) both;}
+@keyframes revealRiseV{from{opacity:0;transform:translateY(12px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.pr-eyebrow{font-size:9.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#5A8FC4;margin-bottom:10px;}
+.pr-names{font-family:'Cormorant Garamond',serif;font-size:26px;color:#F2F5F9;margin-bottom:6px;}
+.pr-tag{display:inline-block;font-size:9.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#C4622D;border:1px solid #C4622D;border-radius:20px;padding:5px 14px;margin-top:4px;}
+.pr-explainer{font-size:11px;color:#8A8A87;line-height:1.5;max-width:360px;margin:14px auto 0;}
+.pr-math{margin-top:14px;text-align:left;max-width:280px;margin-left:auto;margin-right:auto;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:4px 14px;}
+.pr-math-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2C2C2A;font-size:11.5px;color:#BDD4EA;}
+.pr-math-row:last-child{border-bottom:none;}
+.pr-math-row.total{color:#F2F5F9;font-weight:600;}
 .lb-table{width:100%;border-collapse:collapse;}
 .lb-table th{font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5A8FC4;padding:6px 10px;border-bottom:1px solid #3a3a38;text-align:left;}
 .lb-table td{padding:0;border-bottom:0.5px solid #383836;}
@@ -194,6 +206,8 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         <span class="final-ribbon-text">Final Standings — Event Complete</span>
       </div>
 
+      <div class="event-hero" id="eventHeroV">The Collective Cup</div>
+
       <div class="lb-body">
         <div class="meta-row">
           <span class="ev" id="eventLabelV">Live Standings</span>
@@ -203,6 +217,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <thead><tr><th style="width:44px;">#</th><th>Pod</th><th style="width:78px;text-align:center;" id="scoreColHeaderV">Score</th><th style="width:100px;">Progress</th><th style="width:100px;">Rounds</th></tr></thead>
           <tbody id="lbBodyV"></tbody>
         </table>
+        <div id="palateRevealV" class="palate-reveal-v" style="display:none;"></div>
       </div>
     </div>
   </div>
@@ -303,6 +318,7 @@ const db = firebase.database();
 const ROUND_MAX_V=[100,100,110];
 let prevRanksCache = null;
 let prevRoundCache = null;
+let rowElsV = new Map(); // podId -> <tr> element currently in the DOM
 
 function roundMaxV(r, mult){ return r===3 ? ROUND_MAX_V[2]*mult : ROUND_MAX_V[r-1]; }
 function cumMaxV(r, mult){ let t=0; for(let i=1;i<=Math.min(r,3);i++) t+=roundMaxV(i, mult); return t; }
@@ -316,8 +332,14 @@ function scoreThroughRoundV(p,r,mult){
 
 function ranksForRoundV(pods,r,mult){
   const eff=Math.min(r,3);
-  const scored=pods.map(p=>({id:p.id,score:scoreThroughRoundV(p,eff,mult)}));
-  scored.sort((a,b)=>b.score-a.score);
+  const scored=pods.map(p=>({id:p.id, score:scoreThroughRoundV(p,eff,mult), r1:p.r1||0, r2:p.r2||0, r3:(p.r3||0)*mult}));
+  scored.sort((a,b)=>{
+    if(b.score!==a.score) return b.score-a.score;
+    if(eff>=3 && b.r3!==a.r3) return b.r3-a.r3;
+    if(eff>=2 && b.r2!==a.r2) return b.r2-a.r2;
+    if(b.r1!==a.r1) return b.r1-a.r1;
+    return 0;
+  });
   const ranks={};
   scored.forEach((s,i)=>{ranks[s.id]=i+1;});
   return ranks;
@@ -364,12 +386,36 @@ function buildRowContentV(p,idx,currentRanks,prevRanks,activeRound,mult){
   `;
 }
 
+function renderPalateRevealV(reveal){
+  const box = document.getElementById('palateRevealV');
+  if(!box) return;
+  if(!reveal || !reveal.winnerName){
+    box.style.display='none';
+    box.innerHTML='';
+    return;
+  }
+  const rows = (reveal.rounds||[]).map(r=>
+    `<div class="pr-math-row"><span>Round ${r.round}</span><span>${r.deviation.toFixed(1)} pts from the panel average</span></div>`
+  ).join('');
+  box.innerHTML = `
+    <div class="pr-eyebrow">The Palate Award</div>
+    <div class="pr-names">${reveal.winnerName}</div>
+    <div class="pr-tag">Sharpest palate of the night</div>
+    <div class="pr-explainer">Every judge pair scores using the same criteria. Each round, we take the panel's average score on every criterion, that's the room's overall consensus, and measure how far each pair's own scores sit from it. That gap is their "deviation." The Palate Award goes to whoever's deviation is lowest, meaning their scoring matched the room most closely, not whoever scored the most generously.</div>
+    <div class="pr-math">
+      ${rows}
+      <div class="pr-math-row total"><span>Total deviation</span><span>${reveal.total.toFixed(1)} pts</span></div>
+    </div>`;
+  box.style.display='block';
+}
+
 function renderFromState(state){
   const pods = state.pods || [];
   const activeRound = state.activeRound || 1;
   const mult = state.r3Multiplier || 2;
 
-  document.getElementById('eventLabelV').textContent = (state.eventName || 'The Collective Cup') + ' · Live Standings';
+  document.getElementById('eventHeroV').textContent = state.eventName || 'The Collective Cup';
+  document.getElementById('eventLabelV').textContent = 'Live Standings';
   document.getElementById('r3RulesNoteV').textContent = `110 pts, ×${mult} multiplier`;
 
   const pillsEl = document.getElementById('roundPillsV');
@@ -388,9 +434,11 @@ function renderFromState(state){
   else if(activeRound===3){ mx.textContent=`Total Score · max ${cumMaxV(3,mult)} pts (Round 3 ×${mult})`; header.textContent='Total Score'; }
   else { mx.textContent=`Final Standings · max ${cumMaxV(3,mult)} pts`; header.textContent='FINAL'; }
   ribbon.classList.toggle('show', activeRound===4);
+  renderPalateRevealV(state.palateReveal);
 
   const tbody=document.getElementById('lbBodyV');
   if(!pods.length){
+    rowElsV.clear();
     tbody.innerHTML='<tr><td colspan="5"><div class="empty-state">Waiting for pods to be added…</div></td></tr>';
     return;
   }
@@ -401,10 +449,63 @@ function renderFromState(state){
   const sorted=[...pods].sort((a,b)=>currentRanks[a.id]-currentRanks[b.id]);
   sorted.forEach(p=>p._all=pods);
 
-  tbody.innerHTML = sorted.map((p,idx)=>{
+  // FLIP step 1: record old positions of existing rows
+  const oldTops=new Map();
+  rowElsV.forEach((el,id)=>{ oldTops.set(id, el.getBoundingClientRect().top); });
+
+  // Clear the "waiting for pods" placeholder if present
+  if(tbody.children.length===1 && tbody.children[0].querySelector('.empty-state')){
+    tbody.innerHTML='';
+  }
+
+  // Build/update rows, then reorder via appendChild
+  sorted.forEach((p,idx)=>{
+    let tr=rowElsV.get(p.id);
+    if(!tr){
+      tr=document.createElement('tr');
+      tr.innerHTML='<td colspan="5"><div class="pod-row"></div></td>';
+      rowElsV.set(p.id,tr);
+    }
     const isFinal = activeRound===4 && idx===0;
-    return `<tr><td colspan="5"><div class="pod-row${isFinal?' winner-row':''}">${buildRowContentV(p,idx,currentRanks,prevRanks,activeRound,mult)}</div></td></tr>`;
-  }).join('');
+    const podRowDiv=tr.querySelector('.pod-row');
+    podRowDiv.classList.toggle('winner-row', isFinal);
+    podRowDiv.innerHTML=buildRowContentV(p,idx,currentRanks,prevRanks,activeRound,mult);
+    tbody.appendChild(tr); // moves existing node or appends new one, in sorted order
+  });
+
+  // Remove rows for pods no longer present
+  [...rowElsV.keys()].forEach(id=>{
+    if(!pods.find(p=>p.id===id)){
+      const el=rowElsV.get(id);
+      if(el.parentNode) el.parentNode.removeChild(el);
+      rowElsV.delete(id);
+    }
+  });
+
+  // FLIP step 2: measure new positions, apply inverse transform, then animate to 0
+  const rowsToAnimate=[];
+  rowElsV.forEach((el,id)=>{
+    if(oldTops.has(id)){
+      const newTop=el.getBoundingClientRect().top;
+      const delta=oldTops.get(id)-newTop;
+      if(Math.abs(delta)>0.5){
+        const inner=el.querySelector('.pod-row');
+        inner.style.transition='none';
+        inner.style.transform=`translateY(${delta}px)`;
+        rowsToAnimate.push(inner);
+      }
+    }
+  });
+  if(rowsToAnimate.length){
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        rowsToAnimate.forEach(inner=>{
+          inner.style.transition='transform 0.4s ease, background 0.15s';
+          inner.style.transform='';
+        });
+      });
+    });
+  }
 }
 </script>
 
