@@ -323,7 +323,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         <div class="controls-grid">
           <div class="ctrl-card">
             <div class="ctrl-label">Judge PIN</div>
-            <div class="ctrl-row"><label>PIN</label><input type="text" id="judgePin" placeholder="e.g. 7734" oninput="activatePalate()"></div>
+            <div class="ctrl-row"><label>PIN</label><input type="text" id="judgePin" placeholder="e.g. 7734" onblur="activatePalate()" onkeydown="if(event.key==='Enter'){activatePalate();this.blur();}"></div>
             <div style="font-size:10px;color:#5A5A57;margin-top:4px;">This QR is for judges only — don't put it on the public screen or the guest QR.</div>
             <div class="btn-row" style="margin-top:8px;"><button class="btn btn-ghost" id="judgeQrToggleBtn" onclick="toggleJudgeQR()">Show Judge QR</button></div>
             <div id="judgeQrPanel" style="display:none;margin-top:12px;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:16px;text-align:center;">
@@ -463,7 +463,7 @@ const PALATE_MAX = {enjoyment:30,madeForMe:20,presentation:20,spirit:5,balance:1
 let judgePairs = {};
 let palateAssignments = {1:{},2:{},3:{}};
 let palateScores = {1:{},2:{},3:{}};
-let palateListenersOn = false;
+let subscribedPalatePin = null;
 
 function judgePinVal(){ return document.getElementById('judgePin').value.trim(); }
 
@@ -471,28 +471,44 @@ function activatePalate(){
   const pin = judgePinVal();
   const statusEl = document.getElementById('palateStatus');
   if(!pin){
+    if(subscribedPalatePin){
+      db.ref('palate/'+subscribedPalatePin+'/pairs').off();
+      db.ref('palate/'+subscribedPalatePin+'/assignments').off();
+      db.ref('palate/'+subscribedPalatePin+'/scores').off();
+      subscribedPalatePin = null;
+    }
     statusEl.textContent='○ Not active';
     statusEl.style.color='#5A5A57';
-    palateListenersOn=false;
     judgePairs={}; palateAssignments={1:{},2:{},3:{}}; palateScores={1:{},2:{},3:{}};
     renderPairList(); renderAssignGrid(); renderMonitor();
     return;
   }
-  if(!palateListenersOn){
-    palateListenersOn = true;
-    db.ref('palate/'+pin+'/pairs').on('value', snap=>{
-      judgePairs = snap.val() || {};
-      renderPairList(); renderAssignGrid(); renderMonitor();
-    });
-    db.ref('palate/'+pin+'/assignments').on('value', snap=>{
-      palateAssignments = snap.val() || {1:{},2:{},3:{}};
-      renderAssignGrid();
-    });
-    db.ref('palate/'+pin+'/scores').on('value', snap=>{
-      palateScores = snap.val() || {1:{},2:{},3:{}};
-      renderMonitor();
-    });
+  if(pin === subscribedPalatePin){
+    // already listening on the right pin, nothing to change
+    statusEl.textContent='● Active — judges can join with this PIN';
+    statusEl.style.color='#C4622D';
+    return;
   }
+  if(subscribedPalatePin){
+    // pin changed — detach the old listeners before attaching new ones
+    db.ref('palate/'+subscribedPalatePin+'/pairs').off();
+    db.ref('palate/'+subscribedPalatePin+'/assignments').off();
+    db.ref('palate/'+subscribedPalatePin+'/scores').off();
+  }
+  subscribedPalatePin = pin;
+  judgePairs={}; palateAssignments={1:{},2:{},3:{}}; palateScores={1:{},2:{},3:{}};
+  db.ref('palate/'+pin+'/pairs').on('value', snap=>{
+    judgePairs = snap.val() || {};
+    renderPairList(); renderAssignGrid(); renderMonitor();
+  });
+  db.ref('palate/'+pin+'/assignments').on('value', snap=>{
+    palateAssignments = snap.val() || {1:{},2:{},3:{}};
+    renderAssignGrid();
+  });
+  db.ref('palate/'+pin+'/scores').on('value', snap=>{
+    palateScores = snap.val() || {1:{},2:{},3:{}};
+    renderMonitor();
+  });
   pushPalateMeta();
   statusEl.textContent='● Active — judges can join with this PIN';
   statusEl.style.color='#C4622D';
@@ -514,6 +530,7 @@ function addJudgePair(){
   const name = nameInput.value.trim();
   if(!pin){ alert('Set a Judge PIN first.'); return; }
   if(!name) return;
+  activatePalate();
   db.ref('palate/'+pin+'/pairs').push().set({name});
   nameInput.value='';
 }
