@@ -186,6 +186,45 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .rules-awards{background:#1B1B19;border:1px solid #383836;border-radius:4px;padding:12px 14px;margin-top:18px;}
 .rules-awards-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C4622D;margin-bottom:5px;}
 .rules-awards-text{font-size:12px;color:#F2F5F9;line-height:1.55;font-weight:300;}
+
+/* PALATE AWARD — host only */
+.palate-note{font-size:10px;color:#5A5A57;line-height:1.5;margin-bottom:14px;}
+.pair-chip{display:flex;justify-content:space-between;align-items:center;background:#1B1B19;border:1px solid #3E3E3B;border-radius:5px;padding:7px 10px;margin-bottom:6px;font-size:12px;color:#F2F5F9;}
+.pair-remove{font-size:9.5px;color:#C4622D;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;font-weight:500;}
+.mon-empty{font-size:11px;color:#5A5A57;font-style:italic;padding:8px 0;}
+.assign-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #232321;}
+.assign-row:last-child{border-bottom:none;}
+.assign-name{font-size:12px;color:#D8D8D5;flex-shrink:0;}
+.assign-row select{background:#1B1B19;border:1px solid #3E3E3B;color:#BDD4EA;font-size:11px;padding:6px 8px;border-radius:5px;font-family:'DM Sans',sans-serif;max-width:180px;}
+.mon-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #232321;}
+.mon-row:last-child{border-bottom:none;}
+.mon-status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.mon-status-dot.in{background:#4A7C59;}
+.mon-status-dot.pending{background:#5A5A57;}
+.mon-pair{flex:1;min-width:0;}
+.mon-pair-name{font-size:12.5px;color:#F2F5F9;font-weight:500;}
+.mon-pair-pod{font-size:10px;color:#8A8A87;margin-top:1px;}
+.mon-total{font-size:14px;color:#F2F5F9;font-family:'Cormorant Garamond',serif;width:48px;text-align:right;flex-shrink:0;}
+.mon-total.pending-txt{color:#5A5A57;font-family:'DM Sans',sans-serif;font-size:10px;}
+.mon-edit{font-size:9.5px;color:#5A8FC4;font-weight:500;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;width:40px;text-align:right;flex-shrink:0;}
+.mon-footer-text{margin-top:10px;font-size:10.5px;color:#5A5A57;}
+.reveal-box{display:none;margin-top:16px;background:radial-gradient(ellipse at top,#2C2C2A 0%,#1B1B19 70%);border-radius:8px;padding:28px 20px;text-align:center;overflow:hidden;}
+.reveal-eyebrow2{font-size:9.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#5A8FC4;margin-bottom:10px;}
+.reveal-names2{font-family:'Cormorant Garamond',serif;font-size:28px;color:#F2F5F9;margin-bottom:8px;}
+.reveal-sub2{font-size:11px;color:#8A8A87;}
+.btn-reveal{width:100%;margin-top:6px;}
+
+/* reveal animation states */
+.reveal-drumroll{padding:6px 0 2px;}
+.reveal-drumroll-text{font-size:11px;color:#8A8A87;letter-spacing:0.06em;}
+.reveal-dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:#5A8FC4;margin:0 3px;animation:revealPulse 1.1s infinite ease-in-out;}
+.reveal-dots span:nth-child(2){animation-delay:0.15s;}
+.reveal-dots span:nth-child(3){animation-delay:0.3s;}
+@keyframes revealPulse{0%,80%,100%{opacity:0.25;transform:scale(0.8);}40%{opacity:1;transform:scale(1.15);}}
+.reveal-content-in{animation:revealRise 0.7s cubic-bezier(.22,1,.36,1) both;}
+@keyframes revealRise{from{opacity:0;transform:translateY(14px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.reveal-names2.reveal-content-in{animation-delay:0.08s;}
+.reveal-tag2{display:inline-block;font-size:9.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#C4622D;border:1px solid #C4622D;border-radius:20px;padding:5px 14px;margin-top:10px;}
 </style>
 
 <div class="wrap">
@@ -275,6 +314,50 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:#F2F5F9;letter-spacing:0.08em;margin-top:8px;">PIN: <span id="qrPinDisplay"></span></div>
           <div id="qrLinkText" style="font-size:10px;color:#888780;margin-top:6px;word-break:break-all;"></div>
         </div>
+      </div>
+
+      <div class="controls">
+        <div class="controls-title">Palate Award — Host Only</div>
+        <div class="palate-note">Judges enter their own scores from their phones. Nothing here ever reaches the public leaderboard or viewer link.</div>
+
+        <div class="controls-grid">
+          <div class="ctrl-card">
+            <div class="ctrl-label">Judge PIN</div>
+            <div class="ctrl-row"><label>PIN</label><input type="text" id="judgePin" placeholder="e.g. 7734" oninput="activatePalate()"></div>
+            <div style="font-size:10px;color:#5A5A57;margin-top:4px;">This QR is for judges only — don't put it on the public screen or the guest QR.</div>
+            <div class="btn-row" style="margin-top:8px;"><button class="btn btn-ghost" id="judgeQrToggleBtn" onclick="toggleJudgeQR()">Show Judge QR</button></div>
+            <div id="judgeQrPanel" style="display:none;margin-top:12px;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:16px;text-align:center;">
+              <img id="judgeQrImg" src="" alt="QR code for judge scoring" style="width:160px;height:160px;border-radius:4px;background:#fff;padding:8px;">
+              <div style="font-size:10px;color:#5A8FC4;margin-top:10px;text-transform:uppercase;letter-spacing:0.08em;">Judges scan this — one time each</div>
+              <div id="judgeQrLinkText" style="font-size:10px;color:#888780;margin-top:6px;word-break:break-all;"></div>
+            </div>
+            <div style="margin-top:8px;font-size:10.5px;font-weight:500;color:#5A5A57;" id="palateStatus">○ Not active</div>
+          </div>
+          <div class="ctrl-card">
+            <div class="ctrl-label">Add judge pair</div>
+            <div class="ctrl-row"><label>Names</label><input type="text" id="newPairName" placeholder="Priya &amp; Marcus" style="width:100%;"></div>
+            <div class="btn-row"><button class="btn btn-primary" onclick="addJudgePair()">Add pair</button></div>
+          </div>
+        </div>
+
+        <div class="ctrl-card" style="margin-top:14px;">
+          <div class="ctrl-label">Judge pairs</div>
+          <div id="pairListBody"><div class="mon-empty">No judge pairs added yet.</div></div>
+        </div>
+
+        <div class="ctrl-card" style="margin-top:14px;">
+          <div class="ctrl-label">Pod assignment — <span id="assignRoundLabel">Round 1</span></div>
+          <div id="assignGridBody"><div class="mon-empty">Add judge pairs above first.</div></div>
+        </div>
+
+        <div class="ctrl-card" style="margin-top:14px;">
+          <div class="ctrl-label">Live monitor — <span id="monitorRoundLabel">Round 1</span></div>
+          <div id="monitorBody"><div class="mon-empty">No judge pairs yet.</div></div>
+          <div class="mon-footer-text" id="monitorFooter"></div>
+        </div>
+
+        <button class="btn btn-amber btn-reveal" id="revealBtn" onclick="revealPalateAward()">Reveal the Palate Award</button>
+        <div id="palateRevealBox" class="reveal-box"></div>
       </div>
     </div>
   </div>
@@ -373,6 +456,215 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// ─── Palate Award (separate node, keyed by Judge PIN — never read by the public viewer) ──
+const PALATE_CRIT = ['enjoyment','madeForMe','presentation','spirit','balance','cocktailName','technique'];
+const PALATE_LABELS = {enjoyment:'Enjoyment /30',madeForMe:'Made for me /20',presentation:'Presentation /20',spirit:'Expression of spirit /05',balance:'Balance /10',cocktailName:'Cocktail name /10',technique:'Technique /05'};
+const PALATE_MAX = {enjoyment:30,madeForMe:20,presentation:20,spirit:5,balance:10,cocktailName:10,technique:5};
+let judgePairs = {};
+let palateAssignments = {1:{},2:{},3:{}};
+let palateScores = {1:{},2:{},3:{}};
+let palateListenersOn = false;
+
+function judgePinVal(){ return document.getElementById('judgePin').value.trim(); }
+
+function activatePalate(){
+  const pin = judgePinVal();
+  const statusEl = document.getElementById('palateStatus');
+  if(!pin){
+    statusEl.textContent='○ Not active';
+    statusEl.style.color='#5A5A57';
+    palateListenersOn=false;
+    judgePairs={}; palateAssignments={1:{},2:{},3:{}}; palateScores={1:{},2:{},3:{}};
+    renderPairList(); renderAssignGrid(); renderMonitor();
+    return;
+  }
+  if(!palateListenersOn){
+    palateListenersOn = true;
+    db.ref('palate/'+pin+'/pairs').on('value', snap=>{
+      judgePairs = snap.val() || {};
+      renderPairList(); renderAssignGrid(); renderMonitor();
+    });
+    db.ref('palate/'+pin+'/assignments').on('value', snap=>{
+      palateAssignments = snap.val() || {1:{},2:{},3:{}};
+      renderAssignGrid();
+    });
+    db.ref('palate/'+pin+'/scores').on('value', snap=>{
+      palateScores = snap.val() || {1:{},2:{},3:{}};
+      renderMonitor();
+    });
+  }
+  pushPalateMeta();
+  statusEl.textContent='● Active — judges can join with this PIN';
+  statusEl.style.color='#C4622D';
+}
+
+function pushPalateMeta(){
+  const pin = judgePinVal();
+  if(!pin) return;
+  db.ref('palate/'+pin+'/meta').set({
+    eventName: document.getElementById('eventName2').value.trim() || 'The Collective Cup',
+    activeRound: activeRound2,
+    updatedAt: Date.now()
+  });
+}
+
+function addJudgePair(){
+  const pin = judgePinVal();
+  const nameInput = document.getElementById('newPairName');
+  const name = nameInput.value.trim();
+  if(!pin){ alert('Set a Judge PIN first.'); return; }
+  if(!name) return;
+  db.ref('palate/'+pin+'/pairs').push().set({name});
+  nameInput.value='';
+}
+
+function removeJudgePair(pairId){
+  const pin = judgePinVal();
+  if(!pin) return;
+  if(!confirm('Remove this judge pair? This clears their assignments and scores too.')) return;
+  db.ref('palate/'+pin+'/pairs/'+pairId).remove();
+  for(let r=1;r<=3;r++){
+    db.ref('palate/'+pin+'/assignments/'+r+'/'+pairId).remove();
+    db.ref('palate/'+pin+'/scores/'+r+'/'+pairId).remove();
+  }
+}
+
+function renderPairList(){
+  const el = document.getElementById('pairListBody');
+  if(!el) return;
+  const ids = Object.keys(judgePairs);
+  if(ids.length===0){ el.innerHTML = '<div class="mon-empty">No judge pairs added yet.</div>'; return; }
+  el.innerHTML = ids.map(id=>`
+    <div class="pair-chip">
+      <span>${judgePairs[id].name}</span>
+      <span class="pair-remove" onclick="removeJudgePair('${id}')">Remove</span>
+    </div>`).join('');
+}
+
+function assignPod(round, pairId, podId){
+  const pin = judgePinVal();
+  if(!pin) return;
+  const pod = pods2.find(p=>p.id===podId);
+  if(!pod){ db.ref('palate/'+pin+'/assignments/'+round+'/'+pairId).remove(); return; }
+  db.ref('palate/'+pin+'/assignments/'+round+'/'+pairId).set({podId:pod.id, podName:pod.name});
+}
+
+function renderAssignGrid(){
+  const el = document.getElementById('assignGridBody');
+  if(!el) return;
+  const r = Math.min(activeRound2,3);
+  const label = document.getElementById('assignRoundLabel');
+  if(label) label.textContent = 'Round '+r;
+  const ids = Object.keys(judgePairs);
+  if(ids.length===0){ el.innerHTML = '<div class="mon-empty">Add judge pairs above first.</div>'; return; }
+  el.innerHTML = ids.map(id=>{
+    const current = (palateAssignments[r]||{})[id];
+    const options = pods2.map(p=>`<option value="${p.id}" ${current && current.podId===p.id ? 'selected':''}>${p.name}</option>`).join('');
+    return `<div class="assign-row">
+      <span class="assign-name">${judgePairs[id].name}</span>
+      <select onchange="assignPod(${r},'${id}',this.value)">
+        <option value="">— none —</option>
+        ${options}
+      </select>
+    </div>`;
+  }).join('');
+}
+
+function renderMonitor(){
+  const el = document.getElementById('monitorBody');
+  if(!el) return;
+  const r = Math.min(activeRound2,3);
+  const label = document.getElementById('monitorRoundLabel');
+  if(label) label.textContent = 'Round '+r;
+  const ids = Object.keys(judgePairs);
+  const footer = document.getElementById('monitorFooter');
+  if(ids.length===0){ el.innerHTML = '<div class="mon-empty">No judge pairs yet.</div>'; if(footer) footer.textContent=''; return; }
+  let submittedCount=0;
+  el.innerHTML = ids.map(id=>{
+    const s = (palateScores[r]||{})[id];
+    const assign = (palateAssignments[r]||{})[id];
+    const submitted = s && s.submitted;
+    if(submitted) submittedCount++;
+    return `<div class="mon-row">
+      <div class="mon-status-dot ${submitted?'in':'pending'}"></div>
+      <div class="mon-pair">
+        <div class="mon-pair-name">${judgePairs[id].name}</div>
+        <div class="mon-pair-pod">${assign ? (submitted?'Scored: ':'Assigned: ')+assign.podName : 'No pod assigned'}</div>
+      </div>
+      <div class="mon-total ${submitted?'':'pending-txt'}">${submitted ? s.total : 'waiting'}</div>
+      <div class="mon-edit" onclick="editPalateScore(${r},'${id}')">${submitted?'Edit':''}</div>
+    </div>`;
+  }).join('');
+  if(footer) footer.textContent = submittedCount+' of '+ids.length+' judge pairs submitted for Round '+r;
+}
+
+function editPalateScore(round, pairId){
+  const pin = judgePinVal();
+  if(!pin) return;
+  const s = (palateScores[round]||{})[pairId] || {};
+  let newVals = {};
+  for(const crit of PALATE_CRIT){
+    const v = prompt(PALATE_LABELS[crit]+' — current: '+(s[crit]!=null?s[crit]:'—'), s[crit]!=null?s[crit]:'');
+    if(v===null) return; // cancel aborts the whole edit, nothing saved
+    newVals[crit] = Math.max(0, Math.min(PALATE_MAX[crit], Number(v)||0));
+  }
+  let pitchBonus = s.pitchBonus || 0;
+  if(round===3){
+    pitchBonus = confirm('Pitch bonus for this pod — OK = yes (+10), Cancel = not quite (+0)') ? 10 : 0;
+  }
+  const total = PALATE_CRIT.reduce((sum,c)=>sum+newVals[c],0) + pitchBonus;
+  db.ref('palate/'+pin+'/scores/'+round+'/'+pairId).update(Object.assign({}, newVals, {pitchBonus, total, submitted:true, editedByHost:true, editedAt:Date.now()}));
+}
+
+function computePalateStandings(){
+  const ids = Object.keys(judgePairs);
+  const deviation = {}; ids.forEach(id=>deviation[id]=0);
+  let roundsUsable = 0;
+  for(let r=1;r<=3;r++){
+    const roundScores = palateScores[r] || {};
+    const submittedIds = ids.filter(id=> roundScores[id] && roundScores[id].submitted);
+    if(submittedIds.length < 3) continue; // need at least 3 pairs for a meaningful panel that round
+    roundsUsable++;
+    PALATE_CRIT.forEach(crit=>{
+      const avg = submittedIds.reduce((sum,id)=>sum+(roundScores[id][crit]||0),0) / submittedIds.length;
+      submittedIds.forEach(id=>{ deviation[id] += Math.abs((roundScores[id][crit]||0) - avg); });
+    });
+  }
+  return {deviation, roundsUsable, ids};
+}
+
+function revealPalateAward(){
+  const {deviation, roundsUsable, ids} = computePalateStandings();
+  if(activeRound2!==4){ alert('The reveal is only available once you\'ve moved to Final round.'); return; }
+  if(ids.length<3){ alert('You need at least 3 judge pairs for the Palate Award to mean anything.'); return; }
+  if(roundsUsable<1){ alert('No round yet has 3 or more submitted judge pairs — nothing to calculate.'); return; }
+
+  const winnerId = ids.reduce((best,id)=> (deviation[id] < deviation[best] ? id : best), ids[0]);
+  const btn = document.getElementById('revealBtn');
+  btn.disabled = true;
+  btn.textContent = 'Revealing…';
+
+  const box = document.getElementById('palateRevealBox');
+  box.style.display='block';
+  box.innerHTML = `
+    <div class="reveal-eyebrow2">The Palate Award</div>
+    <div class="reveal-drumroll">
+      <div class="reveal-dots"><span></span><span></span><span></span></div>
+      <div class="reveal-drumroll-text" style="margin-top:8px;">Tallying the panel…</div>
+    </div>`;
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+  setTimeout(()=>{
+    box.innerHTML = `
+      <div class="reveal-eyebrow2 reveal-content-in">The Palate Award</div>
+      <div class="reveal-names2 reveal-content-in">${judgePairs[winnerId].name}</div>
+      <div class="reveal-tag2 reveal-content-in">Sharpest palate of the night</div>
+      <div class="reveal-sub2 reveal-content-in" style="margin-top:12px;">Lowest cumulative deviation from panel consensus, across ${roundsUsable} round${roundsUsable===1?'':'s'}.</div>`;
+    btn.textContent = 'Reveal again';
+    btn.disabled = false;
+  }, 1900);
+}
+
 function syncToFirebase(){
   const pin = document.getElementById('viewerPin2').value.trim();
   const statusEl = document.getElementById('liveStatus');
@@ -419,8 +711,22 @@ function toggleQR(){
   btn.textContent = 'Hide QR';
 }
 
-function roundMax2(r){ return r===3 ? ROUND_MAX2[2]*r3Multiplier2 : ROUND_MAX2[r-1]; }
-function cumMax2(r){ let t=0; for(let i=1;i<=Math.min(r,3);i++) t+=roundMax2(i); return t; }
+function toggleJudgeQR(){
+  const panel = document.getElementById('judgeQrPanel');
+  const btn = document.getElementById('judgeQrToggleBtn');
+  const isOpen = panel.style.display === 'block';
+  if(isOpen){ panel.style.display='none'; btn.textContent='Show Judge QR'; return; }
+  const pin = judgePinVal();
+  if(!pin){ alert('Set a Judge PIN first, then click Show Judge QR.'); return; }
+  const judgeUrl = 'https://gerrard-allam.github.io/tcc-website/assets/judge-entry.html?pin=' + encodeURIComponent(pin);
+  const qrImgUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(judgeUrl);
+  document.getElementById('judgeQrImg').src = qrImgUrl;
+  document.getElementById('judgeQrLinkText').textContent = judgeUrl;
+  panel.style.display='block';
+  btn.textContent='Hide Judge QR';
+}
+
+function roundMax2(r){ return r===3 ? ROUND_MAX2[2]*r3Multiplier2 : ROUND_MAX2[r-1]; }function cumMax2(r){ let t=0; for(let i=1;i<=Math.min(r,3);i++) t+=roundMax2(i); return t; }
 
 // Score accumulated through a given round (1-3). Round 3 score is multiplied.
 function scoreThroughRound2(p,r){
@@ -467,6 +773,9 @@ function setRound2(r){
   });
   render2();
   syncToFirebase();
+  pushPalateMeta();
+  renderAssignGrid();
+  renderMonitor();
 }
 
 function updateMultiplier2(){
@@ -601,6 +910,7 @@ function addPod2(){
   document.getElementById('podMembers2').value='';
   updatePodSelect2();render2();
   syncToFirebase();
+  renderAssignGrid();
 }
 
 function updatePodSelect2(){
@@ -635,6 +945,7 @@ function removePod2(){
   ['s21','s22','s23'].forEach(id=>document.getElementById(id).value='');
   render2();
   syncToFirebase();
+  renderAssignGrid();
 }
 
 function updateLabel2(){
