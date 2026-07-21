@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Leaderboard — The Craft Collective</title>
+<title>Facilitator Controls — The Craft Collective</title>
 <meta name="robots" content="noindex">
 <!-- Firebase Realtime Database — used to sync live scores to the participant viewer page (assets/leaderboard-view.html) -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -576,7 +576,16 @@ function renderAssignGrid(){
   if(ids.length===0){ el.innerHTML = '<div class="mon-empty">Add judge pairs above first.</div>'; return; }
   el.innerHTML = ids.map(id=>{
     const current = (palateAssignments[r]||{})[id];
-    const options = pods2.map(p=>`<option value="${p.id}" ${current && current.podId===p.id ? 'selected':''}>${p.name}</option>`).join('');
+    // pods this pair already judged in an earlier round — push these to the bottom, clearly labeled
+    const alreadyJudged = new Set();
+    for(let pr=1; pr<r; pr++){
+      const a = (palateAssignments[pr]||{})[id];
+      if(a) alreadyJudged.add(a.podId);
+    }
+    const fresh = pods2.filter(p=>!alreadyJudged.has(p.id));
+    const used = pods2.filter(p=>alreadyJudged.has(p.id));
+    const optionHtml = p => `<option value="${p.id}" ${current && current.podId===p.id ? 'selected':''}>${p.name}${alreadyJudged.has(p.id)?' — already judged':''}</option>`;
+    const options = fresh.map(optionHtml).join('') + used.map(optionHtml).join('');
     return `<div class="assign-row">
       <span class="assign-name">${judgePairs[id].name}</span>
       <select onchange="assignPod(${r},'${id}',this.value)">

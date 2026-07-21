@@ -72,7 +72,10 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
 .score-input-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0;}
 .score-input-wrap input{width:48px;background:#fff;border:1.5px solid #C6CCD6;color:#26251F;font-size:15px;font-weight:600;text-align:center;padding:8px 2px;border-radius:5px;font-family:'DM Sans',sans-serif;}
 .score-input-wrap input:focus{outline:none;border-color:#5A8FC4;}
+.score-input-wrap input.error{border-color:#C4622D;background:#FBEDE2;color:#C4622D;}
 .score-input-wrap .denom{font-size:11px;color:#8A8A87;width:26px;}
+
+.score-error-msg{margin:8px 16px 0;background:#FBEDE2;border:1px solid #C4622D;border-radius:6px;padding:9px 12px;font-size:11px;color:#8A3E1C;line-height:1.4;display:none;}
 
 .pitch-band{margin:10px 16px 4px;border:1.5px solid #C4622D;background:#FBEDE2;border-radius:6px;padding:10px 12px;}
 .pitch-band-label{font-size:8.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#C4622D;margin-bottom:8px;}
@@ -194,6 +197,8 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
       </div>
     </div>
 
+    <div class="score-error-msg" id="scoreErrorMsg">One or more scores are above the maximum for that criterion. The box in question is highlighted, please revise it before submitting.</div>
+
     <div class="total-band">
       <div class="total-label">Round total</div>
       <div class="total-val" id="totalVal">0 <span id="totalMaxDisp">/ 100</span></div>
@@ -231,6 +236,7 @@ const ROUND_INFO = {
   3: {eyebrow:'Round 3 of 3 · Final Round', title:'The Signature', max:110}
 };
 const CRIT_FIELDS = ['enjoyment','madeForMe','presentation','spirit','balance','cocktailName','technique'];
+const CRIT_MAX = {enjoyment:30, madeForMe:20, presentation:20, spirit:5, balance:10, cocktailName:10, technique:5};
 
 let judgePin = null;
 let pairId = null;
@@ -377,18 +383,36 @@ function setPitch(v){
 
 function recalcTotal(){
   let total = 0;
+  let hasError = false;
   CRIT_FIELDS.forEach(f=>{
-    const v = parseInt(document.getElementById('s_'+f).value)||0;
-    total += v;
+    const input = document.getElementById('s_'+f);
+    const raw = input.value;
+    const v = parseInt(raw)||0;
+    const max = CRIT_MAX[f];
+    const isInvalid = raw!=='' && (v>max || v<0);
+    input.classList.toggle('error', isInvalid);
+    if(isInvalid) hasError = true;
+    total += Math.min(Math.max(v,0), max);
   });
   if(currentRound===3) total += currentPitch;
   document.getElementById('totalVal').firstChild.textContent = total+' ';
+  const errBox = document.getElementById('scoreErrorMsg');
+  const btn = document.getElementById('submitBtn');
+  if(hasError){
+    errBox.style.display='block';
+    btn.disabled = true;
+  } else {
+    errBox.style.display='none';
+    btn.disabled = false;
+  }
+  return !hasError;
 }
 
 function submitScores(){
   if(!currentAssignment){ alert('Wait for your facilitator to assign you a pod before scoring.'); return; }
+  if(!recalcTotal()){ alert('One or more scores are above the maximum for that criterion. Fix the highlighted box before submitting.'); return; }
   const vals = {};
-  CRIT_FIELDS.forEach(f=>{ vals[f] = Math.max(0, parseInt(document.getElementById('s_'+f).value)||0); });
+  CRIT_FIELDS.forEach(f=>{ vals[f] = Math.max(0, Math.min(CRIT_MAX[f], parseInt(document.getElementById('s_'+f).value)||0)); });
   const total = CRIT_FIELDS.reduce((sum,f)=>sum+vals[f],0) + (currentRound===3 ? currentPitch : 0);
   if(!confirm('Submit '+total+' points for '+currentAssignment.podName+'? This cannot be undone from your end.')) return;
   const payload = Object.assign({}, vals, {
