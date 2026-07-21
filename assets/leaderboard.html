@@ -467,6 +467,32 @@ let subscribedPalatePin = null;
 
 function judgePinVal(){ return document.getElementById('judgePin').value.trim(); }
 
+function applyPalateScoresToBoard(){
+  // A judge pair's submitted round score IS that pod's real score for the round —
+  // this is what actually updates "The Event · Live Standings," not the Palate panel itself.
+  let changed = false;
+  const roundCap = {1:100, 2:100, 3:110};
+  for(let r=1; r<=3; r++){
+    const roundScores = palateScores[r] || {};
+    Object.keys(roundScores).forEach(pairIdKey=>{
+      const s = roundScores[pairIdKey];
+      if(!s || !s.submitted || !s.podId) return;
+      const pod = pods2.find(p=>p.id===s.podId);
+      if(!pod) return;
+      const field = 'r'+r;
+      const val = Math.min(s.total, roundCap[r]);
+      if(pod[field] !== val){
+        pod[field] = val;
+        changed = true;
+      }
+    });
+  }
+  if(changed){
+    render2();
+    syncToFirebase();
+  }
+}
+
 function activatePalate(){
   const pin = judgePinVal();
   const statusEl = document.getElementById('palateStatus');
@@ -508,6 +534,7 @@ function activatePalate(){
   db.ref('palate/'+pin+'/scores').on('value', snap=>{
     palateScores = snap.val() || {1:{},2:{},3:{}};
     renderMonitor();
+    applyPalateScoresToBoard();
   });
   pushPalateMeta();
   statusEl.textContent='● Active — judges can join with this PIN';
