@@ -274,13 +274,13 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">You are a maker or a judge — check with your facilitator if unsure.</div></div>
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Makers work in pods. Name your pod at the start.</div></div>
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 1: replicate The 101 cocktail with one creative choice.</div></div>
-        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 2: a surprise ingredient is revealed. It must go in your cocktail.</div></div>
-        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 3: full creative freedom. Name it, build it, pitch it in 30 seconds.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 2: The Build. Choose a drink off the recipe card cheat sheet.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 3: full creative freedom. Name it, build it, pitch it.</div></div>
       </div>
 
       <div class="rules-section-label">The maker–judge relationship</div>
       <div class="rules-list">
-        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Ask your judge what they want before you build.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">In Rounds 2 and 3, ask your judge what they want before you build.</div></div>
         <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Read them. Build something for them, not just for the score.</div></div>
         <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Ask if they want it as a cocktail or mocktail — every time.</div></div>
         <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text">Judges: score honestly. The Palate Award goes to the sharpest palate, not the most generous one.</div></div>
@@ -401,7 +401,7 @@ function renderPalateRevealV(reveal){
     <div class="pr-eyebrow">The Palate Award</div>
     <div class="pr-names">${reveal.winnerName}</div>
     <div class="pr-tag">Sharpest palate of the night</div>
-    <div class="pr-explainer">Every judge pair scores using the same criteria. Each round, we take the panel's average score on every criterion, that's the room's overall consensus, and measure how far each pair's own scores sit from it. That gap is their "deviation." The Palate Award goes to whoever's deviation is lowest, meaning their scoring matched the room most closely, not whoever scored the most generously.</div>
+    <div class="pr-explainer">We compare every judge pair's scores to the panel's average each round. The Palate Award goes to whoever stayed closest, not whoever scored highest.</div>
     <div class="pr-math">
       ${rows}
       <div class="pr-math-row total"><span>Total deviation</span><span>${reveal.total.toFixed(1)} pts</span></div>
