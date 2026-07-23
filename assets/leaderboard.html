@@ -317,6 +317,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <input type="text" id="viewerPin2" class="event-input" style="width:100px;" placeholder="e.g. 4521" oninput="syncToFirebase();document.getElementById('qrPanel').style.display='none';document.getElementById('qrToggleBtn').textContent='Show QR';">
           <span id="liveStatus" style="font-size:10px;font-weight:500;color:#5A5A57;">○ Not sharing</span>
           <button class="btn btn-ghost" id="qrToggleBtn" onclick="toggleQR()">Show QR</button>
+          <button class="btn" style="background:#C4622D;color:#F2F5F9;margin-left:auto;" onclick="startNewEvent()" title="Wipes any old data stored under the Viewer PIN and Judge PIN currently entered, so you can safely reuse a PIN from a past event.">Start New Event</button>
         </div>
         <div id="revealStatusLine" style="font-size:10.5px;color:#5A5A57;margin-top:8px;">Nothing revealed to the board yet — guests see a blank board until you reveal Round 1.</div>
         <div id="qrPanel" style="display:none;margin-top:14px;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:16px;text-align:center;">
@@ -783,6 +784,67 @@ function revealPalateAward(){
     };
     syncToFirebase();
   }, 1900);
+}
+
+function startNewEvent(){
+  const viewerPin = document.getElementById('viewerPin2').value.trim();
+  const judgePin = judgePinVal();
+
+  if(!viewerPin && !judgePin){
+    alert('Enter a Viewer PIN and/or Judge PIN first, then click Start New Event to clear out anything stored under them.');
+    return;
+  }
+
+  let msg = 'This will permanently erase any pod scores, judge pairs, and Palate Award data currently stored under:\n';
+  if(viewerPin) msg += '\n• Viewer PIN ' + viewerPin;
+  if(judgePin) msg += '\n• Judge PIN ' + judgePin;
+  msg += '\n\nThis cannot be undone. Only do this before a new event starts, never mid-event.\n\nContinue?';
+  if(!confirm(msg)) return;
+
+  if(viewerPin) db.ref('events/' + viewerPin + '/state').remove();
+  if(judgePin) db.ref('palate/' + judgePin).remove();
+
+  // Reset local state back to a blank slate
+  pods2 = [];
+  activeRound2 = 1;
+  revealedRound = 0;
+  publicPalateReveal = null;
+  r3Multiplier2 = 2;
+  rowEls2.clear();
+  judgePairs = {};
+  palateAssignments = {1:{},2:{},3:{}};
+  palateScores = {1:{},2:{},3:{}};
+
+  document.getElementById('eventName2').value = '';
+  document.getElementById('r3Mult2').value = '2';
+  document.getElementById('podName2').value = '';
+  document.getElementById('podMembers2').value = '';
+  document.getElementById('s21').value = '';
+  document.getElementById('s22').value = '';
+  document.getElementById('s23').value = '';
+  document.getElementById('qrPanel').style.display = 'none';
+  document.getElementById('qrToggleBtn').textContent = 'Show QR';
+  document.getElementById('judgeQrPanel').style.display = 'none';
+  document.getElementById('judgeQrToggleBtn').textContent = 'Show Judge QR';
+  document.getElementById('revealStatusLine').textContent = "Nothing revealed to the board yet — guests see a blank board until you reveal Round 1.";
+
+  updatePodSelect2();
+  renderPills2();
+  setRound2(1);
+  render2();
+  renderPairList();
+  renderAssignGrid();
+  renderMonitor();
+  updateRevealButton();
+
+  // Re-push blank state so anyone already connected sees the reset immediately
+  if(viewerPin) syncToFirebase();
+  // Re-establish the judge meta node so the QR still works right away if the
+  // Judge PIN is being reused — otherwise judges scanning it would hit a
+  // "no such event" error until this gets written again.
+  if(judgePin) pushPalateMeta();
+
+  alert('New event started. Old data has been cleared for the PIN(s) entered.');
 }
 
 function syncToFirebase(){

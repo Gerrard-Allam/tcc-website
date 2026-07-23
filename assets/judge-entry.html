@@ -84,6 +84,12 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
 .score-input-wrap input.error{border-color:#C4622D;background:#FBEDE2;color:#C4622D;}
 .score-input-wrap .denom{font-size:11px;color:#8A8A87;width:26px;}
 
+.rate-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.rate-group{display:flex;gap:4px;}
+.rate-btn{width:30px;height:30px;border-radius:5px;border:1.5px solid #C6CCD6;background:#fff;color:#5A5A57;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;}
+.rate-btn.sel{border-color:#2B6CB0;background:#2B6CB0;color:#fff;}
+.rate-points{font-size:9.5px;color:#8A8A87;}
+
 .score-error-msg{margin:8px 16px 0;background:#FBEDE2;border:1px solid #C4622D;border-radius:6px;padding:9px 12px;font-size:11px;color:#8A3E1C;line-height:1.4;display:none;}
 
 .pitch-band{margin:10px 16px 4px;border:1.5px solid #C4622D;background:#FBEDE2;border-radius:6px;padding:10px 12px;}
@@ -147,7 +153,7 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
 
   <div class="scale-bar" id="scaleBar">
     <div class="scale-bar-title">How to score</div>
-    <div class="scale-bar-sub">Agree as a pair, or average your two scores, before entering.</div>
+    <div class="scale-bar-sub">Rate each 1 to 5. Agree as a pair before entering — we handle the math.</div>
   </div>
 
   <div class="round-band">
@@ -167,35 +173,56 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
     <div class="cat-header cat-natural"><span>Natural · As a customer</span><span>50 pts</span></div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Enjoyment</div><div class="score-row-hint">Would you order this again?</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="30" id="s_enjoyment" oninput="recalcTotal()"><span class="denom">/30</span></div>
+      <div class="rate-wrap" data-crit="enjoyment">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /30</div>
+      </div>
     </div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Made for me</div><div class="score-row-hint">Was it built for YOU?</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="20" id="s_madeForMe" oninput="recalcTotal()"><span class="denom">/20</span></div>
+      <div class="rate-wrap" data-crit="madeForMe">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /20</div>
+      </div>
     </div>
 
     <div class="cat-header cat-presentation"><span>Presentation · Before you taste</span><span>20 pts</span></div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Presentation</div><div class="score-row-hint">Visual impact, garnish, neatness</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="20" id="s_presentation" oninput="recalcTotal()"><span class="denom">/20</span></div>
+      <div class="rate-wrap" data-crit="presentation">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /20</div>
+      </div>
     </div>
 
     <div class="cat-header cat-technical"><span>Technical · From the 101</span><span>30 pts</span></div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Expression of spirit</div><div class="score-row-hint">Does the spirit shine?</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="5" id="s_spirit" oninput="recalcTotal()"><span class="denom">/05</span></div>
+      <div class="rate-wrap" data-crit="spirit">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /05</div>
+      </div>
     </div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Balance</div><div class="score-row-hint">Does everything work together?</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="10" id="s_balance" oninput="recalcTotal()"><span class="denom">/10</span></div>
+      <div class="rate-wrap" data-crit="balance">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /10</div>
+      </div>
     </div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Cocktail name</div><div class="score-row-hint">Creative, memorable, fitting</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="10" id="s_cocktailName" oninput="recalcTotal()"><span class="denom">/10</span></div>
+      <div class="rate-wrap" data-crit="cocktailName">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /10</div>
+      </div>
     </div>
     <div class="score-row">
       <div class="score-row-info"><div class="score-row-name">Technique</div><div class="score-row-hint">Clean pour, proper strain</div></div>
-      <div class="score-input-wrap"><input type="number" min="0" max="5" id="s_technique" oninput="recalcTotal()"><span class="denom">/05</span></div>
+      <div class="rate-wrap" data-crit="technique">
+        <div class="rate-group"></div>
+        <div class="rate-points">— /05</div>
+      </div>
     </div>
 
     <div class="pitch-band" id="pitchBand" style="display:none;">
@@ -206,7 +233,7 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
       </div>
     </div>
 
-    <div class="score-error-msg" id="scoreErrorMsg">One or more scores are above the maximum for that criterion. The box in question is highlighted, please revise it before submitting.</div>
+    <div class="score-error-msg" id="scoreErrorMsg">Rate every criterion above before submitting.</div>
 
     <div class="total-band">
       <div class="total-label">Round total</div>
@@ -246,6 +273,10 @@ const ROUND_INFO = {
 };
 const CRIT_FIELDS = ['enjoyment','madeForMe','presentation','spirit','balance','cocktailName','technique'];
 const CRIT_MAX = {enjoyment:30, madeForMe:20, presentation:20, spirit:5, balance:10, cocktailName:10, technique:5};
+// Every current max divides evenly by 5, so a judge's 1-5 rating maps cleanly onto
+// the existing weighted point scale. Judges never see or touch these numbers.
+const CRIT_MULT = {enjoyment:6, madeForMe:4, presentation:4, spirit:1, balance:2, cocktailName:2, technique:1};
+let currentRatings = {};
 
 let judgePin = null;
 let pairId = null;
@@ -377,12 +408,37 @@ function listenScoreStatus(){
     } else {
       document.getElementById('formArea').style.display = currentAssignment ? 'block' : 'block';
       document.getElementById('lockedBand').style.display='none';
-      CRIT_FIELDS.forEach(f=>{ document.getElementById('s_'+f).value=''; });
+      resetRatingButtons();
       currentPitch = 0;
       document.getElementById('pitchYes').classList.remove('sel');
       document.getElementById('pitchNo').classList.remove('sel');
       recalcTotal();
     }
+  });
+}
+
+function buildRatingButtons(){
+  CRIT_FIELDS.forEach(f=>{
+    const wrap = document.querySelector('.rate-wrap[data-crit="'+f+'"] .rate-group');
+    wrap.innerHTML = [1,2,3,4,5].map(n=>'<button type="button" class="rate-btn" onclick="rateCriterion(\''+f+'\','+n+')">'+n+'</button>').join('');
+  });
+}
+buildRatingButtons();
+
+function rateCriterion(field, value){
+  currentRatings[field] = value;
+  const wrap = document.querySelector('.rate-wrap[data-crit="'+field+'"]');
+  wrap.querySelectorAll('.rate-btn').forEach((btn,i)=>{ btn.classList.toggle('sel', i+1===value); });
+  wrap.querySelector('.rate-points').textContent = (value*CRIT_MULT[field])+' /'+CRIT_MAX[field];
+  recalcTotal();
+}
+
+function resetRatingButtons(){
+  currentRatings = {};
+  CRIT_FIELDS.forEach(f=>{
+    const wrap = document.querySelector('.rate-wrap[data-crit="'+f+'"]');
+    wrap.querySelectorAll('.rate-btn').forEach(btn=>btn.classList.remove('sel'));
+    wrap.querySelector('.rate-points').textContent = '— /'+CRIT_MAX[f];
   });
 }
 
@@ -395,36 +451,32 @@ function setPitch(v){
 
 function recalcTotal(){
   let total = 0;
-  let hasError = false;
+  let allRated = true;
   CRIT_FIELDS.forEach(f=>{
-    const input = document.getElementById('s_'+f);
-    const raw = input.value;
-    const v = parseInt(raw)||0;
-    const max = CRIT_MAX[f];
-    const isInvalid = raw!=='' && (v>max || v<0);
-    input.classList.toggle('error', isInvalid);
-    if(isInvalid) hasError = true;
-    total += Math.min(Math.max(v,0), max);
+    const rating = currentRatings[f];
+    if(!rating){ allRated = false; return; }
+    total += rating * CRIT_MULT[f];
   });
   if(currentRound===3) total += currentPitch;
   document.getElementById('totalVal').firstChild.textContent = total+' ';
   const errBox = document.getElementById('scoreErrorMsg');
   const btn = document.getElementById('submitBtn');
-  if(hasError){
+  if(!allRated){
+    errBox.textContent = 'Rate every criterion above before submitting.';
     errBox.style.display='block';
     btn.disabled = true;
   } else {
     errBox.style.display='none';
     btn.disabled = false;
   }
-  return !hasError;
+  return allRated;
 }
 
 function submitScores(){
   if(!currentAssignment){ alert('Wait for your facilitator to assign you a pod before scoring.'); return; }
-  if(!recalcTotal()){ alert('One or more scores are above the maximum for that criterion. Fix the highlighted box before submitting.'); return; }
+  if(!recalcTotal()){ alert('Rate every criterion before submitting.'); return; }
   const vals = {};
-  CRIT_FIELDS.forEach(f=>{ vals[f] = Math.max(0, Math.min(CRIT_MAX[f], parseInt(document.getElementById('s_'+f).value)||0)); });
+  CRIT_FIELDS.forEach(f=>{ vals[f] = currentRatings[f] * CRIT_MULT[f]; });
   const total = CRIT_FIELDS.reduce((sum,f)=>sum+vals[f],0) + (currentRound===3 ? currentPitch : 0);
   if(!confirm('Submit '+total+' points for '+currentAssignment.podName+'? This cannot be undone from your end.')) return;
   const payload = Object.assign({}, vals, {

@@ -27,18 +27,36 @@
   </div>
 </div>
 
+<!-- Persistent link back to the main site — Follow Along view only. -->
+<a href="../index.html" style="display:block;position:fixed;top:14px;left:14px;z-index:1000;background:#1B1B19;border:1px solid rgba(189,212,234,.25);border-radius:6px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#F2F5F9;text-decoration:none;">&larr; The Craft Collective</a>
+
+<!-- Persistent rejoin QR — Follow Along view only. Encodes this page's own URL with
+     the event PIN, so a lost guest can rescan and land back on the leaderboard
+     without retyping the PIN. Shown once connected, stays on screen throughout. -->
+<div id="rejoinQR" style="display:none;position:fixed;bottom:14px;right:14px;z-index:500;background:#1B1B19;border:1px solid rgba(189,212,234,.25);border-radius:6px;padding:8px;text-align:center;font-family:'DM Sans',sans-serif;">
+  <img id="rejoinQRImg" width="84" height="84" style="display:block;border-radius:3px;" alt="Scan to rejoin the leaderboard">
+  <div style="font-size:8px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#888780;margin-top:5px;">Lost? Rescan</div>
+</div>
+
 <script>
 function connectToEvent(pinArg){
   const pin = (pinArg || document.getElementById('viewerPinInput').value.trim());
   if(!pin) return;
   document.getElementById('pinGate').style.display='none';
   document.getElementById('waitingState').style.display='flex';
+  showRejoinQR(pin);
   db.ref('events/' + pin + '/state').on('value', function(snapshot){
     const data = snapshot.val();
     if(!data){ return; } // keep showing waiting state
     document.getElementById('waitingState').style.display='none';
     renderFromState(data);
   });
+}
+function showRejoinQR(pin){
+  const rejoinUrl = window.location.origin + window.location.pathname + '?pin=' + encodeURIComponent(pin);
+  const qrImg = document.getElementById('rejoinQRImg');
+  qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=168x168&data=' + encodeURIComponent(rejoinUrl);
+  document.getElementById('rejoinQR').style.display = 'block';
 }
 document.getElementById('viewerPinInput') && document.getElementById('viewerPinInput').addEventListener('keydown', function(e){
   if(e.key==='Enter') connectToEvent();
