@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Craft Collective — Curated Team Experiences</title>
-<meta name="description" content="A professionally facilitated cocktail format for teams of 10 to 80. Mobile, on-site, DMV. Your team deserves better than another happy hour.">
+<title>The Craft Collective — Corporate Team Building Cocktail Events in Washington DC</title>
+<meta name="description" content="A scored, hands-on team building experience for corporate groups of 10 to 80 in the DC, Maryland, and Virginia area. Makers build, judges score, and a live leaderboard decides the winner. Your team deserves better than another happy hour.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "The Craft Collective",
+  "description": "A scored, two-track cocktail team building experience for corporate groups in Washington DC, Maryland, and Virginia. An alternative to a standard mixology class or cocktail class, built around structured competition, a live leaderboard, and real stakes for corporate team building events.",
+  "areaServed": ["Washington DC", "Maryland", "Virginia"],
+  "url": "https://gerrard-allam.github.io/tcc-website/",
+  "priceRange": "$$"
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -160,6 +171,13 @@
   .bg-ice h2, .bg-ice h3 { color: var(--charcoal); }
   .bg-powder { background: var(--powder-blue); color: var(--charcoal); }
   .bg-powder h2 { color: var(--charcoal); }
+  .bg-amber { background: var(--amber); color: var(--ice); }
+
+  /* ─── Inquire Now interlude: compact CTA slice, ~30% the height of
+       the What It Is slice, full wrap width to match slices above/below ─── */
+  .cta-interlude { padding: 22px 0; }
+  .cta-interlude h2 { margin-bottom: 16px; }
+  .cta-interlude .btn { margin: 0 auto; }
 
   /* ─── Heading accent (rule #12) ─────────────────────── */
   h1 .accent, h2 .accent, h3 .accent {
@@ -268,12 +286,8 @@
   }
   .format-scroller { display: flex; gap: 12px; overflow-x: auto; margin-top: 28px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
   .swipe-hint { font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--slate-blue); text-align: left; margin-top: 6px; }
-  .format-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 4px; padding: 18px 16px; border: 1px solid rgba(44,44,42,.12); border-top: 3px solid var(--slate-blue); }
-  .format-card.tint-mid { background: #eef4fa; border-top-color: var(--mid-blue); }
-  .format-card.tint-amber { background: #fbeee6; border-top-color: var(--amber); }
+  .format-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 4px; padding: 18px 16px; border: 2px solid rgba(44,44,42,.2); }
   .format-tag { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 8px; }
-  .format-card.tint-amber .format-tag { color: var(--amber); }
-  .format-card.tint-mid .format-tag { color: var(--slate-blue); }
   .format-card h3 { font-size: 17px; margin-bottom: 6px; color: var(--charcoal); }
   .format-card p { font-size: 12px; line-height: 1.55; color: #55534d; }
 
@@ -308,9 +322,7 @@
 
   /* ─── Packages (rules #5, #6, #7, #10) ──────────────── */
   .pkg-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
-  .pkg-card { background: var(--charcoal-lt); border-radius: 4px; padding: 22px 18px; border-top: 3px solid var(--slate-blue); position: relative; }
-  .pkg-card.tint-mid { background: #34394a; border-top-color: var(--mid-blue); }
-  .pkg-card.tint-slate { background: #303c4a; border-top-color: var(--slate-blue); }
+  .pkg-card { display: block; text-decoration: none; background: rgba(43,108,176,.14); border: 1px solid rgba(43,108,176,.3); border-radius: 4px; padding: 22px 18px; position: relative; transition: border-color .25s ease, transform .25s ease; }
   .pkg-card.featured {
     background: var(--amber-tint);
     border: 1.5px solid var(--amber);
@@ -412,6 +424,7 @@
     .nav-cta { display: inline-block; }
     .nav-toggle { display: none; }
     section { padding: 88px 0; }
+    .cta-interlude { padding: 34px 0; }
     h1 { font-size: 46px; }
     h2 { font-size: 44px; }
     h3 { font-size: 22px; }
@@ -503,6 +516,14 @@
   </div>
 </header>
 
+<!-- INQUIRE NOW -->
+<section class="bg-amber cta-interlude">
+  <div class="wrap" style="text-align:center;">
+    <h2 style="font-size:28px;">Inquire now.</h2>
+    <a href="#book" class="btn btn-primary">Book a Session</a>
+  </div>
+</section>
+
 <!-- WHAT IT IS -->
 <section class="bg-charcoal">
   <div class="wrap">
@@ -577,17 +598,17 @@
         <h3>The Classic</h3>
         <p>Teams replicate the demo cocktail. First scores hit the leaderboard.</p>
       </div>
-      <div class="format-card tint-mid">
+      <div class="format-card">
         <div class="format-tag">Round 2</div>
         <h3>The Build</h3>
         <p>Judges order from a cheat sheet of cocktails and mocktails. Makers build to order.</p>
       </div>
-      <div class="format-card tint-amber">
+      <div class="format-card">
         <div class="format-tag">Round 3</div>
         <h3>The Signature</h3>
         <p>Full creative freedom. Teams name their own cocktail and pitch it to the judges.</p>
       </div>
-      <div class="format-card tint-mid">
+      <div class="format-card">
         <div class="format-tag">Close</div>
         <h3>Awards Ceremony</h3>
         <p>Two awards handed out on the spot, for the winning pod and the sharpest judges.</p>
@@ -603,14 +624,14 @@
 <section class="bg-charcoal-lt">
   <div class="wrap">
     <div class="why-grid">
+      <div class="photo-fill">
+        <img src="assets/images/bio-photo-worldclass.jpg" alt="Gerrard Allam preparing cocktails with Tanqueray gin" loading="lazy">
+      </div>
       <div>
         <div class="eyebrow">Who's behind it</div>
         <h2>Built by someone who has <span class="accent">done both sides of this.</span></h2>
         <p class="lede">Gerrard Allam is a professionally trained bartender and licensed urban planner with over a decade behind the bar, and just as long facilitating public workshops and community events in his professional career as a planner and designer. The Craft Collective is where those two careers meet.</p>
         <a href="about.html" class="btn btn-outline">Read The Craft Collective's story</a>
-      </div>
-      <div class="photo-fill">
-        <img src="assets/images/bio-photo-worldclass.jpg" alt="Gerrard Allam preparing cocktails with Tanqueray gin" loading="lazy">
       </div>
     </div>
   </div>
@@ -686,36 +707,36 @@
     </div>
 
     <div class="pkg-grid">
-      <div class="pkg-card tint-slate">
+      <a class="pkg-card" href="how-it-works.html#plan-session">
         <div class="pkg-name">The Session</div>
         <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
         <!-- <div class="pkg-price">From $94/person (at 16 guests)</div> -->
         <div class="pkg-meta">10 to 16 guests · about 90 minutes</div>
-        <p class="pkg-desc">One to two stations, two lightly scored rounds, no formal award ceremony.</p>
-      </div>
-      <div class="pkg-card tint-mid">
+        <p class="pkg-desc">A hands-on introduction to the format. Everyone builds, everyone's scored, no big ceremony at the end.</p>
+      </a>
+      <a class="pkg-card" href="how-it-works.html#plan-collective">
         <div class="pkg-name">The Collective</div>
         <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
         <!-- <div class="pkg-price">From $80/person (at 30 guests)</div> -->
         <div class="pkg-meta">12 to 30 guests · about 2 hours</div>
-        <p class="pkg-desc">Two stations, two scored rounds, awards ceremony.</p>
-      </div>
-      <div class="pkg-card featured">
-        <div class="pkg-badge">Most Popular</div>
+        <p class="pkg-desc">The full experience in a shorter window: two scored rounds, a live leaderboard, and a real awards moment.</p>
+      </a>
+      <a class="pkg-card featured" href="how-it-works.html#plan-collective-cup">
+        <div class="pkg-badge">Flagship</div>
         <div class="pkg-name">The Collective Cup</div>
         <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
         <!-- <div class="pkg-price">From $67/person (at 48 guests)</div> -->
         <div class="pkg-meta">16 to 48 guests · about 2 hours 40 minutes</div>
-        <p class="pkg-desc">Three stations, three scored rounds, full leaderboard and awards.</p>
-      </div>
-      <div class="pkg-card">
+        <p class="pkg-desc">Our flagship format: three rounds of rising stakes, a live leaderboard the whole room can see, and two awards on the line.</p>
+      </a>
+      <a class="pkg-card" href="how-it-works.html#plan-craft-house">
         <div class="pkg-name">Craft House</div>
         <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
         <!-- <div class="pkg-price">Custom pricing</div>
         <div class="pkg-min">Starts at $4,500</div> -->
         <div class="pkg-meta">48 or more guests · custom</div>
-        <p class="pkg-desc">Fully custom format and menu, built around your group.</p>
-      </div>
+        <p class="pkg-desc">Built entirely around your group, from the cocktail list to the round structure.</p>
+      </a>
     </div>
     <p class="pkg-addons-note">Add-ons available for every package: engraved jiggers, premium garnish, custom cocktails, professional photography, and more.</p>
   </div>
@@ -725,7 +746,7 @@
 <div class="amber-moment">
   <div class="photo-bg"></div>
   <div class="wrap">
-    <h2>Unlock your team's potential</h2>
+    <h2>Something for everyone to do</h2>
   </div>
 </div>
 

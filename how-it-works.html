@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How It Works — The Craft Collective</title>
-<meta name="description" content="Five stages, two tracks, one live leaderboard. Here's exactly what happens from booking to wrap-up.">
+<title>How It Works — Corporate Team Building Format in Washington DC | The Craft Collective</title>
+<meta name="description" content="Five stages, two tracks, one live leaderboard. Here's exactly what happens from booking to wrap-up for your DC-area corporate team building event.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -291,14 +291,17 @@
 
   /* ─── Four formats cards ──────────────────────────────── */
   .formats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
-  .format-plan-card { position: relative; display: flex; flex-direction: column; background: var(--white); border: 1.5px solid rgba(44,44,42,.4); border-radius: 4px; padding: 24px 22px; }
+  .format-plan-card { position: relative; display: flex; flex-direction: column; background: var(--white); border: 1.5px solid rgba(44,44,42,.4); border-radius: 4px; overflow: hidden; scroll-margin-top: 90px; }
   .format-plan-card.featured { border-color: var(--amber); }
-  .format-plan-name { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--charcoal); margin-bottom: 16px; white-space: nowrap; }
+  .format-plan-image { aspect-ratio: 4/3; background: rgba(44,44,42,.06); overflow: hidden; }
+  .format-plan-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .format-plan-body { display: flex; flex-direction: column; padding: 24px 22px; flex: 1; }
+  .format-plan-name { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--charcoal); margin-bottom: 10px; white-space: nowrap; }
+  .format-plan-desc { font-size: 13px; color: #55534d; line-height: 1.55; margin-bottom: 18px; }
   .format-plan-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(44,44,42,.1); min-height: 62px; }
   .format-plan-row:last-of-type { border-bottom: none; }
   .format-plan-label { font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--gray); }
   .format-plan-value { font-size: 13px; color: var(--charcoal); text-align: right; }
-  .format-plan-desc { font-size: 12px; color: var(--gray); line-height: 1.5; margin-top: 14px; }
   .format-plan-badge { align-self: flex-start; margin-top: 16px; padding: 5px 12px; font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ice); background: var(--amber); border-radius: 3px; }
 
   /* ─── Three steps ─────────────────────────────────────── */
@@ -320,10 +323,8 @@
 
   .ros-table { display: grid; gap: 12px; }
   .ros-row { display: grid; grid-template-columns: 1fr; gap: 10px; background: var(--white); border: 1px solid rgba(44,44,42,.15); border-radius: 4px; padding: 18px 20px; }
-  .ros-row.ros-round3 { background: var(--amber-tint); border: 1px solid rgba(196,98,45,.3); }
   .ros-tag-time { display: flex; gap: 10px; align-items: center; }
   .ros-tag { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; background: var(--ice); color: var(--charcoal); padding: 4px 8px; border-radius: 3px; }
-  .ros-round3 .ros-tag { background: var(--amber); color: var(--ice); }
   .ros-time { font-size: 11px; color: var(--gray); }
   .ros-title h3 { font-size: 18px; color: var(--charcoal); margin-bottom: 2px; }
   .ros-subtitle { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: .06em; }
@@ -332,8 +333,8 @@
 
   /* ─── Two tracks ──────────────────────────────────────── */
   .track-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
-  .track-card { display: flex; flex-direction: column; background: var(--charcoal-lt); border-radius: 4px; padding: 24px 22px; border-top: 3px solid var(--slate-blue); }
-  .track-card.judges { border-top-color: var(--amber); background: var(--amber-tint); }
+  .track-card { display: flex; flex-direction: column; background: var(--charcoal-lt); border: 1px solid rgba(90,143,196,.3); border-radius: 4px; padding: 24px 22px; }
+  .track-card.judges { border-color: rgba(196,98,45,.3); background: var(--amber-tint); }
   .track-label { font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 10px; }
   .track-card.judges .track-label { color: var(--amber); }
   .track-card h3 { font-size: 20px; margin-bottom: 10px; }
@@ -499,50 +500,62 @@
     <h2>One structure, <span class="accent">scaled to your group.</span></h2>
 
     <div class="formats-grid">
-      <div class="format-plan-card">
-        <div class="format-plan-name">The Session</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $94/person (at 16 guests)</span></div> -->
-        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">10 to 16</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">1 to 2</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Skill building</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 90 minutes</span></div>
-        <p class="format-plan-desc">Guided and hands-on, light scoring. The entry point into the format.</p>
+      <div class="format-plan-card" id="plan-session">
+        <div class="format-plan-image"><img src="assets/images/plan-session.jpg" alt="Team members hands-on at a single cocktail station" loading="lazy"></div>
+        <div class="format-plan-body">
+          <div class="format-plan-name">The Session</div>
+          <p class="format-plan-desc">One lightly scored round, hands-on from the first pour. No leaderboard, no certificate: just the format at its simplest.</p>
+          <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
+          <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $94/person (at 16 guests)</span></div> -->
+          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">10 to 16</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">1 to 2</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Skill building</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 90 minutes</span></div>
+        </div>
       </div>
-      <div class="format-plan-card">
-        <div class="format-plan-name">The Collective</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $80/person (at 30 guests)</span></div> -->
-        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">12 to 30</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">2</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">2 round competition</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours</span></div>
-        <p class="format-plan-desc">A shorter version of the full format below. Live leaderboard, one fewer round.</p>
+      <div class="format-plan-card" id="plan-collective">
+        <div class="format-plan-image"><img src="assets/images/plan-collective.jpg" alt="Judges scoring cocktails with a live leaderboard visible" loading="lazy"></div>
+        <div class="format-plan-body">
+          <div class="format-plan-name">The Collective</div>
+          <p class="format-plan-desc">Everything in The Session, plus a second round where judges call the orders, a live leaderboard, and a certificate for the winning makers.</p>
+          <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
+          <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $80/person (at 30 guests)</span></div> -->
+          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">12 to 30</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">2</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">2 round competition</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours</span></div>
+        </div>
       </div>
-      <div class="format-plan-card featured">
-        <div class="format-plan-name">The Collective Cup</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $67/person (at 48 guests)</span></div> -->
-        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">16 to 48</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">3</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">3 round two-track competition</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours 40 minutes</span></div>
-        <p class="format-plan-desc">The full format walked through stage by stage below.</p>
-        <span class="format-plan-badge">Flagship</span>
+      <div class="format-plan-card featured" id="plan-collective-cup">
+        <div class="format-plan-image"><img src="assets/images/plan-collective-cup.jpg" alt="Awards ceremony with trophies for makers and judges" loading="lazy"></div>
+        <div class="format-plan-body">
+          <div class="format-plan-name">The Collective Cup</div>
+          <p class="format-plan-desc">Everything in The Collective, plus a third round of full creative freedom that puts every maker's skills to the test, the Palate Award for judges, and The Collective Cup trophy for the winning makers.</p>
+          <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
+          <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $67/person (at 48 guests)</span></div> -->
+          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">16 to 48</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">3</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">3 round two-track competition</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours 40 minutes</span></div>
+          <span class="format-plan-badge">Flagship</span>
+        </div>
       </div>
-      <div class="format-plan-card">
-        <div class="format-plan-name">The Craft House</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">Custom, starts at $4,500</span></div> -->
-        <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">48 or more</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">Custom</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Custom</span></div>
-        <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">Custom</span></div>
-        <p class="format-plan-desc">Multiple facilitators, custom menu and narrative, built around your group.</p>
+      <div class="format-plan-card" id="plan-craft-house">
+        <div class="format-plan-image"><img src="assets/images/plan-craft-house.jpg" alt="Custom bar setup built around a private group" loading="lazy"></div>
+        <div class="format-plan-body">
+          <div class="format-plan-name">The Craft House</div>
+          <p class="format-plan-desc">Everything in The Collective Cup, plus multiple facilitators and a fully custom menu and narrative built around your group.</p>
+          <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
+          <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">Custom, starts at $4,500</span></div> -->
+          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">48 or more</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">Custom</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Custom</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">Custom</span></div>
+        </div>
       </div>
     </div>
 
-    <p class="lede" style="margin-top:24px;">The walkthrough below follows The Collective Cup, our flagship three-round format. The Session and The Collective run a shorter version of the same structure.</p>
+    <p class="lede" style="margin-top:24px;">The run of show below follows The Collective Cup, our flagship three-round format. The Session and The Collective run a shorter version of the same structure.</p>
   </div>
 </section>
 
@@ -602,7 +615,7 @@
         <div class="ros-title"><h3>The Build</h3><span class="ros-subtitle">Judges order, makers deliver</span></div>
         <div class="ros-desc"><p>Judges order from a cheat sheet of cocktails and mocktails. Makers deliver to order, drawing on the technique and range built across the first round. Scores update live. Leaderboard positions shift.</p></div>
       </div>
-      <div class="ros-row ros-round3">
+      <div class="ros-row">
         <div class="ros-tag-time"><span class="ros-tag">Round 3</span><span class="ros-time">40 min</span></div>
         <div class="ros-title"><h3>The Signature</h3><span class="ros-subtitle">Full creative freedom</span></div>
         <div class="ros-desc">
