@@ -34,26 +34,14 @@
     transform: translateY(0);
   }
 
-  /* ---- Card hover: border brightens, slight lift, no shadow ------------- */
-  .format-card, .format-plan-card, .pkg-card, .who-card, .track-card,
-  .credential-card, .occasion-card, .step-card {
-    transition: border-color .25s ease, transform .25s ease;
-  }
-  .format-card:hover, .format-plan-card:hover, .pkg-card:hover, .who-card:hover,
-  .track-card:hover, .credential-card:hover, .occasion-card:hover, .step-card:hover {
+  /* ---- Card hover intentionally removed sitewide (v31): none of those
+     cards were actually clickable, so a hover state implying interactivity
+     was misleading. Left as static, scroll-reveal above still applies.
+     Exception (v32): .pkg-card is now a real link to its How It Works
+     detail card, so it gets its hover state back, scoped to itself only. */
+  .pkg-card:hover {
     border-color: var(--mid-blue, #5A8FC4);
     transform: translateY(-4px);
-  }
-
-  /* v28 fix: on mobile, iOS Safari's tap-triggered "sticky hover" was firing the -4px
-     lift on the Format section's round cards inside their horizontally-scrolling
-     container, clipping the top of the card. Touch devices shouldn't fire :hover at
-     all, so scope the lift to true hover-capable pointers (mouse/trackpad) only. */
-  @media (max-width: 767px) {
-    .format-card:hover {
-      transform: none;
-      border-color: inherit;
-    }
   }
 
   /* ---- Photo / decorative blocks: gentle scale on hover ----------------
