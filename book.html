@@ -331,6 +331,7 @@
         <hr class="form-divider">
 
         <form id="bookingForm" class="booking-form" novalidate>
+          <input type="hidden" name="formSource" value="Booking">
           <div class="field">
             <label for="fName">Name</label>
             <input type="text" id="fName" name="name" placeholder="Jane Smith" required>
@@ -424,6 +425,7 @@
   <div class="wrap">
     <div class="footer-top">
       <form class="footer-form" id="footerInquiryForm">
+        <input type="hidden" name="formSource" value="Footer Inquiry">
         <label for="footerEmail">Submit Inquiry</label>
         <div class="footer-form-row">
           <input type="email" id="footerEmail" name="email" placeholder="Email" required>
@@ -452,7 +454,7 @@
         <div>
           <div class="footer-col-label">Contact</div>
           <ul class="footer-links">
-            <li><a href="#details">Contact</a></li>
+            <li><a href="join-team.html">Join the Team</a></li>
             <li><a href="mailto:thecraftcollective.info@gmail.com">Email us directly</a></li>
             <li><a href="private-celebrations.html">Private Celebrations</a></li>
           </ul>
@@ -516,6 +518,19 @@
     submitBtn.textContent = 'Sending...';
 
     var data = new FormData(bookingForm);
+
+    // Secondary, fire-and-forget send to Make.com for the running spreadsheet log.
+    // Doesn't affect the success/error UI below, that's still driven by Formspree alone.
+    // Single shared webhook across all three forms, one Make scenario with a Router
+    // splitting on the hidden "formSource" field into the Booking / Private Celebrations /
+    // Join the Team tabs. This keeps everything inside Make's free-plan 2-scenario cap.
+    // TODO: replace YOUR_MAKE_WEBHOOK_URL with the real shared webhook URL once the single
+    // Make scenario is built.
+    fetch('https://hook.us1.make.com/YOUR_MAKE_WEBHOOK_URL', {
+      method: 'POST',
+      body: data
+    }).catch(function () { /* silent: spreadsheet log is best-effort, not user-facing */ });
+
     fetch('https://formspree.io/f/mgogoaql', {
       method: 'POST',
       body: data,
