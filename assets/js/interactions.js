@@ -112,6 +112,18 @@
     button.disabled = true;
     var data = new FormData(form);
 
+    // Secondary, fire-and-forget send to Make.com for the running spreadsheet log.
+    // Doesn't affect the note/UI feedback below, that's still driven by Formspree alone.
+    // Shares the same webhook and Router-by-formSource scenario as the other three forms
+    // (Booking, Private Celebrations, Join the Team) — this one routes to the "Footer
+    // Inquiry" tab via the hidden formSource field already on the form in the HTML.
+    // TODO: replace YOUR_MAKE_WEBHOOK_URL with the real shared webhook URL once the Make
+    // scenario is built (same URL used across all four forms).
+    fetch("https://hook.us1.make.com/YOUR_MAKE_WEBHOOK_URL", {
+      method: "POST",
+      body: data
+    }).catch(function () { /* silent: spreadsheet log is best-effort, not user-facing */ });
+
     fetch("https://formspree.io/f/mnjejprk", {
       method: "POST",
       body: data,
