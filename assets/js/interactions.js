@@ -117,9 +117,7 @@
     // Shares the same webhook and Router-by-formSource scenario as the other three forms
     // (Booking, Private Celebrations, Join the Team) — this one routes to the "Footer
     // Inquiry" tab via the hidden formSource field already on the form in the HTML.
-    // TODO: replace YOUR_MAKE_WEBHOOK_URL with the real shared webhook URL once the Make
-    // scenario is built (same URL used across all four forms).
-    fetch("https://hook.us1.make.com/YOUR_MAKE_WEBHOOK_URL", {
+    fetch("https://hook.us2.make.com/luzlyru8g3ya7ku566cmyq4ayguzd0cx", {
       method: "POST",
       body: data
     }).catch(function () { /* silent: spreadsheet log is best-effort, not user-facing */ });
