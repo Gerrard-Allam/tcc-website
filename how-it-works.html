@@ -415,6 +415,13 @@
     .intro-grid { grid-template-columns: 1.2fr 0.8fr; gap: 48px; }
     .formats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .format-plan-name { font-size: 19px; }
+    /* Descriptions vary in length card to card, which was pushing the Guests/
+       Stations/Format/Length rows to different starting heights and breaking
+       the side-by-side comparison. Locking the description block to a fixed
+       height (sized for the longest current copy, Collective Cup) means every
+       card's rows now start at the same line. Only needed at this breakpoint,
+       since below it the cards stack and there's nothing to align against. */
+    .format-plan-desc { min-height: 118px; }
     .step-grid { grid-template-columns: repeat(3, 1fr); }
     .ros-row { grid-template-columns: 140px 200px 1fr; align-items: start; gap: 20px; }
     .track-grid { grid-template-columns: 1fr 1fr; }
@@ -514,7 +521,7 @@
         </div>
       </div>
       <div class="format-plan-card" id="plan-collective">
-        <div class="format-plan-image"><img src="assets/images/plan-collective.jpg" alt="Judges scoring cocktails with a live leaderboard visible" loading="lazy"></div>
+        <div class="format-plan-image"><img src="assets/images/plan-collective.jpg" alt="Judges scoring cocktails with a live leaderboard visible" loading="lazy" style="object-position: center 88%;"></div>
         <div class="format-plan-body">
           <div class="format-plan-name">The Collective</div>
           <p class="format-plan-desc">Everything in The Session, plus a second round where judges call the orders, a live leaderboard, and a certificate for the winning makers.</p>
@@ -527,7 +534,7 @@
         </div>
       </div>
       <div class="format-plan-card featured" id="plan-collective-cup">
-        <div class="format-plan-image"><img src="assets/images/plan-collective-cup.jpg" alt="Awards ceremony with trophies for makers and judges" loading="lazy"></div>
+        <div class="format-plan-image"><img src="assets/images/plan-collective-cup.jpg" alt="Awards ceremony with trophies for makers and judges" loading="lazy" style="object-position: center 80%;"></div>
         <div class="format-plan-body">
           <div class="format-plan-name">The Collective Cup</div>
           <p class="format-plan-desc">Everything in The Collective, plus a third round of full creative freedom that puts every maker's skills to the test, the Palate Award for judges, and The Collective Cup trophy for the winning makers.</p>
@@ -541,7 +548,7 @@
         </div>
       </div>
       <div class="format-plan-card" id="plan-craft-house">
-        <div class="format-plan-image"><img src="assets/images/plan-craft-house.jpg" alt="Custom bar setup built around a private group" loading="lazy"></div>
+        <div class="format-plan-image"><img src="assets/images/plan-craft-house.jpg" alt="Custom bar setup built around a private group" loading="lazy" style="object-position: center 78%;"></div>
         <div class="format-plan-body">
           <div class="format-plan-name">The Craft House</div>
           <p class="format-plan-desc">Everything in The Collective Cup, plus multiple facilitators and a fully custom menu and narrative built around your group.</p>
@@ -632,9 +639,13 @@
 
     <!-- Live Leaderboard GIF — relocated here from the removed Materials section (v28). This section's
          own copy ("Scores update live. Leaderboard positions shift." / "anyone can win") is what this
-         GIF demonstrates, so it sits closer to the claim it's backing up than a static materials list did. -->
-    <div class="material-block" style="margin-top:32px;">
-      <h3>Live Leaderboard</h3>
+         GIF demonstrates, so it sits closer to the claim it's backing up than a static materials list did.
+         Elevated (v33) from a small h3 aside to a full featured moment, since this is one of the core
+         differentiators of the whole business, not a footnote to the Stages table above it. -->
+    <div class="material-block" style="margin-top:56px; padding-top:40px; border-top:1px solid rgba(44,44,42,.12);">
+      <div class="eyebrow">The centerpiece</div>
+      <h2>One board, <span class="accent">the whole room watching.</span></h2>
+      <p class="lede" style="margin-bottom:8px;">Every score lands here first. Standings shift in real time as each round wraps, so the room feels every point, not just the final tally. It's the difference between an activity people sit through and a moment they're actually locked into.</p>
       <p class="material-caption">Displayed in the room, updated round by round as scores come in.</p>
       <div class="material-row single">
         <div class="material-item wide"><img src="assets/images/leaderboard.gif" alt="Live leaderboard tool in use, showing scores updating" loading="lazy"></div>
