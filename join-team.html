@@ -452,9 +452,7 @@
     // Note: the resume file rides along in this payload too, but the Sheets "Add a Row"
     // step can only write text into cells, so map a filename/"resume attached" field
     // rather than expecting the file content itself to land in a cell.
-    // TODO: replace YOUR_MAKE_WEBHOOK_URL with the real shared webhook URL once the single
-    // Make scenario is built.
-    fetch('https://hook.us1.make.com/YOUR_MAKE_WEBHOOK_URL', {
+    fetch('https://hook.us2.make.com/luzlyru8g3ya7ku566cmyq4ayguzd0cx', {
       method: 'POST',
       body: data
     }).catch(function () { /* silent: spreadsheet log is best-effort, not user-facing */ });

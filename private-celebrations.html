@@ -523,9 +523,7 @@
     // Single shared webhook across all three forms, one Make scenario with a Router
     // splitting on the hidden "formSource" field into the Booking / Private Celebrations /
     // Join the Team tabs. This keeps everything inside Make's free-plan 2-scenario cap.
-    // TODO: replace YOUR_MAKE_WEBHOOK_URL with the real shared webhook URL once the single
-    // Make scenario is built.
-    fetch('https://hook.us1.make.com/YOUR_MAKE_WEBHOOK_URL', {
+    fetch('https://hook.us2.make.com/luzlyru8g3ya7ku566cmyq4ayguzd0cx', {
       method: 'POST',
       body: data
     }).catch(function () { /* silent: spreadsheet log is best-effort, not user-facing */ });
