@@ -57,6 +57,12 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
 .scale-bar.sb-round3 .scale-bar-sub{color:#FBEDE2;}
 .scale-bar-title{font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#F6DCC9;margin-bottom:2px;}
 .scale-bar-sub{font-size:9.5px;color:#FBEDE2;}
+.score-key{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:8px;}
+.score-key-item{font-size:9px;line-height:1.3;}
+.score-key-item b{font-weight:700;margin-right:3px;}
+.scale-bar.sb-round1 .score-key-item{color:#26251F;}
+.scale-bar.sb-round2 .score-key-item{color:#EAF1FA;}
+.scale-bar.sb-round3 .score-key-item{color:#FBEDE2;}
 
 .round-band{padding:16px 16px 10px;}
 .round-eyebrow-row{display:flex;justify-content:space-between;align-items:baseline;}
@@ -154,6 +160,13 @@ html,body{background:#EAEDF2;min-height:100%;width:100%;font-family:'DM Sans',sa
   <div class="scale-bar" id="scaleBar">
     <div class="scale-bar-title">How to score</div>
     <div class="scale-bar-sub">Rate each 1 to 5. Agree as a pair before entering — we handle the math.</div>
+    <div class="score-key">
+      <span class="score-key-item"><b>1</b>Missed the mark</span>
+      <span class="score-key-item"><b>2</b>Needs work</span>
+      <span class="score-key-item"><b>3</b>Good work</span>
+      <span class="score-key-item"><b>4</b>Really good</span>
+      <span class="score-key-item"><b>5</b>Exceptional</span>
+    </div>
   </div>
 
   <div class="round-band">
