@@ -418,10 +418,23 @@
     /* Descriptions vary in length card to card, which was pushing the Guests/
        Stations/Format/Length rows to different starting heights and breaking
        the side-by-side comparison. Locking the description block to a fixed
-       height (sized for the longest current copy, Collective Cup) means every
-       card's rows now start at the same line. Only needed at this breakpoint,
-       since below it the cards stack and there's nothing to align against. */
-    .format-plan-desc { min-height: 118px; }
+       height (sized for the longest current copy, Collective Cup at 200
+       characters vs. 120-140 for the other three) means every card's rows
+       start at the same line. Only needed at this breakpoint, since below it
+       the cards stack and there's nothing to align against.
+       Fixed again (2026-07): the previous 118px value was sized too tight —
+       Collective Cup's description wraps to just past that height at normal
+       card width, so its rows still drifted down relative to the other three.
+       Bumped with real buffer room this time so a future copy edit of a line
+       or so doesn't silently reopen the same bug. If descriptions change
+       significantly in length again, re-check this value against the longest
+       one rather than assuming it still holds. */
+    .format-plan-desc { min-height: 145px; }
+    /* Same reasoning applied to the spec rows themselves: a long wrapped value
+       (e.g. "3 round two-track competition") was tight against the previous
+       62px minimum, which could re-trigger the same drift lower down even
+       with the description fixed above. */
+    .format-plan-row { min-height: 68px; }
     .step-grid { grid-template-columns: repeat(3, 1fr); }
     .ros-row { grid-template-columns: 140px 200px 1fr; align-items: start; gap: 20px; }
     .track-grid { grid-template-columns: 1fr 1fr; }
@@ -495,7 +508,7 @@
     <div class="format-ticker">
       <div class="tick-block"><img src="assets/images/hiw-making.jpg" alt="Maker building a cocktail at the station" loading="lazy"></div>
       <div class="tick-block wide"><img src="assets/images/hiw-judging.jpg" alt="Judges scoring a cocktail with a criteria card" loading="lazy"></div>
-      <div class="tick-block"><img src="assets/images/hiw-winners.jpg" alt="Winning pod holding their trophies" loading="lazy"></div>
+      <div class="tick-block"><img src="assets/images/hiw-winners.jpg" alt="Winning team holding their cocktail shaker trophies" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -505,6 +518,7 @@
   <div class="wrap">
     <div class="eyebrow">Four formats</div>
     <h2>One structure, <span class="accent">scaled to your group.</span></h2>
+    <p class="lede">Guest counts below are ideal ranges, not hard limits. Tell us your group size and we'll build the right fit.</p>
 
     <div class="formats-grid">
       <div class="format-plan-card" id="plan-session">
@@ -514,33 +528,33 @@
           <p class="format-plan-desc">One lightly scored round, hands-on from the first pour. No leaderboard, no certificate: just the format at its simplest.</p>
           <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
           <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $94/person (at 16 guests)</span></div> -->
-          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">10 to 16</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Ideal guests</span><span class="format-plan-value">10 to 16</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">1 to 2</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Skill building</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 90 minutes</span></div>
         </div>
       </div>
       <div class="format-plan-card" id="plan-collective">
-        <div class="format-plan-image"><img src="assets/images/plan-collective.jpg" alt="Judges scoring cocktails with a live leaderboard visible" loading="lazy" style="object-position: center 68%;"></div>
+        <div class="format-plan-image"><img src="assets/images/plan-collective.jpg" alt="Judges scoring cocktails with a live leaderboard visible" loading="lazy" style="object-position: center 70%;"></div>
         <div class="format-plan-body">
           <div class="format-plan-name">The Collective</div>
           <p class="format-plan-desc">Everything in The Session, plus a second round where judges call the orders, a live leaderboard, and a certificate for the winning makers.</p>
           <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
           <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $80/person (at 30 guests)</span></div> -->
-          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">12 to 30</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Ideal guests</span><span class="format-plan-value">12 to 30</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">2</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">2 round competition</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours</span></div>
         </div>
       </div>
       <div class="format-plan-card featured" id="plan-collective-cup">
-        <div class="format-plan-image"><img src="assets/images/plan-collective-cup.jpg" alt="Awards ceremony with trophies for makers and judges" loading="lazy" style="object-position: center 55%;"></div>
+        <div class="format-plan-image"><img src="assets/images/plan-collective-cup.jpg" alt="Awards ceremony with trophies for makers and judges" loading="lazy" style="object-position: center 70%;"></div>
         <div class="format-plan-body">
           <div class="format-plan-name">The Collective Cup</div>
           <p class="format-plan-desc">Everything in The Collective, plus a third round of full creative freedom that puts every maker's skills to the test, the Palate Award for judges, and The Collective Cup trophy for the winning makers.</p>
           <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
           <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">From $67/person (at 48 guests)</span></div> -->
-          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">16 to 48</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Ideal guests</span><span class="format-plan-value">16 to 48</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">3</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">3 round two-track competition</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">About 2 hours 40 minutes</span></div>
@@ -548,13 +562,13 @@
         </div>
       </div>
       <div class="format-plan-card" id="plan-craft-house">
-        <div class="format-plan-image"><img src="assets/images/plan-craft-house.jpg" alt="Custom bar setup built around a private group" loading="lazy" style="object-position: center 78%;"></div>
+        <div class="format-plan-image"><img src="assets/images/plan-craft-house.jpg" alt="Custom bar setup built around a private group" loading="lazy" style="object-position: center 95%;"></div>
         <div class="format-plan-body">
           <div class="format-plan-name">The Craft House</div>
           <p class="format-plan-desc">Everything in The Collective Cup, plus multiple facilitators and a fully custom menu and narrative built around your group.</p>
           <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
           <!-- <div class="format-plan-row"><span class="format-plan-label">Price</span><span class="format-plan-value">Custom, starts at $4,500</span></div> -->
-          <div class="format-plan-row"><span class="format-plan-label">Guests</span><span class="format-plan-value">48 or more</span></div>
+          <div class="format-plan-row"><span class="format-plan-label">Ideal guests</span><span class="format-plan-value">48 or more</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Stations</span><span class="format-plan-value">Custom</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Format</span><span class="format-plan-value">Custom</span></div>
           <div class="format-plan-row"><span class="format-plan-label">Length</span><span class="format-plan-value">Custom</span></div>
@@ -648,7 +662,7 @@
       <p class="lede" style="margin-bottom:8px;">Every score lands here first. Standings shift in real time as each round wraps, so the room feels every point, not just the final tally. It's the difference between an activity people sit through and a moment they're actually locked into.</p>
       <p class="material-caption">Displayed in the room, updated round by round as scores come in.</p>
       <div class="material-row single">
-        <div class="material-item wide"><img src="assets/images/leaderboard.gif" alt="Live leaderboard tool in use, showing scores updating" loading="lazy"></div>
+        <div class="material-item wide"><img src="assets/images/leaderboard-standings.jpg" alt="The Collective Cup live standings, showing Round 3 in progress with total scores and rank changes" loading="lazy"></div>
       </div>
     </div>
   </div>
