@@ -164,6 +164,28 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 .btn-ghost{background:#383836;color:#BDD4EA;}
 .btn:hover{opacity:0.85;}
 .empty-state{text-align:center;padding:40px 20px;color:#5A8FC4;font-size:13px;}
+
+/* JUDGE SCORING — host only, no award/reveal styling needed */
+.judge-note{font-size:10px;color:#5A5A57;line-height:1.5;margin-bottom:14px;}
+.pair-chip{display:flex;justify-content:space-between;align-items:center;background:#1B1B19;border:1px solid #3E3E3B;border-radius:5px;padding:7px 10px;margin-bottom:6px;font-size:12px;color:#F2F5F9;}
+.pair-remove{font-size:9.5px;color:#C4622D;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;font-weight:500;}
+.mon-empty{font-size:11px;color:#5A5A57;font-style:italic;padding:8px 0;}
+.assign-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #232321;}
+.assign-row:last-child{border-bottom:none;}
+.assign-name{font-size:12px;color:#D8D8D5;flex-shrink:0;}
+.assign-row select{background:#1B1B19;border:1px solid #3E3E3B;color:#BDD4EA;font-size:11px;padding:6px 8px;border-radius:5px;font-family:'DM Sans',sans-serif;max-width:180px;}
+.mon-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #232321;}
+.mon-row:last-child{border-bottom:none;}
+.mon-status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.mon-status-dot.in{background:#4A7C59;}
+.mon-status-dot.pending{background:#5A5A57;}
+.mon-pair{flex:1;min-width:0;}
+.mon-pair-name{font-size:12.5px;color:#F2F5F9;font-weight:500;}
+.mon-pair-pod{font-size:10px;color:#8A8A87;margin-top:1px;}
+.mon-total{font-size:14px;color:#F2F5F9;font-family:'Cormorant Garamond',serif;width:48px;text-align:right;flex-shrink:0;}
+.mon-total.pending-txt{color:#5A5A57;font-family:'DM Sans',sans-serif;font-size:10px;}
+.mon-edit{font-size:9.5px;color:#5A8FC4;font-weight:500;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;width:40px;text-align:right;flex-shrink:0;}
+.mon-footer-text{margin-top:10px;font-size:10.5px;color:#5A5A57;}
 .bottom-row{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .bottom-label{font-size:9px;color:#5A8FC4;text-transform:uppercase;letter-spacing:0.08em;}
 .mult-input-wrap{display:flex;align-items:center;gap:5px;background:#383836;border:1px solid #C4622D;border-radius:4px;padding:3px 8px;}
@@ -290,6 +312,47 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <div id="qrLinkText" style="font-size:10px;color:#888780;margin-top:6px;word-break:break-all;"></div>
         </div>
       </div>
+
+      <div class="controls">
+        <div class="controls-title">Judge Scoring — Host Only</div>
+        <div class="judge-note">Judges enter their own scores from their phones. This is what actually puts pods on the board, there is no award tied to judge accuracy for The Collective.</div>
+
+        <div class="controls-grid">
+          <div class="ctrl-card">
+            <div class="ctrl-label">Judge PIN</div>
+            <div class="ctrl-row"><label>PIN</label><input type="text" id="judgePin" placeholder="e.g. 7734" onblur="activateJudgeScoring()" onkeydown="if(event.key==='Enter'){activateJudgeScoring();this.blur();}"></div>
+            <div style="font-size:10px;color:#5A5A57;margin-top:4px;">This QR is for judges only — don't put it on the public screen or the guest QR.</div>
+            <div class="btn-row" style="margin-top:8px;"><button class="btn btn-ghost" id="judgeQrToggleBtn" onclick="toggleJudgeQR()">Show Judge QR</button></div>
+            <div id="judgeQrPanel" style="display:none;margin-top:12px;background:#1B1B19;border:1px solid #383836;border-radius:6px;padding:16px;text-align:center;">
+              <img id="judgeQrImg" src="" alt="QR code for judge scoring" style="width:160px;height:160px;border-radius:4px;background:#fff;padding:8px;">
+              <div style="font-size:10px;color:#5A8FC4;margin-top:10px;text-transform:uppercase;letter-spacing:0.08em;">Judges scan this — one time each</div>
+              <div id="judgeQrLinkText" style="font-size:10px;color:#888780;margin-top:6px;word-break:break-all;"></div>
+            </div>
+            <div style="margin-top:8px;font-size:10.5px;font-weight:500;color:#5A5A57;" id="judgeStatus">○ Not active</div>
+          </div>
+          <div class="ctrl-card">
+            <div class="ctrl-label">Add judge pair</div>
+            <div class="ctrl-row"><label>Names</label><input type="text" id="newPairName" placeholder="Priya &amp; Marcus" style="width:100%;"></div>
+            <div class="btn-row"><button class="btn btn-primary" onclick="addJudgePair()">Add pair</button></div>
+          </div>
+        </div>
+
+        <div class="ctrl-card" style="margin-top:14px;">
+          <div class="ctrl-label">Judge pairs</div>
+          <div id="pairListBody"><div class="mon-empty">No judge pairs added yet.</div></div>
+        </div>
+
+        <div class="ctrl-card" style="margin-top:14px;">
+          <div class="ctrl-label">Pod assignment — <span id="assignRoundLabel">Round 1</span></div>
+          <div id="assignGridBody"><div class="mon-empty">Add judge pairs above first.</div></div>
+        </div>
+
+        <div class="ctrl-card" style="margin-top:14px;">
+          <div class="ctrl-label">Live monitor — <span id="monitorRoundLabel">Round 1</span></div>
+          <div id="monitorBody"><div class="mon-empty">No judge pairs yet.</div></div>
+          <div class="mon-footer-text" id="monitorFooter"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -358,7 +421,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 
       <div class="rules-awards">
         <div class="rules-awards-label">One award tonight</div>
-        <div class="rules-awards-text">The Collective — winning maker pod, certificate at the ceremony.</div>
+        <div class="rules-awards-text">The Collective — winning maker team, certificate at the ceremony.</div>
       </div>
     </div>
   </div>
@@ -372,6 +435,16 @@ let activeRound=1; // 1, 2, or 3 (3 = Final)
 let revealedRound=0; // how many rounds' scores are actually visible on the public board
 let r2Multiplier=2;
 let rowEls=new Map(); // podId -> <tr> element currently in the DOM
+
+// ─── Judge scoring (separate node, keyed by Judge PIN — never read by the public viewer).
+// No Palate Award here — judges submit scores purely to get pods onto the board. ─────────
+const JUDGE_CRIT = ['enjoyment','madeForMe','presentation','spirit','balance','cocktailName','technique'];
+const JUDGE_LABELS = {enjoyment:'Enjoyment /30',madeForMe:'Made for me /20',presentation:'Presentation /20',spirit:'Expression of spirit /05',balance:'Balance /10',cocktailName:'Cocktail name /10',technique:'Technique /05'};
+const JUDGE_MAX = {enjoyment:30,madeForMe:20,presentation:20,spirit:5,balance:10,cocktailName:10,technique:5};
+let judgePairs = {};
+let judgeAssignments = {1:{},2:{}};
+let judgeScores = {1:{},2:{}};
+let subscribedJudgePin = null;
 
 // ─── Firebase live sync (Viewer PIN) — same project as the Collective Cup tool, ─────
 // ─── separate path namespace ('events-collective/') so PINs can never collide ──────
@@ -388,24 +461,246 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+function judgePinVal(){ return document.getElementById('judgePin').value.trim(); }
+
+function applyJudgeScoresToBoard(){
+  // A judge pair's submitted round score IS that pod's real score for the round —
+  // this is what actually updates "The Event · Live Standings," not the judge panel itself.
+  let changed = false;
+  const roundCap = {1:100, 2:100};
+  for(let r=1; r<=2; r++){
+    const roundScores = judgeScores[r] || {};
+    Object.keys(roundScores).forEach(pairIdKey=>{
+      const s = roundScores[pairIdKey];
+      if(!s || !s.submitted || !s.podId) return;
+      const pod = pods.find(p=>p.id===s.podId);
+      if(!pod) return;
+      const field = 'r'+r;
+      const val = Math.min(s.total, roundCap[r]);
+      if(pod[field] !== val){
+        pod[field] = val;
+        changed = true;
+      }
+    });
+  }
+  if(changed){
+    render();
+    syncToFirebase();
+    updateRevealButton();
+    const selectedId = document.getElementById('scorePod').value;
+    if(selectedId) selectPod(selectedId);
+  }
+}
+
+function activateJudgeScoring(){
+  const pin = judgePinVal();
+  const statusEl = document.getElementById('judgeStatus');
+  if(!pin){
+    if(subscribedJudgePin){
+      db.ref('judges-collective/'+subscribedJudgePin+'/pairs').off();
+      db.ref('judges-collective/'+subscribedJudgePin+'/assignments').off();
+      db.ref('judges-collective/'+subscribedJudgePin+'/scores').off();
+      subscribedJudgePin = null;
+    }
+    statusEl.textContent='○ Not active';
+    statusEl.style.color='#5A5A57';
+    judgePairs={}; judgeAssignments={1:{},2:{}}; judgeScores={1:{},2:{}};
+    renderPairList(); renderAssignGrid(); renderMonitor();
+    return;
+  }
+  if(pin === subscribedJudgePin){
+    statusEl.textContent='● Active — judges can join with this PIN';
+    statusEl.style.color='#C4622D';
+    return;
+  }
+  if(subscribedJudgePin){
+    db.ref('judges-collective/'+subscribedJudgePin+'/pairs').off();
+    db.ref('judges-collective/'+subscribedJudgePin+'/assignments').off();
+    db.ref('judges-collective/'+subscribedJudgePin+'/scores').off();
+  }
+  subscribedJudgePin = pin;
+  judgePairs={}; judgeAssignments={1:{},2:{}}; judgeScores={1:{},2:{}};
+  db.ref('judges-collective/'+pin+'/pairs').on('value', snap=>{
+    judgePairs = snap.val() || {};
+    renderPairList(); renderAssignGrid(); renderMonitor();
+  });
+  db.ref('judges-collective/'+pin+'/assignments').on('value', snap=>{
+    judgeAssignments = snap.val() || {1:{},2:{}};
+    renderAssignGrid();
+  });
+  db.ref('judges-collective/'+pin+'/scores').on('value', snap=>{
+    judgeScores = snap.val() || {1:{},2:{}};
+    renderMonitor();
+    applyJudgeScoresToBoard();
+  });
+  pushJudgeMeta();
+  statusEl.textContent='● Active — judges can join with this PIN';
+  statusEl.style.color='#C4622D';
+}
+
+function pushJudgeMeta(){
+  const pin = judgePinVal();
+  if(!pin) return;
+  db.ref('judges-collective/'+pin+'/meta').set({
+    eventName: document.getElementById('eventName').value.trim() || 'The Collective',
+    activeRound: activeRound,
+    updatedAt: Date.now()
+  });
+}
+
+function addJudgePair(){
+  const pin = judgePinVal();
+  const nameInput = document.getElementById('newPairName');
+  const name = nameInput.value.trim();
+  if(!pin){ alert('Set a Judge PIN first.'); return; }
+  if(!name) return;
+  activateJudgeScoring();
+  db.ref('judges-collective/'+pin+'/pairs').push().set({name});
+  nameInput.value='';
+}
+
+function removeJudgePair(pairId){
+  const pin = judgePinVal();
+  if(!pin) return;
+  if(!confirm('Remove this judge pair? This clears their assignments and scores too.')) return;
+  db.ref('judges-collective/'+pin+'/pairs/'+pairId).remove();
+  for(let r=1;r<=2;r++){
+    db.ref('judges-collective/'+pin+'/assignments/'+r+'/'+pairId).remove();
+    db.ref('judges-collective/'+pin+'/scores/'+r+'/'+pairId).remove();
+  }
+}
+
+function renderPairList(){
+  const el = document.getElementById('pairListBody');
+  if(!el) return;
+  const ids = Object.keys(judgePairs);
+  if(ids.length===0){ el.innerHTML = '<div class="mon-empty">No judge pairs added yet.</div>'; return; }
+  el.innerHTML = ids.map(id=>`
+    <div class="pair-chip">
+      <span>${judgePairs[id].name}</span>
+      <span class="pair-remove" onclick="removeJudgePair('${id}')">Remove</span>
+    </div>`).join('');
+}
+
+function assignPod(round, pairId, podId){
+  const pin = judgePinVal();
+  if(!pin) return;
+  const pod = pods.find(p=>p.id===podId);
+  if(!pod){ db.ref('judges-collective/'+pin+'/assignments/'+round+'/'+pairId).remove(); return; }
+  db.ref('judges-collective/'+pin+'/assignments/'+round+'/'+pairId).set({podId:pod.id, podName:pod.name});
+}
+
+function renderAssignGrid(){
+  const el = document.getElementById('assignGridBody');
+  if(!el) return;
+  const r = Math.min(activeRound,2);
+  const label = document.getElementById('assignRoundLabel');
+  if(label) label.textContent = 'Round '+r;
+  const ids = Object.keys(judgePairs);
+  if(ids.length===0){ el.innerHTML = '<div class="mon-empty">Add judge pairs above first.</div>'; return; }
+  el.innerHTML = ids.map(id=>{
+    const current = (judgeAssignments[r]||{})[id];
+    // pods this pair already judged in an earlier round — push these to the bottom, clearly labeled
+    const alreadyJudged = new Set();
+    for(let pr=1; pr<r; pr++){
+      const a = (judgeAssignments[pr]||{})[id];
+      if(a) alreadyJudged.add(a.podId);
+    }
+    const fresh = pods.filter(p=>!alreadyJudged.has(p.id));
+    const used = pods.filter(p=>alreadyJudged.has(p.id));
+    const optionHtml = p => `<option value="${p.id}" ${current && current.podId===p.id ? 'selected':''}>${p.name}${alreadyJudged.has(p.id)?' — already judged':''}</option>`;
+    const options = fresh.map(optionHtml).join('') + used.map(optionHtml).join('');
+    return `<div class="assign-row">
+      <span class="assign-name">${judgePairs[id].name}</span>
+      <select onchange="assignPod(${r},'${id}',this.value)">
+        <option value="">— none —</option>
+        ${options}
+      </select>
+    </div>`;
+  }).join('');
+}
+
+function renderMonitor(){
+  const el = document.getElementById('monitorBody');
+  if(!el) return;
+  const r = Math.min(activeRound,2);
+  const label = document.getElementById('monitorRoundLabel');
+  if(label) label.textContent = 'Round '+r;
+  const ids = Object.keys(judgePairs);
+  const footer = document.getElementById('monitorFooter');
+  if(ids.length===0){ el.innerHTML = '<div class="mon-empty">No judge pairs yet.</div>'; if(footer) footer.textContent=''; return; }
+  let submittedCount=0;
+  el.innerHTML = ids.map(id=>{
+    const s = (judgeScores[r]||{})[id];
+    const assign = (judgeAssignments[r]||{})[id];
+    const submitted = s && s.submitted;
+    if(submitted) submittedCount++;
+    let totalDisplay = 'waiting';
+    let podLine = assign ? (submitted?'Scored: ':'Assigned: ')+assign.podName : 'No pod assigned';
+    if(submitted && assign){
+      const pod = pods.find(p=>p.id===assign.podId);
+      if(pod){
+        let running = 0;
+        for(let pr=1; pr<=r; pr++){ running += (pod['r'+pr]!=null ? pod['r'+pr] : 0); }
+        totalDisplay = running;
+        podLine += ' · +'+s.total+' this round';
+      } else {
+        totalDisplay = s.total;
+      }
+    }
+    return `<div class="mon-row">
+      <div class="mon-status-dot ${submitted?'in':'pending'}"></div>
+      <div class="mon-pair">
+        <div class="mon-pair-name">${judgePairs[id].name}</div>
+        <div class="mon-pair-pod">${podLine}</div>
+      </div>
+      <div class="mon-total ${submitted?'':'pending-txt'}">${totalDisplay}</div>
+      <div class="mon-edit" onclick="editJudgeScore(${r},'${id}')">${submitted?'Edit':''}</div>
+    </div>`;
+  }).join('');
+  if(footer) footer.textContent = submittedCount+' of '+ids.length+' judge pairs submitted for Round '+r+'. Totals shown are the running pod score through this round, matching Enter Scores.';
+}
+
+function editJudgeScore(round, pairId){
+  const pin = judgePinVal();
+  if(!pin) return;
+  const s = (judgeScores[round]||{})[pairId] || {};
+  let newVals = {};
+  for(const crit of JUDGE_CRIT){
+    const v = prompt(JUDGE_LABELS[crit]+' — current: '+(s[crit]!=null?s[crit]:'—'), s[crit]!=null?s[crit]:'');
+    if(v===null) return; // cancel aborts the whole edit, nothing saved
+    newVals[crit] = Math.max(0, Math.min(JUDGE_MAX[crit], Number(v)||0));
+  }
+  const total = JUDGE_CRIT.reduce((sum,c)=>sum+newVals[c],0);
+  db.ref('judges-collective/'+pin+'/scores/'+round+'/'+pairId).update(Object.assign({}, newVals, {total, submitted:true, editedByHost:true, editedAt:Date.now()}));
+}
+
 function startNewEvent(){
   const viewerPin = document.getElementById('viewerPin').value.trim();
+  const judgePin = judgePinVal();
 
-  if(!viewerPin){
-    alert('Enter a Viewer PIN first, then click Start New Event to clear out anything stored under it.');
+  if(!viewerPin && !judgePin){
+    alert('Enter a Viewer PIN and/or Judge PIN first, then click Start New Event to clear out anything stored under them.');
     return;
   }
 
-  let msg = 'This will permanently erase any pod scores currently stored under Viewer PIN ' + viewerPin + '.\n\nThis cannot be undone. Only do this before a new event starts, never mid-event.\n\nContinue?';
+  let msg = 'This will permanently erase any pod scores and judge pairs currently stored under:\n';
+  if(viewerPin) msg += '\n• Viewer PIN ' + viewerPin;
+  if(judgePin) msg += '\n• Judge PIN ' + judgePin;
+  msg += '\n\nThis cannot be undone. Only do this before a new event starts, never mid-event.\n\nContinue?';
   if(!confirm(msg)) return;
 
-  db.ref('events-collective/' + viewerPin + '/state').remove();
+  if(viewerPin) db.ref('events-collective/' + viewerPin + '/state').remove();
+  if(judgePin) db.ref('judges-collective/' + judgePin).remove();
 
   pods = [];
   activeRound = 1;
   revealedRound = 0;
   r2Multiplier = 2;
   rowEls.clear();
+  judgePairs = {};
+  judgeAssignments = {1:{},2:{}};
+  judgeScores = {1:{},2:{}};
 
   document.getElementById('eventName').value = '';
   document.getElementById('r2Mult').value = '2';
@@ -415,16 +710,26 @@ function startNewEvent(){
   document.getElementById('s2').value = '';
   document.getElementById('qrPanel').style.display = 'none';
   document.getElementById('qrToggleBtn').textContent = 'Show QR';
+  document.getElementById('judgeQrPanel').style.display = 'none';
+  document.getElementById('judgeQrToggleBtn').textContent = 'Show Judge QR';
   document.getElementById('revealStatusLine').textContent = "Nothing revealed to the board yet — guests see a blank board until you reveal Round 1.";
 
   updatePodSelect();
   renderPills();
   setRound(1);
   render();
+  renderPairList();
+  renderAssignGrid();
+  renderMonitor();
+  updateRevealButton();
 
-  syncToFirebase();
+  if(viewerPin) syncToFirebase();
+  // Re-establish the judge meta node so the QR still works right away if the
+  // Judge PIN is being reused — otherwise judges scanning it would hit a
+  // "no such event" error until this gets written again.
+  if(judgePin) pushJudgeMeta();
 
-  alert('New event started. Old data has been cleared for that PIN.');
+  alert('New event started. Old data has been cleared for the PIN(s) entered.');
 }
 
 function syncToFirebase(){
@@ -454,6 +759,21 @@ function syncToFirebase(){
   db.ref('events-collective/' + pin + '/state').set(state);
   statusEl.textContent='● Live — sharing with viewers';
   statusEl.style.color='#C4622D';
+}
+
+function toggleJudgeQR(){
+  const panel = document.getElementById('judgeQrPanel');
+  const btn = document.getElementById('judgeQrToggleBtn');
+  const isOpen = panel.style.display === 'block';
+  if(isOpen){ panel.style.display='none'; btn.textContent='Show Judge QR'; return; }
+  const pin = judgePinVal();
+  if(!pin){ alert('Set a Judge PIN first, then click Show Judge QR.'); return; }
+  const judgeUrl = 'https://gerrard-allam.github.io/tcc-website/assets/judge-entry-collective.html?pin=' + encodeURIComponent(pin);
+  const qrImgUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(judgeUrl);
+  document.getElementById('judgeQrImg').src = qrImgUrl;
+  document.getElementById('judgeQrLinkText').textContent = judgeUrl;
+  panel.style.display='block';
+  btn.textContent='Hide Judge QR';
 }
 
 function toggleQR(){
@@ -579,6 +899,9 @@ function setRound(r){
   });
   render();
   syncToFirebase();
+  pushJudgeMeta();
+  renderAssignGrid();
+  renderMonitor();
   updateRevealButton();
 }
 
@@ -715,6 +1038,7 @@ function addPod(){
   document.getElementById('podMembers').value='';
   updatePodSelect();render();
   syncToFirebase();
+  renderAssignGrid();
   updateRevealButton();
 }
 
@@ -748,6 +1072,7 @@ function removePod(){
   ['s1','s2'].forEach(id=>document.getElementById(id).value='');
   render();
   syncToFirebase();
+  renderAssignGrid();
   updateRevealButton();
 }
 
