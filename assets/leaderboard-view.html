@@ -232,7 +232,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
           <span class="mx" id="scoreMaxV"></span>
         </div>
         <table class="lb-table">
-          <thead><tr><th style="width:44px;">#</th><th>Pod</th><th style="width:78px;text-align:center;" id="scoreColHeaderV">Score</th><th style="width:100px;">Progress</th><th style="width:100px;">Rounds</th></tr></thead>
+          <thead><tr><th style="width:44px;">#</th><th>Team</th><th style="width:78px;text-align:center;" id="scoreColHeaderV">Score</th><th style="width:100px;">Progress</th><th style="width:100px;">Rounds</th></tr></thead>
           <tbody id="lbBodyV"></tbody>
         </table>
         <div id="palateRevealV" class="palate-reveal-v" style="display:none;"></div>
@@ -267,11 +267,11 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
       <div class="rules-section-label">How scoring works</div>
       <div class="scoring-grid">
         <span class="sg-header">Criterion</span><span class="sg-header" style="text-align:right;">×</span><span class="sg-header" style="text-align:right;">Max</span>
-        <span class="sg-crit">Enjoyment</span><span class="sg-mult">×5</span><span class="sg-max">25</span>
+        <span class="sg-crit">Enjoyment</span><span class="sg-mult">×6</span><span class="sg-max">30</span>
         <span class="sg-crit">Made for me</span><span class="sg-mult">×4</span><span class="sg-max">20</span>
         <span class="sg-crit">Presentation</span><span class="sg-mult">×4</span><span class="sg-max">20</span>
-        <span class="sg-crit">Expression of spirit</span><span class="sg-mult">×2</span><span class="sg-max">10</span>
-        <span class="sg-crit">Balance</span><span class="sg-mult">×3</span><span class="sg-max">15</span>
+        <span class="sg-crit">Expression of spirit</span><span class="sg-mult">×1</span><span class="sg-max">5</span>
+        <span class="sg-crit">Balance</span><span class="sg-mult">×2</span><span class="sg-max">10</span>
         <span class="sg-crit">Cocktail name</span><span class="sg-mult">×2</span><span class="sg-max">10</span>
         <span class="sg-crit">Technique</span><span class="sg-mult">×1</span><span class="sg-max">5</span>
       </div>
@@ -290,7 +290,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
       <div class="rules-section-label">The format</div>
       <div class="rules-list">
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">You are a maker or a judge — check with your facilitator if unsure.</div></div>
-        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Makers work in pods. Name your pod at the start.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Makers work in teams. Name your team at the start.</div></div>
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 1: replicate The 101 cocktail with one creative choice.</div></div>
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 2: The Build. Choose a drink off the recipe card cheat sheet.</div></div>
         <div class="rules-item"><div class="rules-dot"></div><div class="rules-text">Round 3: full creative freedom. Name it, build it, pitch it.</div></div>
@@ -306,7 +306,7 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
 
       <div class="rules-awards">
         <div class="rules-awards-label">Two awards tonight</div>
-        <div class="rules-awards-text">The Collective Cup — winning maker pod.<br>The Palate Award — sharpest judge panel.</div>
+        <div class="rules-awards-text">The Collective Cup — winning maker team.<br>The Palate Award — sharpest judge panel.</div>
       </div>
     </div>
   </div>
@@ -457,7 +457,7 @@ function renderFromState(state){
   const tbody=document.getElementById('lbBodyV');
   if(!pods.length){
     rowElsV.clear();
-    tbody.innerHTML='<tr><td colspan="5"><div class="empty-state">Waiting for pods to be added…</div></td></tr>';
+    tbody.innerHTML='<tr><td colspan="5"><div class="empty-state">Waiting for teams to be added…</div></td></tr>';
     return;
   }
 
