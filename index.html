@@ -298,7 +298,6 @@
      The old "resets halfway" complaint was the visible seam of only 5 images repeating twice —
      the loop itself was already seamless (translateX(-50%) across two identical sets); more images
      just makes that seam far less perceptible. */
-  .ticker-viewport:hover .format-ticker { animation-play-state: paused; }
   @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .format-ticker .tick-block { flex: 0 0 auto; height: 140px; width: auto; aspect-ratio: 3/4; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; overflow: hidden; }
   .format-ticker .tick-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -318,7 +317,25 @@
   .photo-fill img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .why-list { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
   .why-list li { font-size: 13px; line-height: 1.55; }
-  .why-list strong { color: var(--charcoal); }
+  .why-list strong { color: var(--charcoal); font-weight: 700; }
+
+  .pull-quote { position: relative; margin: 24px 0 0; max-width: 520px; }
+  .pull-quote::before {
+    content: '\201C';
+    display: block;
+    font-family: var(--font-display);
+    font-size: 64px;
+    line-height: 1;
+    color: var(--amber);
+    opacity: .5;
+    margin-bottom: -14px;
+  }
+  .pull-quote p { font-family: var(--font-display); font-style: italic; font-size: 22px; line-height: 1.35; color: var(--amber); font-weight: 400; }
+  .pull-quote cite { display: block; margin-top: 14px; font-family: var(--font-body); font-style: normal; font-size: 12px; letter-spacing: .04em; color: rgba(44,44,42,.6); }
+  @media (min-width: 768px) {
+    .pull-quote::before { font-size: 84px; margin-bottom: -20px; }
+    .pull-quote p { font-size: 28px; }
+  }
 
   /* ─── Packages (rules #5, #6, #7, #10) ──────────────── */
   .pkg-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
@@ -399,10 +416,6 @@
   .footer-links a:hover { color: var(--ice); }
   .footer-bottom { border-top: 1px solid rgba(189,212,234,.1); margin-top: 4px; padding: 16px 0 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
   .footer-bottom span { font-size: 11px; color: var(--gray); }
-  .footer-social { display: flex; gap: 10px; }
-  .footer-social a { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(189,212,234,.3); color: var(--powder-blue); transition: border-color .15s ease, color .15s ease; }
-  .footer-social a:hover { border-color: var(--ice); color: var(--ice); }
-  .footer-social svg { width: 14px; height: 14px; }
   .footer-wordmark-band { padding: 4px 0 8px; overflow: hidden; }
   .footer-wordmark-row { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.5vw, 22px); }
   /* Deliberate, scoped exception to the "DM Sans never heavier than 500" brand rule,
@@ -651,10 +664,15 @@
         <div class="eyebrow" style="color:var(--slate-blue);">Why book</div>
         <h2>Every event is built to <span class="accent">bring teams closer.</span></h2>
         <ul class="why-list">
-          <li><strong>Built for your team's size:</strong> designed for groups of 10 to 80, wherever your <span style="white-space:nowrap;">team gathers</span>.</li>
-          <li><strong>A story worth telling the next day:</strong> scored rounds, a live leaderboard, and a keepsake to take home.</li>
+          <li><strong>Built for your team's size:</strong> designed to flex for any group, wherever your <span style="white-space:nowrap;">team gathers</span>.</li>
+          <li><strong>Team building that requires actual teamwork:</strong> makers and judges have to communicate and coordinate under pressure, the same skills your team already relies on at work.</li>
           <li><strong>No surprises:</strong> one price, no hidden fees, no last-minute add-ons.</li>
         </ul>
+
+        <blockquote class="pull-quote">
+          <p>The Craft Collective encourages you to collaborate with your teammates in a real, creative, and fun&nbsp;way.</p>
+          <cite>Antonio U.</cite>
+        </blockquote>
       </div>
       <div class="why-photo photo-fill">
         <!-- Stock photo, no consent issue. Swapped from the teaching photo to avoid duplicating
@@ -674,7 +692,8 @@
       <!-- wmd-2: confirmed stock photo by Gerrard, no consent issue. -->
       <!-- wmd-3: same wine-reception stock photo flagged twice this session as an "everyone else" mismatch
            (no cocktail-making shown) — placed here per Gerrard's explicit direction despite that. -->
-      <div class="photo-block"><img src="assets/images/wmd-1.jpg" alt="Bartender pouring a cocktail into rocks glasses" loading="lazy"></div>
+      <!-- Real event photo, consent confirmed by Gerrard (2026-07-27). Replaces the single-bartender shot. -->
+      <div class="photo-block"><img src="assets/images/wmd-1.jpg" alt="Coworkers working together to build cocktails at a bar" loading="lazy"></div>
       <div class="photo-block"><img src="assets/images/wmd-2.jpg" alt="Guest evaluating a cocktail at the bar" loading="lazy"></div>
       <div class="photo-block"><img src="assets/images/wmd-3.jpg" alt="Group socializing with wine at an evening event" loading="lazy"></div>
     </div>
@@ -692,8 +711,8 @@
         <div class="compare-item">The event is built around your team</div>
         <div class="compare-item">Every person is involved</div>
         <div class="compare-item">Two parallel tracks: makers and judges</div>
-        <div class="compare-item">Live leaderboard, scored rounds, real stakes</div>
-        <div class="compare-item">Round 3 worth more than Rounds 1 and 2, anyone can win</div>
+        <div class="compare-item">A live leaderboard keeps the stakes real from start to finish</div>
+        <div class="compare-item">Every event ends with a winner, not just a wrap-up</div>
       </div>
     </div>
   </div>
@@ -718,7 +737,7 @@
         <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
         <!-- <div class="pkg-price">From $94/person (at 16 guests)</div> -->
         <div class="pkg-meta">10 to 16 guests (ideal) · about 90 minutes</div>
-        <p class="pkg-desc">A hands-on introduction to the format. Everyone builds, everyone's scored, no big ceremony at the end.</p>
+        <p class="pkg-desc">A hands-on introduction to the format. One round of light scoring, with a paper certificate for the winning team.</p>
       </a>
       <a class="pkg-card" href="how-it-works.html#plan-collective">
         <div class="pkg-name">The Collective</div>
@@ -841,17 +860,6 @@
     </div>
     <div class="footer-bottom">
       <span>The Craft Collective LLC | Washington DC, Maryland, Virginia</span>
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-        <a href="#" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v6h4v-6h2.5l.5-4H12V8a1 1 0 0 1 1-1h2z"/></svg>
-        </a>
-        <a href="#" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="10" x2="7" y2="17"/><circle cx="7" cy="7" r="0.6" fill="currentColor" stroke="none"/><path d="M11 17v-4a2 2 0 0 1 4 0v4"/><line x1="11" y1="10" x2="11" y2="17"/></svg>
-        </a>
-      </div>
     </div>
   </div>
 </footer>
