@@ -246,8 +246,18 @@
 
   /* ─── Photo strip / offset collage ─────────────────── */
   .photo-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0 32px; }
-  .photo-block { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; overflow: hidden; }
+  .photo-block { aspect-ratio: 4/3; background: var(--charcoal-lt); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; }
   .photo-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-block-zoom { position: absolute; bottom: 8px; right: 8px; width: 26px; height: 26px; border-radius: 4px; background: rgba(27,27,25,.55); display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .photo-block-zoom svg { width: 13px; height: 13px; }
+
+  .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(27,27,25,.94); z-index: 2000; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox-overlay.open { display: flex; }
+  .lightbox-content { max-width: 720px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .lightbox-img { max-width: 100%; max-height: 72vh; border-radius: 4px; object-fit: contain; display: block; }
+  .lightbox-caption { color: var(--ice); font-size: 13px; font-weight: 300; margin-top: 16px; text-align: center; max-width: 520px; line-height: 1.5; }
+  .lightbox-close { position: fixed; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(242,245,249,.3); color: var(--ice); width: 36px; height: 36px; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer; font-family: var(--font-body); }
+  .lightbox-close:hover { border-color: var(--ice); }
 
   .offset-collage { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: stretch; margin: 28px 0 8px; height: 340px; }
   .offset-collage .img-a { background: var(--charcoal-lt); border-radius: 4px; height: 100%; overflow: hidden; }
@@ -693,9 +703,27 @@
       <!-- wmd-3: same wine-reception stock photo flagged twice this session as an "everyone else" mismatch
            (no cocktail-making shown) — placed here per Gerrard's explicit direction despite that. -->
       <!-- Real event photo, consent confirmed by Gerrard (2026-07-27). Replaces the single-bartender shot. -->
-      <div class="photo-block"><img src="assets/images/wmd-1.jpg" alt="Coworkers working together to build cocktails at a bar" loading="lazy"></div>
-      <div class="photo-block"><img src="assets/images/wmd-2.jpg" alt="Guest evaluating a cocktail at the bar" loading="lazy"></div>
-      <div class="photo-block"><img src="assets/images/wmd-3.jpg" alt="Group socializing with wine at an evening event" loading="lazy"></div>
+      <div class="photo-block" onclick="openLightbox('assets/images/wmd-1.jpg','Coworkers building cocktails together at the bar.')">
+        <img src="assets/images/wmd-1.jpg" alt="Coworkers working together to build cocktails at a bar" loading="lazy">
+        <span class="photo-block-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
+      <div class="photo-block" onclick="openLightbox('assets/images/wmd-2.jpg','A judge evaluating a cocktail before scoring it.')">
+        <img src="assets/images/wmd-2.jpg" alt="Guest evaluating a cocktail at the bar" loading="lazy">
+        <span class="photo-block-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
+      <div class="photo-block" onclick="openLightbox('assets/images/wmd-3.jpg','Guests socializing between rounds.')">
+        <img src="assets/images/wmd-3.jpg" alt="Group socializing with wine at an evening event" loading="lazy">
+        <span class="photo-block-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
+    </div>
+
+    <!-- Lightbox: tap-to-enlarge for the photo strip above, closes on background click, X, or Escape -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+      <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox();" aria-label="Close">✕</button>
+      <div class="lightbox-content" onclick="event.stopPropagation();">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
     </div>
     <div class="compare-grid">
       <div class="compare-col them">
@@ -734,31 +762,26 @@
     <div class="pkg-grid">
       <a class="pkg-card" href="how-it-works.html#plan-session">
         <div class="pkg-name">The Session</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="pkg-price">From $94/person (at 16 guests)</div> -->
+        <div class="pkg-price">Starting at $94/person</div>
         <div class="pkg-meta">10 to 16 guests (ideal) · about 90 minutes</div>
         <p class="pkg-desc">A hands-on introduction to the format. One round of light scoring, with a paper certificate for the winning team.</p>
       </a>
       <a class="pkg-card" href="how-it-works.html#plan-collective">
         <div class="pkg-name">The Collective</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="pkg-price">From $80/person (at 30 guests)</div> -->
+        <div class="pkg-price">Starting at $80/person</div>
         <div class="pkg-meta">12 to 30 guests (ideal) · about 2 hours</div>
         <p class="pkg-desc">The full experience in a shorter window: two scored rounds, a live leaderboard, and a real awards moment.</p>
       </a>
       <a class="pkg-card featured" href="how-it-works.html#plan-collective-cup">
         <div class="pkg-badge">Flagship</div>
         <div class="pkg-name">The Collective Cup</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="pkg-price">From $67/person (at 48 guests)</div> -->
+        <div class="pkg-price">Starting at $67/person</div>
         <div class="pkg-meta">16 to 48 guests (ideal) · about 2 hours 40 minutes</div>
         <p class="pkg-desc">Our flagship format: three rounds of rising stakes, a live leaderboard the whole room can see, and two awards on the line.</p>
       </a>
       <a class="pkg-card" href="how-it-works.html#plan-craft-house">
         <div class="pkg-name">Craft House</div>
-        <!-- PRICE HIDDEN (Gerrard, 2026-07-20): remove comment tags to restore -->
-        <!-- <div class="pkg-price">Custom pricing</div>
-        <div class="pkg-min">Starts at $4,500</div> -->
+        <div class="pkg-price">Custom, built around your group size</div>
         <div class="pkg-meta">48 or more guests (ideal) · custom</div>
         <p class="pkg-desc">Built entirely around your group, from the cocktail list to the round structure.</p>
       </a>
@@ -876,6 +899,22 @@
       mobileMenu.classList.remove('open');
       navToggle.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  // Photo strip lightbox — tap/click any of the three "What Makes It Different" images to enlarge
+  function openLightbox(src, caption){
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxImg').alt = caption;
+    document.getElementById('lightboxCaption').textContent = caption;
+    document.getElementById('lightboxOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightboxOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
   });
 </script>
 
