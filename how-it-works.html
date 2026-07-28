@@ -299,6 +299,12 @@
   .lightbox-close { position: fixed; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(242,245,249,.3); color: var(--ice); width: 36px; height: 36px; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer; font-family: var(--font-body); }
   .lightbox-close:hover { border-color: var(--ice); }
 
+  @media (min-width: 768px) {
+    .format-ticker .tick-block { cursor: default; }
+    .tick-block-zoom { display: none; }
+    .material-item.wide { cursor: default !important; }
+  }
+
   /* ─── Four formats cards ──────────────────────────────── */
   .formats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
   .format-plan-card { position: relative; display: flex; flex-direction: column; background: var(--white); border: 1.5px solid rgba(44,44,42,.4); border-radius: 4px; overflow: hidden; scroll-margin-top: 90px; }
@@ -690,6 +696,11 @@
         </div>
       </div>
     </div>
+
+    <!-- OPEN ITEM (2026-07-28): Gerrard wants a space here (or nearby, placement not yet decided) for
+         "Best Practices / Techniques" content related to the Live Leaderboard. No copy, layout, or exact
+         location confirmed yet — revisit with actual content before building anything. Do not add a
+         section for this without checking back first. -->
   </div>
 </section>
 
@@ -800,8 +811,12 @@
     });
   });
 
-  // The Format photo strip lightbox — tap/click any of the three images to enlarge
+  // The Format photo strip lightbox — tap/click any of the three images to enlarge, plus the
+  // Live Leaderboard image further down the page. Mobile only, by design: on desktop the images
+  // are already large enough, and an unexpected full-screen takeover on click is more disruptive
+  // than helpful there.
   function openLightbox(src, caption){
+    if(window.innerWidth >= 768) return;
     document.getElementById('lightboxImg').src = src;
     document.getElementById('lightboxImg').alt = caption;
     document.getElementById('lightboxCaption').textContent = caption;
