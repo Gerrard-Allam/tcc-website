@@ -284,10 +284,20 @@
   .intro-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .format-ticker { display: flex; gap: 10px; overflow: hidden; margin: 32px 0 8px; }
-  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; overflow: hidden; }
+  .format-ticker .tick-block { flex: 1 1 0; min-width: 70px; aspect-ratio: 3/4; background: var(--charcoal-lt); border: 1px solid rgba(189,212,234,.12); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; }
   .format-ticker .tick-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .format-ticker .tick-block.wide { flex: 1.8 1 0; aspect-ratio: 4/3; }
   .format-ticker .tick-block.cut { flex: 0 0 36px; min-width: 36px; }
+  .tick-block-zoom { position: absolute; bottom: 8px; right: 8px; width: 24px; height: 24px; border-radius: 4px; background: rgba(27,27,25,.55); display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .tick-block-zoom svg { width: 12px; height: 12px; }
+
+  .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(27,27,25,.94); z-index: 2000; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox-overlay.open { display: flex; }
+  .lightbox-content { max-width: 720px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .lightbox-img { max-width: 100%; max-height: 72vh; border-radius: 4px; object-fit: contain; display: block; }
+  .lightbox-caption { color: var(--ice); font-size: 13px; font-weight: 300; margin-top: 16px; text-align: center; max-width: 520px; line-height: 1.5; }
+  .lightbox-close { position: fixed; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(242,245,249,.3); color: var(--ice); width: 36px; height: 36px; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer; font-family: var(--font-body); }
+  .lightbox-close:hover { border-color: var(--ice); }
 
   /* ─── Four formats cards ──────────────────────────────── */
   .formats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
@@ -497,16 +507,34 @@
       <div>
         <div class="eyebrow">The format</div>
         <h2>Everything handled. <span class="accent">You just show up.</span></h2>
-        <p class="lede">Here's exactly what happens from booking to wrap-up, and why every detail is&nbsp;deliberate.</p>
+        <p class="lede">Here's exactly what happens from booking to wrap-up, and why every detail is&nbsp;deliberate. The only thing on your plate: picking up spirits from a curated list we send ahead of time.</p>
       </div>
       <div class="intro-photo"><img src="assets/images/intro-photo.jpg" alt="Old fashioned cocktail with branded ice cube and citrus garnish" loading="lazy"></div>
     </div>
     <div class="format-ticker">
       <!-- hiw-making.jpg is a real event photo, vertically canvas-extended (outpainted top/bottom) then re-zoomed to trim excess empty foreground/background, final 1086x1448 (3:4 exact). People/objects in the original frame are untouched; the extended margin is AI-generated fill. Flagging per project convention for AI-modified imagery. -->
-      <div class="tick-block"><img src="assets/images/hiw-making.jpg" alt="Maker building a cocktail at the station" loading="lazy"></div>
-      <div class="tick-block wide"><img src="assets/images/hiw-judging.jpg" alt="Judges scoring a cocktail with a criteria card" loading="lazy"></div>
+      <div class="tick-block" onclick="openLightbox('assets/images/hiw-making.jpg','A maker building a cocktail at the station.')">
+        <img src="assets/images/hiw-making.jpg" alt="Maker building a cocktail at the station" loading="lazy">
+        <span class="tick-block-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
+      <div class="tick-block wide" onclick="openLightbox('assets/images/hiw-judging.jpg','Judges scoring a cocktail with a criteria card.')">
+        <img src="assets/images/hiw-judging.jpg" alt="Judges scoring a cocktail with a criteria card" loading="lazy">
+        <span class="tick-block-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
       <!-- hiw-winners.jpg is an AI-generated stand-in (not a real event photo) per direct instruction. Canvas-extended (outpainted) then re-zoomed, final 1086x1448 (3:4 exact), matching the tick-block ratio exactly. Open item: replace with real photography or confirm otherwise, same status as the About page founder photo. -->
-      <div class="tick-block"><img src="assets/images/hiw-winners.jpg" alt="Winning team holding their cocktail shaker trophies" loading="lazy"></div>
+      <div class="tick-block" onclick="openLightbox('assets/images/hiw-winners.jpg','The winning team celebrating with their trophies.')">
+        <img src="assets/images/hiw-winners.jpg" alt="Winning team holding their cocktail shaker trophies" loading="lazy">
+        <span class="tick-block-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
+    </div>
+
+    <!-- Lightbox: tap-to-enlarge for The Format's 3 images above, closes on background click, X, or Escape -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+      <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox();" aria-label="Close">✕</button>
+      <div class="lightbox-content" onclick="event.stopPropagation();">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -605,7 +633,7 @@
   <div class="wrap">
     <div class="eyebrow">The stages</div>
     <h2>Five stages. <span class="accent stages-accent-wrap">One arc of escalating excitement.</span></h2>
-    <p class="lede">The format is back-loaded by design. Makers work in pods of two, with up to two pods per station and up to three stations running side by side. Each round raises the stakes. By Round 3, anyone can win.</p>
+    <p class="lede">The format is back-loaded by design. Makers work in teams of two, with up to two teams per station and up to three stations running side by side. Each round raises the stakes. By Round 3, anyone can win.</p>
 
     <div class="stage-photos">
       <!-- stage-photo-2: Getty-licensed via Unsplash+ per filename — confirm usage rights before live. -->
@@ -656,7 +684,10 @@
       <p class="lede" style="margin-bottom:8px;">Every score lands here first. Standings shift in real time as each round wraps, so the room feels every point, not just the final tally. It's the difference between an activity people sit through and a moment they're actually locked into.</p>
       <p class="material-caption">Displayed in the room, updated round by round as scores come in.</p>
       <div class="material-row single">
-        <div class="material-item wide"><img src="assets/images/leaderboard-standings.jpg" alt="The Collective Cup live standings, showing Round 3 in progress with total scores and rank changes" loading="lazy"></div>
+        <div class="material-item wide" style="position:relative;cursor:pointer;" onclick="openLightbox('assets/images/leaderboard-standings.jpg','The Collective Cup live standings, Round 3 in progress with total scores and rank changes.')">
+          <img src="assets/images/leaderboard-standings.jpg" alt="The Collective Cup live standings, showing Round 3 in progress with total scores and rank changes" loading="lazy">
+          <span class="tick-block-zoom" aria-hidden="true" style="bottom:10px;right:10px;"><svg viewBox="0 0 24 24" fill="none" stroke="#F2F5F9" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+        </div>
       </div>
     </div>
   </div>
@@ -667,13 +698,13 @@
   <div class="wrap">
     <div class="eyebrow">The two tracks</div>
     <h2>Two tracks, side by side. <span class="accent">One room. Everyone involved.</span></h2>
-    <p class="lede">The Craft Collective is the only format in the DC market running two structured tracks at once. Makers and judges are both being scored, at the same time, in the same room, for different prizes.</p>
+    <p class="lede">Every Craft Collective event runs on two tracks: makers build, judges score, both happening at once in the same room. The Collective Cup takes this furthest, running three full rounds with two separate awards on the line.</p>
 
     <div class="track-grid">
       <div class="track-card">
         <div class="track-label">Makers track</div>
         <h3>Build. Score. Win.</h3>
-        <p>Work in pairs to build cocktails across three rounds, judged on technique, presentation, and creativity. The pod with the highest cumulative score across all three rounds wins.</p>
+        <p>Work in pairs to build cocktails round by round, judged on technique, presentation, and creativity. The team with the highest cumulative score wins.</p>
         <div class="track-award">
           <div class="track-award-label">Award</div>
           <div class="track-award-name">The Collective Cup</div>
@@ -683,11 +714,11 @@
       <div class="track-card judges">
         <div class="track-label">Judges track</div>
         <h3>Score. Calibrate. Win.</h3>
-        <p>Work in pairs and score every cocktail together on the same criteria. The pair whose scores land closest to the panel consensus across all three rounds wins, rewarding accuracy over generosity.</p>
+        <p>Work in pairs and score every cocktail together on the same criteria. The pair whose scores land closest to the panel consensus wins, rewarding accuracy over generosity.</p>
         <div class="track-award">
           <div class="track-award-label">Award</div>
           <div class="track-award-name">The Palate Award</div>
-          <div class="track-award-desc">Awarded to the judge pair with the lowest cumulative deviation from the panel.</div>
+          <div class="track-award-desc">Awarded to the judge pair with the lowest cumulative deviation from the panel. Exclusive to The Collective Cup.</div>
         </div>
       </div>
     </div>
@@ -767,6 +798,22 @@
       mobileMenu.classList.remove('open');
       navToggle.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  // The Format photo strip lightbox — tap/click any of the three images to enlarge
+  function openLightbox(src, caption){
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxImg').alt = caption;
+    document.getElementById('lightboxCaption').textContent = caption;
+    document.getElementById('lightboxOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightboxOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
   });
 </script>
 
