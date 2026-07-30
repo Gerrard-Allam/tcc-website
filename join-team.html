@@ -13,9 +13,9 @@
   form-field styling, and JS submit pattern with book.html for consistency).
     1. This is framed as "work with us," not a career page — the engagement is a temp/gig-style
        arrangement, at least to start, so the copy deliberately avoids "career" language.
-    2. Resume upload field added (input type="file"), styled to match the rest of the field set.
-       Form uses enctype="multipart/form-data" and the JS submit handler passes the native
-       FormData object straight through, so the file rides along automatically.
+    2. Resume upload field removed per direct decision (previously an input type="file" field).
+       Form still uses enctype="multipart/form-data", harmless to leave since there's no file
+       input left, but flagging in case it's ever worth trimming.
     3. "Role You're Interested In" field removed per direct decision — this is a general interest
        form, not split by role. Years-of-experience field is a standalone always-visible field,
        not conditional on the Yes/No bartending-experience answer.
@@ -314,12 +314,6 @@
             <input type="number" id="fYears" name="yearsExperience" min="0" step="1" placeholder="Enter 0 if none">
           </div>
 
-          <div class="field field-full field-file">
-            <label for="fResume">Resume</label>
-            <input type="file" id="fResume" name="resume" accept=".pdf,.doc,.docx">
-            <div class="field-hint">PDF or Word doc, under 10MB.</div>
-          </div>
-
           <div class="field field-full">
             <label for="fNotes">Anything Else We Should Know? (optional)</label>
             <textarea id="fNotes" name="notes" placeholder="Availability, relevant experience, or anything else you'd like us to know."></textarea>
@@ -434,9 +428,6 @@
     // Single shared webhook across all three forms, one Make scenario with a Router
     // splitting on the hidden "formSource" field into the Booking / Private Celebrations /
     // Join the Team tabs. This keeps everything inside Make's free-plan 2-scenario cap.
-    // Note: the resume file rides along in this payload too, but the Sheets "Add a Row"
-    // step can only write text into cells, so map a filename/"resume attached" field
-    // rather than expecting the file content itself to land in a cell.
     fetch('https://hook.us2.make.com/luzlyru8g3ya7ku566cmyq4ayguzd0cx', {
       method: 'POST',
       body: data
