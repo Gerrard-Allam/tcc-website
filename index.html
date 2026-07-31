@@ -386,10 +386,14 @@
   .amber-moment h2 { text-transform: uppercase; font-family: var(--font-body); font-weight: 700; font-size: 26px; letter-spacing: .02em; color: var(--ice); max-width: 480px; margin: 0 auto; }
   .amber-moment .swap-note { position: relative; z-index: 1; margin-top: 16px; font-size: 11px; color: rgba(242,245,249,.75); }
   /* Mobile-only: heading crowded the top of the glass in the photo, so the top offset is
-     pulled up ~15% from the base 14vh (14vh * .85 ≈ 11.9vh) on small screens only. Desktop
-     is untouched — it's on its own height/background rule below and wasn't flagged as an issue. */
+     pulled up on small screens only. Desktop is untouched — it's on its own height/background
+     rule below and wasn't flagged as an issue.
+     History: base was 14vh. First pass pulled it up 15% to 11.9vh. Second pass (this value)
+     pulls it up another 15% from 11.9vh, landing at ~10.1vh. If this section needs another
+     pass in the future, apply the same 15% relative-reduction convention from whatever the
+     current value is, rather than resetting to the original 14vh base. */
   @media (max-width: 767px) {
-    .amber-moment { padding-top: 11.9vh; }
+    .amber-moment { padding-top: 10.1vh; }
   }
   /* v30: desktop-only fix, final version (mobile intentionally left untouched, confirmed fine as-is).
      Superseded the v29 `contain` approach — that fixed the cropping but left letterboxing
