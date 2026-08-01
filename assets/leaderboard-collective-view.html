@@ -250,12 +250,18 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         </svg>
         <div class="rules-brand-text">
           <h3>The Craft Collective</h3>
-          <p>Station Rules — The Collective</p>
+          <p id="rulesPanelLabel">Station Rules — The Collective</p>
         </div>
       </div>
       <div class="rules-amber-rule"></div>
 
-      <div class="rules-section-label">How scoring works</div>
+      <div style="display:flex;gap:6px;margin-bottom:16px;">
+        <button type="button" class="pill active" id="rulesTabBtn" onclick="showRulesTab('rules')" style="flex:1;justify-content:center;cursor:pointer;">Rules</button>
+        <button type="button" class="pill" id="tipsTabBtn" onclick="showRulesTab('tips')" style="flex:1;justify-content:center;cursor:pointer;">Tips</button>
+      </div>
+
+      <div id="rulesPanel">
+      <div class="rules-section-label" style="margin-top:0;">How scoring works</div>
       <div class="scoring-grid">
         <span class="sg-header">Criterion</span><span class="sg-header" style="text-align:right;">×</span><span class="sg-header" style="text-align:right;">Max</span>
         <span class="sg-crit">Enjoyment</span><span class="sg-mult">×6</span><span class="sg-max">30</span>
@@ -298,8 +304,33 @@ html,body{background:#1B1B19;min-height:100%;width:100%;}
         <div class="rules-awards-label">One award tonight</div>
         <div class="rules-awards-text">The Collective — winning maker team, certificate at the ceremony.</div>
       </div>
+      </div>
+
+      <div id="tipsPanel" style="display:none;">
+      <div class="rules-section-label" style="margin-top:0;">A few pointers</div>
+      <div class="rules-list">
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Shake for citrus, stir for spirit-forward.</strong> If it has juice, shake it. If it's just spirits, stir it.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Fresh ice, every round.</strong> Melted ice waters down a drink fast. Judges notice.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Garnish last, garnish deliberately.</strong> It's the first thing a judge sees. Make it count.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Always use a jigger.</strong> Eyeballing pours is how a great cocktail becomes an inconsistent one, round to round.</div></div>
+        <div class="rules-item"><div class="rules-dot"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Slow down on the pour.</strong> A rushed pour leads to inconsistencies.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Ask your judge what they actually like before you build.</strong> That's half the score right there.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Talk to your judges while you work.</strong> The room remembers who they had fun with, not just what they drank.</div></div>
+        <div class="rules-item"><div class="rules-dot amber"></div><div class="rules-text"><strong style="color:#F2F5F9;font-weight:500;">Don't stress about being fast.</strong> Enjoy the round, the score follows.</div></div>
+      </div>
+      </div>
     </div>
   </div>
+
+<script>
+function showRulesTab(which){
+  document.getElementById('rulesPanel').style.display = which === 'rules' ? 'block' : 'none';
+  document.getElementById('tipsPanel').style.display = which === 'tips' ? 'block' : 'none';
+  document.getElementById('rulesTabBtn').classList.toggle('active', which === 'rules');
+  document.getElementById('tipsTabBtn').classList.toggle('active', which === 'tips');
+  document.getElementById('rulesPanelLabel').textContent = which === 'rules' ? 'Station Rules — The Collective' : 'Maker Tips';
+}
+</script>
 </div>
 
 <script>
