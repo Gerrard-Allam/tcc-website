@@ -171,12 +171,15 @@
        internally, added white-space: nowrap to the accent rule. It can still drop to its own line as
        a whole if it doesn't fit next to the leading text, it just can't split mid-clause across two
        lines. Applied to every page that uses the accent class, not just this one, since it's a rule
-       now, not a one-off. One thing to watch, not yet a confirmed problem: "Everything handled. You
+       now, not a one-off. One thing to watch, not yet a confirmed problem: "We run the show. You
        just show up." sits inside a 2-column grid on this page's intro section, and the text column
        narrows specifically at the 768px breakpoint (the same width where headings jump from mobile to
        desktop size). That's the one spot on the site where a long nowrap accent phrase is most likely
        to run tight against its container. Didn't hit an actual overflow in review, flagging as the
-       place to check first if anything looks cramped at tablet widths.
+       place to check first if anything looks cramped at tablet widths. (Headline's leading text was
+       revised 2026-07 to remove a literal contradiction with the spirits-pickup disclosure in the lede
+       right below it — the accent clause itself, "You just show up.", is unchanged, so this nowrap
+       note still applies.)
     2. Four Formats cards: the Collective Cup card's Flagship badge made it the tallest card in the
        row, so the other three cards' description text was ending higher up with blank space below,
        while Collective Cup's content ran further down. Made .format-plan-card a flex column and
@@ -512,7 +515,7 @@
     <div class="intro-grid">
       <div>
         <div class="eyebrow">The format</div>
-        <h2>Everything handled. <span class="accent">You just show up.</span></h2>
+        <h2>We run the show. <span class="accent">You just show up.</span></h2>
         <p class="lede">Here's exactly what happens from booking to wrap-up, and why every detail is&nbsp;deliberate. The only thing on your plate: picking up spirits from a curated list we send ahead of time.</p>
       </div>
       <div class="intro-photo"><img src="assets/images/intro-photo.jpg" alt="Old fashioned cocktail with branded ice cube and citrus garnish" loading="lazy"></div>
@@ -697,10 +700,6 @@
       </div>
     </div>
 
-    <!-- OPEN ITEM (2026-07-28): Gerrard wants a space here (or nearby, placement not yet decided) for
-         "Best Practices / Techniques" content related to the Live Leaderboard. No copy, layout, or exact
-         location confirmed yet — revisit with actual content before building anything. Do not add a
-         section for this without checking back first. -->
   </div>
 </section>
 
@@ -772,6 +771,7 @@
           <ul class="footer-links">
             <li><a href="how-it-works.html" aria-current="page">How It Works</a></li>
             <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="legal.html">Legal</a></li>
             <li><a href="assets/leaderboard-select.html" target="_blank" rel="noopener">Live Leader Board</a></li>
           </ul>
         </div>

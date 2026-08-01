@@ -3,13 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy — The Craft Collective</title>
-<meta name="description" content="How The Craft Collective collects, uses, and protects information submitted through this website.">
+<title>Legal — The Craft Collective</title>
+<meta name="description" content="Terms of service, liability, and insurance information for The Craft Collective.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<!-- Misplaced About-page build-note comment block removed (2026-07-28) — it described about.html's
-     history, not this page's, and was pasted here in error in an earlier session. -->
+<!-- DRAFT PAGE (created 2026-08). Written by Claude as a starting point per Gerrard's request, using
+     general insurance coverage categories from a broker email as reference. This is NOT reviewed or
+     approved legal language. Gerrard's lawyer friend is reviewing/refining before this is treated as
+     final. The whole site is pre-launch, so this file being live at a real URL carries low practical
+     risk right now, but the on-page "Draft" notice below should stay until the lawyer signs off, and
+     this page should stay out of the main nav (footer-only) the same way Privacy Policy is. -->
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -50,10 +54,6 @@
   section { padding: 56px 0; }
 
   .bg-charcoal { background: var(--charcoal); }
-  .bg-ice { background: var(--ice); color: var(--charcoal); }
-  .bg-ice h2, .bg-ice h3 { color: var(--charcoal); }
-  .bg-powder { background: var(--powder-blue); color: var(--charcoal); }
-  .bg-powder h2 { color: var(--charcoal); }
 
   /* ─── Heading accent (sitewide locked rule) ─────────── */
   h1 .accent, h2 .accent, h3 .accent {
@@ -62,7 +62,6 @@
     color: var(--mid-blue);
     white-space: nowrap;
   }
-  .bg-ice .accent, .bg-powder .accent { color: var(--slate-blue); }
 
   /* ─── Nav ──────────────────────────────────────────── */
   .site-nav { position: sticky; top: 0; z-index: 50; background: var(--charcoal); border-bottom: 1px solid rgba(189,212,234,.12); }
@@ -88,58 +87,30 @@
   .eyebrow { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--mid-blue); margin-bottom: 14px; }
   h1, h2, h3 { font-family: var(--font-display); font-weight: 400; color: var(--ice); line-height: 1.12; }
   h1 { font-size: 32px; margin-bottom: 20px; }
-  h2 { font-size: 26px; margin-bottom: 16px; }
   h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
-  /* Legal-content pattern: white body text + bold section headings. Reusable on any future
-     legal page (Terms of Service, etc.) by applying this class to the content wrapper. */
   .legal-content, .legal-content p { color: var(--ice); }
   .legal-content h3 { font-weight: 700; }
   p { font-size: 15px; font-weight: 300; }
   .lede { font-size: 16px; font-weight: 300; max-width: 560px; margin-bottom: 20px; }
 
-  .btn { display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border-radius: 4px; padding: 13px 24px; border: 1px solid transparent; cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
-  .btn:hover { transform: translateY(-1px); }
-  .btn-primary { background: var(--ice); color: var(--charcoal); }
-  .btn-primary:hover { background: var(--powder-blue); }
-  .bg-powder .btn-primary { background: var(--charcoal); color: var(--ice); }
-  .bg-powder .btn-primary:hover { background: var(--charcoal-lt); }
-
-  /* ─── Founder hero ───────────────────────────────────── */
-  .founder-hero { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start; }
-  .founder-photo { aspect-ratio: 3/4; background: var(--charcoal-lt); border-radius: 4px; border: 1px solid rgba(189,212,234,.12); overflow: hidden; }
-  .founder-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  /* ─── Why this exists ────────────────────────────────── */
-  .why-copy-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 4px; }
-  .why-copy-grid p { font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
-  .why-copy-grid p:last-child { margin-bottom: 0; }
-
-  .pull-quote { position: relative; margin: 36px 0 0; max-width: 520px; }
-  .pull-quote::before {
-    content: '\201C';
-    display: block;
-    font-family: var(--font-display);
-    font-size: 64px;
-    line-height: 1;
-    color: var(--amber);
-    opacity: .5;
-    margin-bottom: -14px;
+  /* ─── Draft notice ───────────────────────────────────── */
+  .draft-notice {
+    background: var(--amber-tint);
+    border: 1px solid rgba(196,98,45,.4);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
   }
-  .pull-quote p { font-family: var(--font-display); font-style: italic; font-size: 22px; line-height: 1.35; color: var(--amber); font-weight: 400; }
-  .pull-quote cite { display: block; margin-top: 14px; font-family: var(--font-body); font-style: normal; font-size: 12px; letter-spacing: .04em; color: rgba(44,44,42,.6); }
+  .draft-notice-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--amber); flex-shrink: 0; padding-top: 2px;
+  }
+  .draft-notice p { font-size: 13px; line-height: 1.6; color: var(--ice); }
 
-  .why-photo-wide { width: 100%; aspect-ratio: 16/9; background: rgba(44,44,42,.08); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; margin-top: 40px; overflow: hidden; }
-  .why-photo-wide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  /* ─── Credentials ─────────────────────────────────────── */
-  .credential-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
-  .credential-card { background: var(--charcoal-lt); border-radius: 4px; padding: 22px 20px; border-top: 3px solid var(--slate-blue); }
-  .credential-card.tint-mid { background: #34394a; border-top-color: var(--mid-blue); }
-  .credential-card.tint-amber { background: var(--amber-tint); border-top-color: var(--amber); }
-  .credential-card h3 { font-size: 18px; margin-bottom: 10px; }
-  .credential-card p { font-size: 13px; line-height: 1.6; color: var(--powder-blue); }
-
-  /* ─── Footer (matches homepage v7) ───────────────────── */
+  /* ─── Footer (matches site v7) ───────────────────────── */
   .site-footer { background: var(--charcoal-lt); padding: 28px 0 0; border-top: 1px solid rgba(189,212,234,.12); }
   .footer-top { display: grid; grid-template-columns: 1fr; gap: 18px; padding-bottom: 16px; }
   .footer-form { display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
@@ -157,16 +128,12 @@
   .footer-bottom span { font-size: 11px; color: var(--gray); }
   .footer-wordmark-band { padding: 4px 0 8px; overflow: hidden; }
   .footer-wordmark-row { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.5vw, 22px); }
-  /* Deliberate, scoped exception to the "DM Sans never heavier than 500" brand rule,
-     for this one element only. Weight 700 added to the font import above to support it. */
   .footer-wordmark-text {
     white-space: nowrap;
     font-family: var(--font-body); font-weight: 700; text-transform: uppercase;
     color: var(--ice); letter-spacing: .01em;
     font-size: clamp(22px, 5.5vw, 76px);
   }
-  /* Reserved placeholder for a looping GIF logo mark, not a static icon — sized to roughly match the
-     wordmark's height, styled with a visible dashed border so it reads as a real placeholder slot. */
   .footer-logo-space {
     flex: 0 0 auto; width: clamp(22px, 5.5vw, 76px); height: clamp(22px, 5.5vw, 76px);
     border-radius: 50%; overflow: hidden;
@@ -182,20 +149,10 @@
     .nav-toggle { display: none; }
     section { padding: 88px 0; }
     h1 { font-size: 56px; }
-    h2 { font-size: 44px; }
-    h3 { font-size: 22px; }
     .footer-top { grid-template-columns: 1fr 1fr; }
-
-    .founder-hero { grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
-    .why-copy-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
-    .why-photo-wide { aspect-ratio: 5/2; }
-    .credential-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .pull-quote::before { font-size: 84px; margin-bottom: -20px; }
-    .pull-quote p { font-size: 28px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .btn { transition: none; }
   }
 </style>
 <link rel="stylesheet" href="assets/css/interactions.css">
@@ -243,59 +200,83 @@
   </div>
 </nav><div id="top"></div>
 
-<!-- PRIVACY POLICY -->
+<!-- LEGAL -->
 <section class="bg-charcoal">
   <div class="wrap" style="max-width: 760px;">
     <div class="eyebrow">Legal</div>
-    <h1>Privacy <span class="accent">Policy.</span></h1>
+    <h1>Terms <span class="accent">& Liability.</span></h1>
     <p class="lede" style="margin-top:16px;">The Craft Collective LLC — Washington DC, Maryland, Virginia</p>
-    <p style="font-size:12px; color: var(--gray); margin-top:4px;">Last updated: July 16, 2026</p>
+    <p style="font-size:12px; color: var(--gray); margin-top:4px;">Last updated: August 1, 2026</p>
 
-    <div class="legal-content" style="margin-top:48px; display:flex; flex-direction:column; gap:36px;">
+    <div class="draft-notice">
+      <span class="draft-notice-label">Draft</span>
+      <p>This page is a working draft and has not yet been reviewed by an attorney. It is not final and should not be relied on as our binding terms until that review is complete.</p>
+    </div>
+
+    <div class="legal-content" style="margin-top:40px; display:flex; flex-direction:column; gap:36px;">
 
       <div>
-        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">What We Collect</h3>
-        <p style="font-size:14px; line-height:1.7;">When you submit an inquiry through this website (including our Book a Session form, Private Celebrations form, or general contact form), we collect the information you provide directly, which may include your name, email address, phone number, company name, and details about your event.</p>
-        <p style="font-size:14px; line-height:1.7; margin-top:12px;">We do not use tracking cookies, analytics pixels, or third-party advertising scripts on this site beyond what is required for the site itself to function.</p>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Booking & Payment</h3>
+        <p style="font-size:14px; line-height:1.7;">A 50% deposit confirms your date. The remaining balance is due 48 hours before your event. Bookings made less than 7 days before the event date are subject to a 15% rush surcharge.</p>
+        <p style="font-size:14px; line-height:1.7; margin-top:12px;">You may reschedule your event free of charge up to 14 days before the event date. Inside 7 days of the event, the deposit becomes non-refundable.</p>
       </div>
 
       <div>
-        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">How We Use Your Information</h3>
-        <p style="font-size:14px; line-height:1.7;">We use the information you provide to:</p>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Alcohol & Assumption of Risk</h3>
+        <p style="font-size:14px; line-height:1.7;">The Craft Collective's events involve the hands-on preparation and consumption of alcoholic beverages, alongside non-alcoholic alternatives for guests who prefer them. By booking or participating in an event, the client and their guests acknowledge and agree to the following:</p>
         <ul style="font-size:14px; line-height:1.9; margin-top:8px; padding-left:20px;">
-          <li>Respond to your inquiry and discuss your event</li>
-          <li>Send you a proposal, quote, or booking confirmation</li>
-          <li>Coordinate logistics for a booked event</li>
-          <li>Send you a receipt or invoice if you book with us</li>
-        </ul>
-        <p style="font-size:14px; line-height:1.7; margin-top:12px;">We do not use your information for marketing unrelated to your inquiry, and we do not send unsolicited email.</p>
-      </div>
-
-      <div>
-        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">How Your Information Is Stored</h3>
-        <p style="font-size:14px; line-height:1.7;">Form submissions are processed through Formspree, a third-party form service, and delivered to us by email. We do not maintain a separate marketing database of website visitors.</p>
-      </div>
-
-      <div>
-        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Third-Party Disclosure</h3>
-        <p style="font-size:14px; line-height:1.7;">We do not sell, rent, or trade your personal information to third parties. We do not disclose your information to third parties except:</p>
-        <ul style="font-size:14px; line-height:1.9; margin-top:8px; padding-left:20px;">
-          <li>Where required by law</li>
-          <li>To service providers who help us operate (such as our form processor), who are only permitted to use your information to provide that service</li>
+          <li>All participants consuming alcohol must be of legal drinking age (21 or older in the United States) and may be asked to verify age at the event.</li>
+          <li>Participants are responsible for their own consumption and conduct. The Craft Collective and its facilitators reserve the right to refuse service to any guest who appears intoxicated or is behaving unsafely.</li>
+          <li>The client is responsible for ensuring the event complies with any applicable venue rules, local ordinances, and alcohol service laws for the jurisdiction in which the event takes place.</li>
+          <li>Participation in a Craft Collective event, including any physical activity involved in preparing cocktails (handling glassware, bar tools, ice, and garnishes), carries some inherent risk. Guests voluntarily assume this risk by participating.</li>
         </ul>
       </div>
 
       <div>
-        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Your Choices</h3>
-        <p style="font-size:14px; line-height:1.7;">You may contact us at any time to ask what information we have on file for you, to correct it, or to request that we delete it, subject to any records we're required to retain for legitimate business or legal purposes (such as invoices).</p>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Limitation of Liability</h3>
+        <p style="font-size:14px; line-height:1.7;">To the fullest extent permitted by law, The Craft Collective LLC's total liability arising from or related to an event is limited to the amount paid by the client for that event. The Craft Collective is not liable for indirect, incidental, or consequential damages, including but not limited to lost business, personal injury arising from a guest's own voluntary consumption of alcohol, or property damage not caused by our direct negligence.</p>
+        <p style="font-size:14px; line-height:1.7; margin-top:12px;">Nothing in these terms is intended to limit liability in a way not permitted under applicable law.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Insurance</h3>
+        <p style="font-size:14px; line-height:1.7;">The Craft Collective LLC carries commercial general liability insurance covering our events and operations, including:</p>
+        <ul style="font-size:14px; line-height:1.9; margin-top:8px; padding-left:20px;">
+          <li>Bodily injury to a guest arising from our operations</li>
+          <li>Property damage caused by our equipment, staff, or operations</li>
+          <li>Personal and advertising injury claims</li>
+          <li>Products and completed operations coverage for work already performed</li>
+          <li>Limited medical payments coverage for minor injuries occurring at an event, regardless of fault</li>
+        </ul>
+        <p style="font-size:14px; line-height:1.7; margin-top:12px;">Proof of insurance is available upon request for corporate clients, event planners, and venues that require it as a condition of booking.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Venue & Property</h3>
+        <p style="font-size:14px; line-height:1.7;">The client is responsible for securing any permissions required to host the event at the chosen venue, including permission to serve alcohol and to bring in outside vendors where applicable. The Craft Collective is not responsible for venue-related issues outside of our control, including venue access, capacity restrictions, or venue-imposed rules discovered at the time of the event.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Photography & Video</h3>
+        <p style="font-size:14px; line-height:1.7;">The Craft Collective may take photographs or video during an event for use in our marketing materials and website. If you or your guests do not want to be photographed or featured, please let us know in writing before the event and we will accommodate that request.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Governing Law</h3>
+        <p style="font-size:14px; line-height:1.7;">These terms are governed by the laws of the jurisdiction in which the event takes place (the District of Columbia, Maryland, or Virginia), without regard to conflict-of-law principles.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Changes to These Terms</h3>
+        <p style="font-size:14px; line-height:1.7;">We may update these terms from time to time. The version in effect at the time of your booking will govern that event.</p>
       </div>
 
       <div>
         <h3 style="color:var(--ice); font-size:19px; margin-bottom:10px;">Contact</h3>
-        <p style="font-size:14px; line-height:1.7;">Questions about this policy can be directed to <a href="mailto:thecraftcollective.info@gmail.com" style="color:var(--mid-blue); text-decoration:underline;">thecraftcollective.info@gmail.com</a>.</p>
+        <p style="font-size:14px; line-height:1.7;">Questions about these terms can be directed to <a href="mailto:thecraftcollective.info@gmail.com" style="color:var(--mid-blue); text-decoration:underline;">thecraftcollective.info@gmail.com</a>.</p>
       </div>
 
-      <p style="font-size:12px; color:var(--gray); border-top:1px solid rgba(189,212,234,.12); padding-top:20px;">This policy applies to thecraftcollectivedc.com and covers information collected through this website only.</p>
+      <p style="font-size:12px; color:var(--gray); border-top:1px solid rgba(189,212,234,.12); padding-top:20px;">See also our <a href="privacy-policy.html" style="color:var(--mid-blue); text-decoration:underline;">Privacy Policy</a> for how we handle information submitted through this website.</p>
 
     </div>
   </div>
