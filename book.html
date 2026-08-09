@@ -191,6 +191,18 @@
   }
   .form-submit-btn:hover { background: var(--charcoal-lt); }
 
+  .onepager-cta {
+    display: flex; align-items: center; gap: 14px; margin: 4px 0 32px;
+    background: var(--amber-tint); border: 1px solid rgba(196,98,45,.3); border-radius: 4px;
+    padding: 16px 20px;
+  }
+  .onepager-cta p { font-size: 13px; color: var(--charcoal); line-height: 1.5; margin: 0; flex: 1; }
+  .onepager-cta a {
+    flex-shrink: 0; font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ice); background: var(--amber); border-radius: 4px;
+    padding: 12px 20px; text-decoration: none; white-space: nowrap;
+  }
+
   .fine-print { margin-top: 8px; background: rgba(44,44,42,.04); border: 1px solid rgba(44,44,42,.12); border-radius: 4px; padding: 20px 22px; }
   .fine-print-label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
   .fine-print p { font-size: 12px; color: #55534d; line-height: 1.6; margin-bottom: 10px; }
@@ -399,6 +411,11 @@
           <p>We will respond as soon as possible. If your date is less than 7 days away, availability is subject to a 15% rush surcharge.</p>
           <p>To confirm your date, a 50% deposit is required. Balance is due 48 hours before the event.</p>
           <p>Cancellation and changes: free reschedule up to 14 days out. Deposit is non-refundable inside 7 days.</p>
+        </div>
+
+        <div class="onepager-cta">
+          <p>Get more information with our shareable one-pager.</p>
+          <a href="assets/TCC_Sales_GetHookedFlyer_v11.pdf" target="_blank" rel="noopener">Download PDF</a>
         </div>
 
         <div class="form-error" id="formError" hidden>
